@@ -1,18 +1,17 @@
-import { useState, useEffect, useRef, useCallback } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import { Download, Zap, Globe, Clock, ChevronRight, ArrowDown, Check, Star, Package, Sparkles, Menu, X } from 'lucide-react'
+import { Download, Zap, ChevronRight, ArrowDown, Check, Package, Sparkles, Menu, X } from 'lucide-react'
 import './index.css'
 
 gsap.registerPlugin(ScrollTrigger)
 
 /* ═══════════════════════════════════════════
-   NAVBAR — Floating pill, morph on scroll
+   NAVBAR
    ═══════════════════════════════════════════ */
 function Navbar() {
   const [scrolled, setScrolled] = useState(false)
   const [mobileOpen, setMobileOpen] = useState(false)
-  const navRef = useRef(null)
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > window.innerHeight * 0.7)
@@ -21,20 +20,20 @@ function Navbar() {
   }, [])
 
   const links = [
-    { label: 'Cos\'è una Skill', href: '#what' },
+    { label: "Cos'è una Skill", href: '#what' },
     { label: 'Catalogo', href: '#catalog' },
     { label: 'Bundle', href: '#bundle' },
   ]
 
   return (
-    <nav ref={navRef} className={`fixed top-4 left-1/2 -translate-x-1/2 z-50 transition-all duration-500 ease-out
+    <nav className={`fixed top-4 left-1/2 -translate-x-1/2 z-50 transition-all duration-500 ease-out
       ${scrolled
         ? 'bg-void/70 backdrop-blur-xl border border-ghost/10 shadow-lg shadow-plasma/5'
         : 'bg-transparent border border-transparent'
       } rounded-full px-4 sm:px-6 py-3 flex items-center gap-4 sm:gap-8 max-w-2xl w-[95%] sm:w-auto`}>
 
       <a href="#" className="font-heading font-bold text-base sm:text-lg tracking-tight whitespace-nowrap">
-        <span className={scrolled ? 'text-ghost' : 'text-ghost'}>Use</span>
+        <span className="text-ghost">Use</span>
         <span className="text-plasma">Skill</span>
       </a>
 
@@ -51,7 +50,7 @@ function Navbar() {
         data-product="brand-voice-extractor"
         className="hidden sm:inline-flex btn-magnetic bg-plasma text-void font-semibold text-sm px-5 py-2 rounded-full items-center gap-2">
         <span className="btn-bg bg-plasma-glow rounded-full"></span>
-        <span className="relative z-10">Scarica gratis</span>
+        <span className="relative z-10">Prova gratis</span>
       </a>
 
       <button onClick={() => setMobileOpen(!mobileOpen)} className="sm:hidden text-ghost ml-auto">
@@ -69,7 +68,7 @@ function Navbar() {
           <a href="#freebie" onClick={() => setMobileOpen(false)}
             data-product="brand-voice-extractor"
             className="bg-plasma text-void font-semibold text-center py-3 rounded-full">
-            Scarica gratis
+            Prova gratis
           </a>
         </div>
       )}
@@ -78,7 +77,7 @@ function Navbar() {
 }
 
 /* ═══════════════════════════════════════════
-   HERO — The Opening Shot
+   HERO
    ═══════════════════════════════════════════ */
 function Hero() {
   const heroRef = useRef(null)
@@ -108,27 +107,25 @@ function Hero() {
           fetchpriority="high"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-void via-void/80 to-void/30" />
-        {/* Plasma glow orb */}
-        <div className="absolute bottom-1/4 left-1/4 w-[500px] h-[500px] bg-plasma/8 rounded-full blur-[150px]" />
+        <div className="absolute bottom-1/4 left-1/4 w-[600px] h-[600px] bg-plasma/8 rounded-full blur-[180px]" />
       </div>
 
-      <div className="relative z-10 max-w-5xl mx-auto px-6 pb-20 md:pb-28 pt-32">
+      <div className="relative z-10 w-full max-w-6xl mx-auto px-6 pb-20 md:pb-32 pt-32">
         <div className="hero-line inline-block mb-4">
           <span className="font-mono text-sm text-plasma/80 tracking-wider uppercase">
-            Per professionisti che vogliono risultati, non prompt
+            Lo store italiano di Skill per AI
           </span>
         </div>
 
         <h1 className="hero-line font-heading font-800 text-4xl sm:text-5xl md:text-7xl leading-[1.05] tracking-tight mb-2">
-          La tua AI parla
+          Installi una Skill,
         </h1>
         <h1 className="hero-line font-drama italic text-5xl sm:text-7xl md:text-[6.5rem] leading-[0.95] text-plasma mb-8">
-          italiano vero.
+          la tua AI fa il resto.
         </h1>
 
         <p className="hero-line text-ghost/60 text-base sm:text-lg max-w-xl mb-10 leading-relaxed">
-          Skill professionali che trasformano qualsiasi AI in un collaboratore che scrive come te,
-          pensa come te, lavora come te. Funzionano su Claude, Antigravity, Manus e ogni agente compatibile.
+          Ogni Skill è un file che insegna alla tua AI a scrivere post, newsletter, calendari editoriali e onboarding in italiano perfetto. Funziona su Claude, Antigravity e Manus, anche con i piani gratuiti.
         </p>
 
         <div className="hero-cta flex flex-col sm:flex-row gap-4 items-start">
@@ -137,17 +134,17 @@ function Hero() {
             className="btn-magnetic bg-plasma text-void font-bold text-base px-8 py-4 rounded-full inline-flex items-center gap-3 shadow-lg shadow-plasma/20">
             <span className="btn-bg bg-plasma-glow rounded-full"></span>
             <Download size={18} className="relative z-10" />
-            <span className="relative z-10">Scarica gratis la tua prima Skill</span>
+            <span className="relative z-10">Prova gratis il Brand Voice Extractor</span>
           </a>
           <a href="#what"
             className="link-lift text-ghost/50 hover:text-ghost font-medium text-sm inline-flex items-center gap-2 py-4">
             <ArrowDown size={16} />
-            Scopri cosa sono le Skill
+            Vedi come funziona
           </a>
         </div>
 
         <div className="hero-badge flex flex-wrap gap-3 mt-10">
-          {['Claude free', 'Antigravity', 'Manus', 'Zero codice'].map(tag => (
+          {['Zero abbonamenti', 'Zero codice', '2 minuti per installarla', 'Italiano nativo'].map(tag => (
             <span key={tag} className="font-mono text-xs text-ghost/40 border border-ghost/10 px-3 py-1.5 rounded-full">
               {tag}
             </span>
@@ -159,7 +156,7 @@ function Hero() {
 }
 
 /* ═══════════════════════════════════════════
-   WHAT IS A SKILL — Educational section
+   WHAT IS A SKILL
    ═══════════════════════════════════════════ */
 function WhatIsASkill() {
   const sectionRef = useRef(null)
@@ -183,35 +180,46 @@ function WhatIsASkill() {
   }, [])
 
   const steps = [
-    { icon: <Download size={24} />, num: '01', title: 'Scarica il file', desc: 'Ogni Skill è un file di testo. Lo scarichi e ce l\'hai.' },
-    { icon: <Zap size={24} />, num: '02', title: 'Caricalo nella tua AI', desc: 'Lo incolli nel progetto della tua AI. Due clic, fatto.' },
-    { icon: <Sparkles size={24} />, num: '03', title: 'Chiedi quello che ti serve', desc: 'La tua AI ora sa esattamente cosa fare e come farlo in italiano.' },
+    {
+      icon: <Download size={24} />,
+      num: '01',
+      title: 'Scarica il file',
+      desc: "Ogni Skill è un file .md. Lo scarichi dal sito e ce l'hai sul computer.",
+    },
+    {
+      icon: <Zap size={24} />,
+      num: '02',
+      title: 'Caricalo nella tua AI',
+      desc: 'Apri un progetto nella tua AI preferita e incolla il file dentro. Due clic.',
+    },
+    {
+      icon: <Sparkles size={24} />,
+      num: '03',
+      title: 'Chiedi quello che ti serve',
+      desc: "Scrivi 'fammi un post LinkedIn su X' e l'output esce già nel tuo tono, in italiano, pronto da pubblicare.",
+    },
   ]
 
   return (
     <section id="what" ref={sectionRef} className="relative py-24 md:py-36">
-      {/* Subtle glow */}
       <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-plasma/5 rounded-full blur-[120px]" />
 
-      <div className="max-w-5xl mx-auto px-6">
+      <div className="max-w-6xl mx-auto px-6">
         <div className="max-w-2xl">
           <span className="what-title font-mono text-sm text-plasma tracking-wider uppercase block mb-6">
-            Per chi parte da zero
+            Per chi non ha mai sentito parlare di Skill
           </span>
           <h2 className="what-title font-heading font-700 text-3xl sm:text-4xl md:text-5xl tracking-tight mb-8">
-            Cos'è una Skill per AI
+            La tua AI è potente. Ma senza istruzioni, tira a indovinare.
           </h2>
           <p className="what-text text-ghost/60 text-base sm:text-lg leading-relaxed mb-6">
-            Una Skill è un file di istruzioni che trasforma la tua intelligenza artificiale da assistente generico a specialista.
-            Pensa a quando spieghi a un nuovo collaboratore come lavori, che tono usi, cosa ti piace e cosa odi. La Skill fa esattamente questo, ma lo fa una volta sola.
+            Quando chiedi alla tua AI di scrivere un post LinkedIn, lei non sa niente di te. Non sa che lavori con professionisti italiani, non sa che odi le frasi fatte, non sa che il tuo tono è diretto e mai costruito. Quindi inventa. E il risultato si vede.
           </p>
           <p className="what-text text-ghost/60 text-base sm:text-lg leading-relaxed mb-6">
-            Da quel momento, ogni volta che chiedi qualcosa alla tua AI, lei sa già come risponderti.
-            Sa che scrivi in italiano (non in "traduttese"), sa che il tuo pubblico sono professionisti italiani,
-            sa che il tuo tono è diretto e mai artificiale.
+            Una Skill risolve questo problema una volta per tutte. È un file di istruzioni che carichi nella tua AI e che le insegna esattamente come lavorare per te. Il tono giusto, la struttura giusta, la lingua giusta. Lo fai una volta, e da quel momento ogni output è calibrato su di te.
           </p>
           <p className="what-text text-ghost/50 text-base leading-relaxed mb-12">
-            Funziona su Claude (anche gratis), Google Antigravity (gratis), Manus (free tier) e qualsiasi agente AI compatibile con lo standard Skill. Non serve saper programmare, non serve un abbonamento a pagamento, non serve un tutorial di mezz'ora.
+            Non serve saper programmare. Non serve un abbonamento a pagamento. Funziona su Claude (anche gratis), Google Antigravity (gratis) e Manus (free tier). Due minuti per installarla, risultati immediati.
           </p>
         </div>
 
@@ -235,9 +243,8 @@ function WhatIsASkill() {
 }
 
 /* ═══════════════════════════════════════════
-   FEATURES — Three interactive cards
+   FEATURES — Interactive cards
    ═══════════════════════════════════════════ */
-
 function DiagnosticShuffler() {
   const [cards, setCards] = useState([
     { id: 0, label: 'Nessun abbonamento richiesto', color: 'bg-plasma/15 text-plasma' },
@@ -307,7 +314,7 @@ function TelemetryTypewriter() {
   }, [lineIndex])
 
   return (
-    <div className="bg-void rounded-xl p-4 border border-ghost/5">
+    <div className="bg-void rounded-xl p-4 border border-ghost/5 min-h-[80px]">
       <div className="flex items-center gap-2 mb-3">
         <div className="w-2 h-2 rounded-full bg-plasma pulse-dot" />
         <span className="font-mono text-[10px] text-ghost/40 uppercase tracking-widest">Live feed</span>
@@ -317,6 +324,10 @@ function TelemetryTypewriter() {
       </div>
     </div>
   )
+}
+
+function wait(ms) {
+  return new Promise(r => setTimeout(r, ms))
 }
 
 function CursorScheduler() {
@@ -356,7 +367,7 @@ function CursorScheduler() {
   }, [])
 
   return (
-    <div className="relative">
+    <div className="relative min-h-[80px]">
       <div className="flex gap-2 mb-4">
         {days.map((d, i) => (
           <div key={i}
@@ -370,18 +381,13 @@ function CursorScheduler() {
         ${saved ? 'bg-plasma text-void' : 'bg-ghost/5 text-ghost/30'}`}>
         {saved ? '✓ Salvato' : 'Salva'}
       </button>
-      {/* SVG Cursor */}
       <svg className="absolute pointer-events-none transition-all duration-300 ease-out"
         style={{ left: cursorPos.x, top: cursorPos.y, opacity: cursorPos.visible ? 1 : 0 }}
         width="20" height="20" viewBox="0 0 24 24" fill="none">
-        <path d="M5 3l14 8-6 2-4 6-4-16z" fill="#7B61FF" stroke="#0A0A14" strokeWidth="1"/>
+        <path d="M5 3l14 8-6 2-4 6-4-16z" fill="#7B61FF" stroke="#0A0A14" strokeWidth="1" />
       </svg>
     </div>
   )
-}
-
-function wait(ms) {
-  return new Promise(r => setTimeout(r, ms))
 }
 
 function Features() {
@@ -399,7 +405,7 @@ function Features() {
 
   return (
     <section ref={sectionRef} className="py-24 md:py-36">
-      <div className="max-w-5xl mx-auto px-6">
+      <div className="max-w-6xl mx-auto px-6">
         <span className="font-mono text-sm text-plasma tracking-wider uppercase block mb-6">
           Perché funziona
         </span>
@@ -408,28 +414,34 @@ function Features() {
         </h2>
 
         <div className="features-grid grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className="feature-card bg-void-light border border-ghost/8 rounded-[2rem] p-8 hover:border-plasma/20 transition-all duration-500">
-            <h3 className="font-heading font-600 text-lg mb-2">Funziona con l'AI che già usi, gratis</h3>
+          <div className="feature-card bg-void-light border border-ghost/8 rounded-[2rem] p-8 hover:border-plasma/20 transition-all duration-500 min-h-[320px] flex flex-col">
+            <h3 className="font-heading font-600 text-lg mb-2">Funziona con l'AI che già usi</h3>
             <p className="text-ghost/50 text-sm leading-relaxed mb-6">
-              Claude free, Antigravity free, Manus free tier. Nessun abbonamento da pagare, nessun software da installare. Copi un file, lo incolli, la tua AI diventa uno specialista.
+              Non devi cambiare strumento e non devi pagare nessun abbonamento. Le Skill di UseSkill funzionano su Claude free, Google Antigravity e Manus. Scarichi il file, lo carichi, e parti.
             </p>
-            <DiagnosticShuffler />
+            <div className="mt-auto">
+              <DiagnosticShuffler />
+            </div>
           </div>
 
-          <div className="feature-card bg-void-light border border-ghost/8 rounded-[2rem] p-8 hover:border-plasma/20 transition-all duration-500">
-            <h3 className="font-heading font-600 text-lg mb-2">Output in italiano vero, non tradotto da robot</h3>
+          <div className="feature-card bg-void-light border border-ghost/8 rounded-[2rem] p-8 hover:border-plasma/20 transition-all duration-500 min-h-[320px] flex flex-col">
+            <h3 className="font-heading font-600 text-lg mb-2">Italiano vero, non linguaggio da macchina</h3>
             <p className="text-ghost/50 text-sm leading-relaxed mb-6">
-              Progettate da una strategist italiana per professionisti italiani. Il testo che esce sembra scritto da te, solo più veloce.
+              Ogni Skill è progettata da una strategist italiana della comunicazione. L'output che ottieni sembra scritto da una persona con esperienza, non tradotto dall'inglese da un algoritmo.
             </p>
-            <TelemetryTypewriter />
+            <div className="mt-auto">
+              <TelemetryTypewriter />
+            </div>
           </div>
 
-          <div className="feature-card bg-void-light border border-ghost/8 rounded-[2rem] p-8 hover:border-plasma/20 transition-all duration-500">
-            <h3 className="font-heading font-600 text-lg mb-2">2 minuti e sei operativo</h3>
+          <div className="feature-card bg-void-light border border-ghost/8 rounded-[2rem] p-8 hover:border-plasma/20 transition-all duration-500 min-h-[320px] flex flex-col">
+            <h3 className="font-heading font-600 text-lg mb-2">Pronta in 2 minuti, zero configurazione</h3>
             <p className="text-ghost/50 text-sm leading-relaxed mb-6">
-              Niente codice, niente configurazioni, niente tutorial da 45 minuti. Se sai copiare e incollare, sai già tutto quello che serve.
+              Niente setup, niente tutorial, niente righe di codice. Scarichi il file, lo incolli nel tuo progetto AI, e la Skill è attiva. Se sai fare copia-incolla, sai già tutto.
             </p>
-            <CursorScheduler />
+            <div className="mt-auto">
+              <CursorScheduler />
+            </div>
           </div>
         </div>
       </div>
@@ -438,7 +450,7 @@ function Features() {
 }
 
 /* ═══════════════════════════════════════════
-   PHILOSOPHY — The Manifesto
+   PHILOSOPHY
    ═══════════════════════════════════════════ */
 function Philosophy() {
   const sectionRef = useRef(null)
@@ -468,12 +480,10 @@ function Philosophy() {
 
       <div className="relative z-10 max-w-4xl mx-auto px-6 text-center">
         <p className="philo-small text-ghost/40 text-lg sm:text-xl md:text-2xl mb-8 leading-relaxed">
-          La maggior parte delle persone usa l'AI scrivendo prompt a caso,
-          sperando che il risultato non sembri generato da una macchina.
+          Tutti usano l'AI. Quasi nessuno ottiene risultati che userebbe davvero.
         </p>
         <p className="philo-big font-drama italic text-3xl sm:text-5xl md:text-6xl leading-tight">
-          Noi ti diamo un <span className="text-plasma">metodo</span> che funziona
-          ogni singola volta.
+          Le Skill di UseSkill sono il <span className="text-plasma">metodo</span> che mancava.
         </p>
       </div>
     </section>
@@ -481,7 +491,7 @@ function Philosophy() {
 }
 
 /* ═══════════════════════════════════════════
-   FREEBIE — Brand Voice Extractor
+   FREEBIE
    ═══════════════════════════════════════════ */
 function Freebie() {
   const sectionRef = useRef(null)
@@ -498,23 +508,22 @@ function Freebie() {
 
   return (
     <section id="freebie" ref={sectionRef} className="py-24 md:py-36">
-      <div className="max-w-5xl mx-auto px-6">
+      <div className="max-w-6xl mx-auto px-6">
         <div className="freebie-content relative bg-gradient-to-br from-plasma/10 via-void-light to-void-light border border-plasma/20 rounded-[2.5rem] p-8 sm:p-12 md:p-16 overflow-hidden">
-          {/* Glow */}
           <div className="absolute -top-20 -right-20 w-64 h-64 bg-plasma/10 rounded-full blur-[100px]" />
 
           <div className="relative z-10 max-w-xl">
             <span className="inline-block bg-plasma/15 text-plasma font-mono text-xs uppercase tracking-widest px-4 py-2 rounded-full mb-6">
-              Gratis — 0€
+              Gratis, per sempre
             </span>
             <h2 className="font-heading font-700 text-2xl sm:text-3xl md:text-4xl tracking-tight mb-4">
               Brand Voice Extractor
             </h2>
             <p className="text-ghost/60 text-base leading-relaxed mb-4">
-              Incolli 3 o più testi che hai scritto tu. La Skill li analizza e produce una Guida Completa del tuo Tono di Voce: profilo stilistico, vocabolario ricorrente, personalità comunicativa e un prompt system pronto da usare in qualsiasi AI.
+              Incolli 3 o più testi che hai scritto tu. La Skill li analizza e genera una Guida Completa del tuo Tono di Voce con il profilo stilistico, il vocabolario che usi di più, la personalità comunicativa e un prompt system pronto da incollare in qualsiasi AI.
             </p>
             <p className="text-ghost/40 text-sm leading-relaxed mb-8">
-              Da quel momento la tua AI scrive come te. Non come "un professionista generico", non come "un tono caldo e coinvolgente". Come te, con le tue parole, i tuoi ritmi, le tue scelte.
+              Il risultato è una versione digitale del tuo modo di scrivere. Da quel momento, ogni volta che chiedi qualcosa alla tua AI, l'output esce con la tua voce. Non con "un tono professionale ma empatico". Con la tua voce vera.
             </p>
 
             <a href="#"
@@ -522,11 +531,11 @@ function Freebie() {
               className="btn-magnetic bg-plasma text-void font-bold text-base px-8 py-4 rounded-full inline-flex items-center gap-3 shadow-lg shadow-plasma/20">
               <span className="btn-bg bg-plasma-glow rounded-full"></span>
               <Download size={18} className="relative z-10" />
-              <span className="relative z-10">Scarica gratis</span>
+              <span className="relative z-10">Scarica gratis il Brand Voice Extractor</span>
             </a>
 
             <p className="text-ghost/30 text-xs mt-4">
-              Ricevi il file via email. Niente spam, solo la Skill e una guida per installarla.
+              Ricevi il file via email. Zero spam.
             </p>
           </div>
         </div>
@@ -536,7 +545,7 @@ function Freebie() {
 }
 
 /* ═══════════════════════════════════════════
-   CATALOG — Paid skills
+   CATALOG
    ═══════════════════════════════════════════ */
 function Catalog() {
   const sectionRef = useRef(null)
@@ -545,32 +554,32 @@ function Catalog() {
       name: 'Italian LinkedIn Post Writer',
       product: 'linkedin-post-writer',
       price: '9€',
-      desc: 'Da un\'idea grezza a un post LinkedIn pronto da pubblicare. Tono umano, struttura che funziona, hook che ferma lo scroll. Niente frasette motivazionali, niente emoji a pioggia.',
+      desc: "Gli dai un'idea, anche grezza. La Skill costruisce un post LinkedIn completo con hook che ferma lo scroll, corpo che tiene l'attenzione e chiusura che genera commenti. Tutto nel tuo tono, tutto in italiano che non puzza di AI.",
       tag: 'Più venduta',
     },
     {
       name: 'Newsletter Generator IT',
       product: 'newsletter-generator',
       price: '12€',
-      desc: 'Dai tuoi appunti a una newsletter completa con soggetto, apertura, corpo e chiusura. Il tono è il tuo, la struttura è quella che converte.',
+      desc: "Parti dai tuoi appunti o dai bullet point della settimana. La Skill genera una newsletter completa con oggetto, apertura, corpo strutturato e chiusura. Il formato è quello che converte: personale, diretto, con un solo invito all'azione chiaro.",
     },
     {
       name: 'Instagram Carousel Script',
       product: 'instagram-carousel',
       price: '9€',
-      desc: 'Da un concetto a 10 slide con testo, hook iniziale e chiusura con call to action. Ogni slide ha il numero di parole giusto per essere leggibile.',
+      desc: "Un concetto, dieci slide. Ogni slide ha il numero giusto di parole per essere leggibile, un hook iniziale che ferma il pollice e una chiusura con call to action. Tu pensi al contenuto, la Skill pensa alla struttura.",
     },
     {
       name: 'Content Calendar Builder',
       product: 'content-calendar',
       price: '15€',
-      desc: 'Dai tuoi obiettivi a un calendario editoriale di 30 giorni con idee concrete, angoli diversi e formati alternati. Niente "parla del tuo perché" generico.',
+      desc: "Dai tuoi obiettivi e il tuo settore, la Skill genera 30 giorni di contenuti con idee concrete, angoli diversi e formati alternati. Niente 'parla del tuo perché' o 'condividi una citazione ispirazionale'. Solo idee che pubblicheresti davvero.",
     },
     {
       name: 'Client Onboarding Interview',
       product: 'client-onboarding',
       price: '7€',
-      desc: 'Genera questionari di onboarding personalizzati per il tuo settore. Le domande giuste per capire il cliente prima ancora della prima call.',
+      desc: "Genera un questionario di onboarding personalizzato per il tuo settore. Le domande sono quelle che ti servono davvero per capire il cliente prima della prima call, non quelle generiche che trovi su Google.",
     },
   ]
 
@@ -586,7 +595,7 @@ function Catalog() {
 
   return (
     <section id="catalog" ref={sectionRef} className="py-24 md:py-36">
-      <div className="max-w-5xl mx-auto px-6">
+      <div className="max-w-6xl mx-auto px-6">
         <span className="font-mono text-sm text-plasma tracking-wider uppercase block mb-6">
           Catalogo
         </span>
@@ -626,7 +635,7 @@ function Catalog() {
 }
 
 /* ═══════════════════════════════════════════
-   BUNDLE — Premium package
+   BUNDLE
    ═══════════════════════════════════════════ */
 function Bundle() {
   const sectionRef = useRef(null)
@@ -653,9 +662,8 @@ function Bundle() {
 
   return (
     <section id="bundle" ref={sectionRef} className="py-24 md:py-36">
-      <div className="max-w-3xl mx-auto px-6">
+      <div className="max-w-4xl mx-auto px-6">
         <div className="bundle-box relative bg-void-light border-2 border-plasma/30 rounded-[2.5rem] p-8 sm:p-12 overflow-hidden">
-          {/* Glow effects */}
           <div className="absolute -top-32 -left-32 w-72 h-72 bg-plasma/8 rounded-full blur-[120px]" />
           <div className="absolute -bottom-32 -right-32 w-72 h-72 bg-plasma/5 rounded-full blur-[120px]" />
 
@@ -673,7 +681,7 @@ function Bundle() {
               Il Metodo UseSkill
             </h2>
             <p className="text-ghost/60 text-base leading-relaxed mb-8 max-w-lg">
-              Non è uno sconto sulle Skill singole. È un sistema completo: tutte le Skill più una guida che ti spiega come farle lavorare insieme. Dalla voce del brand al calendario editoriale, ogni pezzo si incastra con gli altri.
+              Questo non è uno sconto sulle Skill singole. È un sistema completo per gestire tutta la tua comunicazione con l'AI. Dentro c'è ogni Skill del catalogo più una guida che spiega come farle lavorare insieme: dalla voce del brand al calendario editoriale, ogni pezzo si incastra con il successivo. Il risultato è un flusso di lavoro dove l'AI produce contenuti pronti da pubblicare, non bozze da riscrivere.
             </p>
 
             <div className="space-y-3 mb-10">
@@ -706,34 +714,34 @@ function Bundle() {
 }
 
 /* ═══════════════════════════════════════════
-   FAQ — Objection handling
+   FAQ
    ═══════════════════════════════════════════ */
 function FAQ() {
   const [open, setOpen] = useState(null)
   const items = [
     {
       q: 'Devo avere un abbonamento a Claude Pro o a qualche AI a pagamento?',
-      a: 'No. Le Skill di UseSkill funzionano con i piani gratuiti di Claude, Google Antigravity e Manus. Se hai un piano a pagamento, funzionano ancora meglio, ma non è necessario per iniziare.'
+      a: 'No. Le Skill funzionano con Claude free, Google Antigravity free e Manus free tier. Se hai un piano a pagamento funzionano ancora meglio, ma per iniziare non ti serve spendere niente.'
     },
     {
       q: 'Devo saper programmare?',
-      a: 'Assolutamente no. Una Skill è un file di testo. Lo scarichi, lo carichi nella tua AI, e sei operativo. Se sai usare copia-incolla, sai già tutto.'
+      a: 'No. Una Skill è un file di testo. Lo scarichi, lo incolli nella tua AI, e funziona. Se sai fare copia-incolla, sei a posto.'
     },
     {
       q: 'Funziona solo con Claude?',
-      a: 'No. Le Skill usano uno standard aperto compatibile con Claude, Google Antigravity, Manus e qualsiasi agente AI che supporta il formato SKILL.md. Compri una volta, usi ovunque.'
+      a: 'No. Le Skill usano un formato standard aperto (SKILL.md) compatibile con Claude, Google Antigravity, Manus e qualsiasi agente AI che supporta questo standard. Compri una volta, usi ovunque.'
     },
     {
       q: 'Quanto tempo ci vuole per installarla?',
-      a: 'Due minuti la prima volta. La guida che ricevi con ogni Skill ti mostra esattamente dove incollare il file, passo per passo, con screenshot.'
+      a: 'Due minuti la prima volta. Con ogni Skill ricevi una guida passo-passo con screenshot.'
     },
     {
-      q: 'Ma l\'output è davvero in italiano naturale?',
-      a: 'Sì, ed è il motivo per cui UseSkill esiste. Ogni Skill è progettata da una strategist italiana della comunicazione, non tradotta dall\'inglese. Il risultato sembra scritto da una persona madrelingua con esperienza nel settore.'
+      q: "Ma l'output è davvero in italiano naturale?",
+      a: "Sì. Ogni Skill è scritta da una strategist italiana della comunicazione, non tradotta dall'inglese. Il risultato sembra scritto da una persona madrelingua che conosce il tuo settore."
     },
     {
       q: 'Posso avere il rimborso?',
-      a: 'Se la Skill non fa quello che promette, ti rimborso senza domande. Ma in tutta onestà, puoi provare gratis il Brand Voice Extractor prima di comprare qualsiasi cosa a pagamento.'
+      a: 'Se la Skill non fa quello che promette, rimborso senza domande. Ma puoi provare gratis il Brand Voice Extractor prima di comprare qualsiasi cosa.'
     },
   ]
 
@@ -775,7 +783,7 @@ function FAQ() {
 function Footer() {
   return (
     <footer className="bg-graphite rounded-t-[3rem] sm:rounded-t-[4rem] py-16">
-      <div className="max-w-5xl mx-auto px-6">
+      <div className="max-w-6xl mx-auto px-6">
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-12 mb-16">
           <div>
             <div className="font-heading font-bold text-xl mb-3">
