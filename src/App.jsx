@@ -99,7 +99,6 @@ function Hero() {
 
   return (
     <section ref={heroRef} className="relative min-h-[100dvh] flex items-end overflow-hidden">
-      {/* Background */}
       <div className="absolute inset-0">
         <img
           src="https://images.unsplash.com/photo-1534996858221-380b92700493?w=1600&q=80"
@@ -113,7 +112,7 @@ function Hero() {
       <div className="relative z-10 w-full max-w-6xl mx-auto px-6 pb-20 md:pb-32 pt-32">
         <div className="hero-line inline-block mb-4">
           <span className="font-mono text-sm text-plasma/80 tracking-wider uppercase">
-            Lo store italiano di Skill per AI
+            Il primo store italiano di Skill per AI
           </span>
         </div>
 
@@ -125,7 +124,7 @@ function Hero() {
         </h1>
 
         <p className="hero-line text-ghost/60 text-base sm:text-lg max-w-xl mb-10 leading-relaxed">
-          Ogni Skill è un file che insegna alla tua AI a scrivere post, newsletter, calendari editoriali e onboarding in italiano perfetto. Funziona su Claude, Antigravity e Manus, anche con i piani gratuiti.
+          Post LinkedIn, newsletter, calendari editoriali, onboarding clienti. Ogni Skill trasforma la tua AI in uno specialista che produce output pronti da pubblicare in pochi minuti. Funziona su Claude, Antigravity e Manus, anche con i piani gratuiti.
         </p>
 
         <div className="hero-cta flex flex-col sm:flex-row gap-4 items-start">
@@ -144,7 +143,7 @@ function Hero() {
         </div>
 
         <div className="hero-badge flex flex-wrap gap-3 mt-10">
-          {['Zero abbonamenti', 'Zero codice', '2 minuti per installarla', 'Italiano nativo'].map(tag => (
+          {['Zero abbonamenti', 'Zero codice', 'Pronta in 2 minuti', 'Compri una volta, usi per sempre'].map(tag => (
             <span key={tag} className="font-mono text-xs text-ghost/40 border border-ghost/10 px-3 py-1.5 rounded-full">
               {tag}
             </span>
@@ -184,19 +183,19 @@ function WhatIsASkill() {
       icon: <Download size={24} />,
       num: '01',
       title: 'Scarica il file',
-      desc: "Ogni Skill è un file .md. Lo scarichi dal sito e ce l'hai sul computer.",
+      desc: "Ogni Skill è un file .md. Lo scarichi e ce l'hai.",
     },
     {
       icon: <Zap size={24} />,
       num: '02',
       title: 'Caricalo nella tua AI',
-      desc: 'Apri un progetto nella tua AI preferita e incolla il file dentro. Due clic.',
+      desc: 'Lo incolli nel progetto della tua AI. Due clic.',
     },
     {
       icon: <Sparkles size={24} />,
       num: '03',
       title: 'Chiedi quello che ti serve',
-      desc: "Scrivi 'fammi un post LinkedIn su X' e l'output esce già nel tuo tono, in italiano, pronto da pubblicare.",
+      desc: 'Scrivi cosa ti serve e l\'output esce già strutturato, nel formato giusto, pronto.',
     },
   ]
 
@@ -210,16 +209,16 @@ function WhatIsASkill() {
             Per chi non ha mai sentito parlare di Skill
           </span>
           <h2 className="what-title font-heading font-700 text-3xl sm:text-4xl md:text-5xl tracking-tight mb-8">
-            La tua AI è potente. Ma senza istruzioni, tira a indovinare.
+            La tua AI è potente. Ma senza istruzioni, improvvisa.
           </h2>
           <p className="what-text text-ghost/60 text-base sm:text-lg leading-relaxed mb-6">
-            Quando chiedi alla tua AI di scrivere un post LinkedIn, lei non sa niente di te. Non sa che lavori con professionisti italiani, non sa che odi le frasi fatte, non sa che il tuo tono è diretto e mai costruito. Quindi inventa. E il risultato si vede.
+            Quando chiedi alla tua AI di scriverti un post LinkedIn, lei parte da zero ogni volta. Non sa chi sei, non sa per chi lavori, non sa come parli. Il risultato è un testo generico che devi riscrivere da capo, e a quel punto tanto valeva scriverlo tu dall'inizio.
           </p>
           <p className="what-text text-ghost/60 text-base sm:text-lg leading-relaxed mb-6">
-            Una Skill risolve questo problema una volta per tutte. È un file di istruzioni che carichi nella tua AI e che le insegna esattamente come lavorare per te. Il tono giusto, la struttura giusta, la lingua giusta. Lo fai una volta, e da quel momento ogni output è calibrato su di te.
+            Una Skill cambia le regole. È un file di istruzioni che carichi nella tua AI una sola volta. Da quel momento, lei sa esattamente che tipo di contenuto produci, che struttura funziona nel tuo settore, e che risultato ti aspetti. Ogni output esce già calibrato, pronto da pubblicare o da usare con modifiche minime.
           </p>
           <p className="what-text text-ghost/50 text-base leading-relaxed mb-12">
-            Non serve saper programmare. Non serve un abbonamento a pagamento. Funziona su Claude (anche gratis), Google Antigravity (gratis) e Manus (free tier). Due minuti per installarla, risultati immediati.
+            Non serve saper programmare e non serve un abbonamento a pagamento. Funziona su Claude, Google Antigravity e Manus, anche con i piani gratuiti. Due minuti per attivarla, e il tempo che risparmi si sente dal primo utilizzo.
           </p>
         </div>
 
@@ -289,10 +288,10 @@ function TelemetryTypewriter() {
   const [text, setText] = useState('')
   const [lineIndex, setLineIndex] = useState(0)
   const lines = [
-    'Analisi tono completata → diretto, tecnico, zero fronzoli',
-    'Vocabolario mappato → 847 pattern identificati',
-    'Struttura frase → media 12 parole, ritmo veloce',
-    'Output generato → italiano nativo, zero AI-ese',
+    'Hook generato → "Quello che nessuno ti dice sui contenuti B2B"',
+    'Struttura applicata → intro / sviluppo / CTA',
+    'Tono calibrato → diretto, settoriale, zero fronzoli',
+    'Output pronto → copia, incolla, pubblica',
   ]
 
   useEffect(() => {
@@ -415,9 +414,9 @@ function Features() {
 
         <div className="features-grid grid grid-cols-1 md:grid-cols-3 gap-6">
           <div className="feature-card bg-void-light border border-ghost/8 rounded-[2rem] p-8 hover:border-plasma/20 transition-all duration-500 min-h-[320px] flex flex-col">
-            <h3 className="font-heading font-600 text-lg mb-2">Funziona con l'AI che già usi</h3>
+            <h3 className="font-heading font-600 text-lg mb-2">Funziona con l'AI che già usi, gratis</h3>
             <p className="text-ghost/50 text-sm leading-relaxed mb-6">
-              Non devi cambiare strumento e non devi pagare nessun abbonamento. Le Skill di UseSkill funzionano su Claude free, Google Antigravity e Manus. Scarichi il file, lo carichi, e parti.
+              Non devi cambiare strumento e non devi pagare nessun abbonamento. Le Skill di UseSkill funzionano su Claude free, Google Antigravity e Manus. Scarichi il file, lo carichi, e in due minuti la tua AI lavora come non ha mai fatto prima.
             </p>
             <div className="mt-auto">
               <DiagnosticShuffler />
@@ -425,9 +424,9 @@ function Features() {
           </div>
 
           <div className="feature-card bg-void-light border border-ghost/8 rounded-[2rem] p-8 hover:border-plasma/20 transition-all duration-500 min-h-[320px] flex flex-col">
-            <h3 className="font-heading font-600 text-lg mb-2">Italiano vero, non linguaggio da macchina</h3>
+            <h3 className="font-heading font-600 text-lg mb-2">Output pronti, non bozze da riscrivere</h3>
             <p className="text-ghost/50 text-sm leading-relaxed mb-6">
-              Ogni Skill è progettata da una strategist italiana della comunicazione. L'output che ottieni sembra scritto da una persona con esperienza, non tradotto dall'inglese da un algoritmo.
+              Ogni Skill è costruita per produrre risultati che puoi usare subito. Il post LinkedIn esce con l'hook, il corpo e la chiusura. La newsletter esce con l'oggetto, l'apertura e il CTA. Non devi riscrivere niente: al massimo aggiusti un dettaglio.
             </p>
             <div className="mt-auto">
               <TelemetryTypewriter />
@@ -435,9 +434,9 @@ function Features() {
           </div>
 
           <div className="feature-card bg-void-light border border-ghost/8 rounded-[2rem] p-8 hover:border-plasma/20 transition-all duration-500 min-h-[320px] flex flex-col">
-            <h3 className="font-heading font-600 text-lg mb-2">Pronta in 2 minuti, zero configurazione</h3>
+            <h3 className="font-heading font-600 text-lg mb-2">Ore di lavoro compresse in minuti</h3>
             <p className="text-ghost/50 text-sm leading-relaxed mb-6">
-              Niente setup, niente tutorial, niente righe di codice. Scarichi il file, lo incolli nel tuo progetto AI, e la Skill è attiva. Se sai fare copia-incolla, sai già tutto.
+              Un calendario editoriale di 30 giorni in 3 minuti. Un questionario di onboarding in 2. Un post LinkedIn in 40 secondi. Le Skill non sono scorciatoie: sono il flusso di lavoro che avresti costruito tu, già pronto e testato.
             </p>
             <div className="mt-auto">
               <CursorScheduler />
@@ -480,10 +479,10 @@ function Philosophy() {
 
       <div className="relative z-10 max-w-4xl mx-auto px-6 text-center">
         <p className="philo-small text-ghost/40 text-lg sm:text-xl md:text-2xl mb-8 leading-relaxed">
-          Tutti usano l'AI. Quasi nessuno ottiene risultati che userebbe davvero.
+          Tutti usano l'AI. Quasi nessuno ottiene output che pubblicherebbe così come escono.
         </p>
         <p className="philo-big font-drama italic text-3xl sm:text-5xl md:text-6xl leading-tight">
-          Le Skill di UseSkill sono il <span className="text-plasma">metodo</span> che mancava.
+          UseSkill è il <span className="text-plasma">metodo</span> che mancava.
         </p>
       </div>
     </section>
@@ -520,10 +519,10 @@ function Freebie() {
               Brand Voice Extractor
             </h2>
             <p className="text-ghost/60 text-base leading-relaxed mb-4">
-              Incolli 3 o più testi che hai scritto tu. La Skill li analizza e genera una Guida Completa del tuo Tono di Voce con il profilo stilistico, il vocabolario che usi di più, la personalità comunicativa e un prompt system pronto da incollare in qualsiasi AI.
+              Incolli 3 o più testi che hai scritto tu. La Skill li analizza e genera una Guida Completa del tuo Tono di Voce: profilo stilistico, vocabolario ricorrente, personalità comunicativa e un prompt system pronto da incollare in qualsiasi AI.
             </p>
             <p className="text-ghost/40 text-sm leading-relaxed mb-8">
-              Il risultato è una versione digitale del tuo modo di scrivere. Da quel momento, ogni volta che chiedi qualcosa alla tua AI, l'output esce con la tua voce. Non con "un tono professionale ma empatico". Con la tua voce vera.
+              È il punto di partenza perfetto. Una volta che la tua AI ha la tua voce, ogni altra Skill di UseSkill produce risultati ancora più precisi. Per questo la regaliamo: chi la prova capisce subito la differenza.
             </p>
 
             <a href="#"
@@ -554,32 +553,32 @@ function Catalog() {
       name: 'Italian LinkedIn Post Writer',
       product: 'linkedin-post-writer',
       price: '9€',
-      desc: "Gli dai un'idea, anche grezza. La Skill costruisce un post LinkedIn completo con hook che ferma lo scroll, corpo che tiene l'attenzione e chiusura che genera commenti. Tutto nel tuo tono, tutto in italiano che non puzza di AI.",
+      desc: "Gli dai un'idea, anche vaga. La Skill costruisce un post LinkedIn completo con l'hook che ferma lo scroll, il corpo che tiene l'attenzione e la chiusura che genera interazione. Il tempo che ci metti tu: descrivere il concetto in una riga. Il tempo che ci mette la Skill: 40 secondi.",
       tag: 'Più venduta',
     },
     {
       name: 'Newsletter Generator IT',
       product: 'newsletter-generator',
       price: '12€',
-      desc: "Parti dai tuoi appunti o dai bullet point della settimana. La Skill genera una newsletter completa con oggetto, apertura, corpo strutturato e chiusura. Il formato è quello che converte: personale, diretto, con un solo invito all'azione chiaro.",
+      desc: "Parti dai tuoi appunti o dai punti chiave della settimana. La Skill genera una newsletter completa con oggetto, apertura, corpo strutturato e un invito all'azione chiaro. Quello che prima richiedeva un'ora di scrittura diventa un lavoro da 5 minuti.",
     },
     {
       name: 'Instagram Carousel Script',
       product: 'instagram-carousel',
       price: '9€',
-      desc: "Un concetto, dieci slide. Ogni slide ha il numero giusto di parole per essere leggibile, un hook iniziale che ferma il pollice e una chiusura con call to action. Tu pensi al contenuto, la Skill pensa alla struttura.",
+      desc: "Un concetto diventa dieci slide. Ogni slide ha il numero giusto di parole per essere leggibile su mobile, un hook iniziale che ferma il pollice e una chiusura con call to action. Tu pensi al contenuto, la Skill pensa a tutto il resto.",
     },
     {
       name: 'Content Calendar Builder',
       product: 'content-calendar',
       price: '15€',
-      desc: "Dai tuoi obiettivi e il tuo settore, la Skill genera 30 giorni di contenuti con idee concrete, angoli diversi e formati alternati. Niente 'parla del tuo perché' o 'condividi una citazione ispirazionale'. Solo idee che pubblicheresti davvero.",
+      desc: "Dai tuoi obiettivi e il tuo settore, la Skill genera 30 giorni di contenuti con idee concrete, angoli diversi e formati alternati. Niente suggerimenti generici che leggi e pensi 'questo non lo pubblicherei mai'. Solo idee che useresti davvero.",
     },
     {
       name: 'Client Onboarding Interview',
       product: 'client-onboarding',
       price: '7€',
-      desc: "Genera un questionario di onboarding personalizzato per il tuo settore. Le domande sono quelle che ti servono davvero per capire il cliente prima della prima call, non quelle generiche che trovi su Google.",
+      desc: "Genera un questionario di onboarding personalizzato per il tuo settore. Le domande sono quelle che ti servono per capire il cliente prima della prima call. Il risultato è un documento professionale che puoi mandare così com'è.",
     },
   ]
 
@@ -681,7 +680,7 @@ function Bundle() {
               Il Metodo UseSkill
             </h2>
             <p className="text-ghost/60 text-base leading-relaxed mb-8 max-w-lg">
-              Questo non è uno sconto sulle Skill singole. È un sistema completo per gestire tutta la tua comunicazione con l'AI. Dentro c'è ogni Skill del catalogo più una guida che spiega come farle lavorare insieme: dalla voce del brand al calendario editoriale, ogni pezzo si incastra con il successivo. Il risultato è un flusso di lavoro dove l'AI produce contenuti pronti da pubblicare, non bozze da riscrivere.
+              Questo non è uno sconto sulle Skill singole. È un sistema completo per gestire tutta la tua comunicazione con l'AI. Dentro c'è ogni Skill del catalogo più una guida che spiega come farle lavorare insieme: parti dalla voce del brand, costruisci il calendario editoriale, produci i contenuti, gestisci l'onboarding. Ogni pezzo si incastra con il successivo. Il risultato è un flusso di lavoro dove l'AI produce contenuti che pubblichi, non bozze che riscrivi.
             </p>
 
             <div className="space-y-3 mb-10">
@@ -720,28 +719,24 @@ function FAQ() {
   const [open, setOpen] = useState(null)
   const items = [
     {
-      q: 'Devo avere un abbonamento a Claude Pro o a qualche AI a pagamento?',
-      a: 'No. Le Skill funzionano con Claude free, Google Antigravity free e Manus free tier. Se hai un piano a pagamento funzionano ancora meglio, ma per iniziare non ti serve spendere niente.'
+      q: 'Devo avere un abbonamento a pagamento?',
+      a: 'No. Le Skill funzionano con Claude free, Google Antigravity e Manus free tier. Con un piano a pagamento funzionano ancora meglio, ma non è necessario.'
     },
     {
       q: 'Devo saper programmare?',
-      a: 'No. Una Skill è un file di testo. Lo scarichi, lo incolli nella tua AI, e funziona. Se sai fare copia-incolla, sei a posto.'
+      a: 'No. Una Skill è un file. Lo scarichi, lo installi nella tua AI, e funziona.'
     },
     {
       q: 'Funziona solo con Claude?',
-      a: 'No. Le Skill usano un formato standard aperto (SKILL.md) compatibile con Claude, Google Antigravity, Manus e qualsiasi agente AI che supporta questo standard. Compri una volta, usi ovunque.'
+      a: 'No. Le Skill usano un formato standard aperto compatibile con Claude, Google Antigravity, Manus e qualsiasi agente AI che supporta lo standard SKILL.md. Compri una volta, usi ovunque.'
     },
     {
       q: 'Quanto tempo ci vuole per installarla?',
-      a: 'Due minuti la prima volta. Con ogni Skill ricevi una guida passo-passo con screenshot.'
+      a: 'Due minuti. Con ogni Skill ricevi una guida passo-passo con screenshot.'
     },
     {
-      q: "Ma l'output è davvero in italiano naturale?",
-      a: "Sì. Ogni Skill è scritta da una strategist italiana della comunicazione, non tradotta dall'inglese. Il risultato sembra scritto da una persona madrelingua che conosce il tuo settore."
-    },
-    {
-      q: 'Posso avere il rimborso?',
-      a: 'Se la Skill non fa quello che promette, rimborso senza domande. Ma puoi provare gratis il Brand Voice Extractor prima di comprare qualsiasi cosa.'
+      q: 'Come faccio a sapere se fa per me?',
+      a: 'Scarica gratis il Brand Voice Extractor e provalo. Se il risultato ti convince, sai già cosa aspettarti dalle Skill a pagamento.'
     },
   ]
 
