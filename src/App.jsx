@@ -101,7 +101,7 @@ function Hero() {
     <section ref={heroRef} className="relative min-h-[100dvh] flex items-end overflow-hidden">
       <div className="absolute inset-0">
         <img
-          src="https://images.unsplash.com/photo-1557683316-973673baf926?w=1600&q=80"
+          src="https://images.unsplash.com/photo-1455390582262-044cdead277a?w=1600&q=80"
           alt="" className="w-full h-full object-cover opacity-30"
           fetchpriority="high"
         />
@@ -188,8 +188,8 @@ function WhatIsASkill() {
     {
       icon: <Zap size={24} />,
       num: '02',
-      title: 'Caricalo nella tua AI',
-      desc: 'Lo incolli nel progetto della tua AI. Due clic.',
+      title: 'Caricalo nelle Skill della tua AI',
+      desc: "Su Claude la trovi nella sezione Skill. Su Antigravity vai nella cartella del tuo agente. Su Manus carichi il file nel workspace. Due clic.",
     },
     {
       icon: <Sparkles size={24} />,
@@ -380,7 +380,7 @@ function BeforeAfter() {
       footer: null,
     },
     after: {
-      badge: 'Con Italian LinkedIn Post Writer',
+      badge: 'Con LinkedIn Post Writer Calibrato',
       badgeStyle: 'bg-plasma/15 text-plasma',
       label: 'Stessa richiesta, Skill attiva',
       prompt: '"Scrivimi un post LinkedIn sulla produttività"',
@@ -526,39 +526,31 @@ function BeforeAfter() {
    FEATURES — Interactive cards
    ═══════════════════════════════════════════ */
 function DiagnosticShuffler() {
-  const [cards, setCards] = useState([
-    { id: 0, label: 'Nessun abbonamento richiesto', color: 'bg-plasma/15 text-plasma' },
-    { id: 1, label: 'Funziona con il piano gratuito', color: 'bg-emerald-500/15 text-emerald-400' },
-    { id: 2, label: 'Compatibile con ogni agente AI', color: 'bg-amber-500/15 text-amber-400' },
-  ])
+  const [active, setActive] = useState(0)
+  const items = [
+    { label: 'Nessun abbonamento richiesto', style: 'bg-plasma/12 text-plasma border-plasma/20' },
+    { label: 'Funziona con il piano gratuito', style: 'bg-emerald-500/12 text-emerald-400 border-emerald-500/20' },
+    { label: 'Compatibile con ogni agente AI', style: 'bg-amber-500/12 text-amber-400 border-amber-500/20' },
+  ]
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setCards(prev => {
-        const next = [...prev]
-        next.unshift(next.pop())
-        return next
-      })
-    }, 3000)
+      setActive(prev => (prev + 1) % items.length)
+    }, 2500)
     return () => clearInterval(interval)
   }, [])
 
   return (
-    <div className="relative h-36">
-      {cards.map((card, i) => (
-        <div key={card.id}
-          className={`absolute inset-x-0 transition-all duration-500 ${card.color} rounded-2xl px-5 py-4 font-medium text-sm`}
-          style={{
-            top: i * 12,
-            zIndex: cards.length - i,
-            opacity: 1 - i * 0.2,
-            transform: `scale(${1 - i * 0.04})`,
-            transitionTimingFunction: 'cubic-bezier(0.34, 1.56, 0.64, 1)'
-          }}>
-          <div className="flex items-center gap-3">
-            <Check size={16} />
-            {card.label}
-          </div>
+    <div className="space-y-2">
+      {items.map((item, i) => (
+        <div key={i}
+          className={`flex items-center gap-3 px-4 py-3 rounded-xl border font-medium text-sm transition-all duration-500 ${
+            i === active
+              ? item.style + ' opacity-100'
+              : 'bg-ghost/3 border-ghost/6 text-ghost/25 opacity-60'
+          }`}>
+          <Check size={14} className={i === active ? 'shrink-0' : 'opacity-0 shrink-0'} />
+          {item.label}
         </div>
       ))}
     </div>
@@ -702,7 +694,7 @@ function Features() {
           <div className="feature-card bg-void-light border border-ghost/8 rounded-[2rem] p-8 hover:border-plasma/20 transition-all duration-500 min-h-[320px] flex flex-col">
             <h3 className="font-heading font-600 text-lg mb-2">Output pronti, non bozze da riscrivere</h3>
             <p className="text-ghost/50 text-sm leading-relaxed mb-6">
-              Ogni Skill è costruita per produrre risultati che puoi usare subito. Il post LinkedIn esce con l'hook, il corpo e la chiusura. La newsletter esce con l'oggetto, l'apertura e il CTA. Non devi riscrivere niente: al massimo aggiusti un dettaglio.
+              Ogni Skill è costruita per produrre risultati che puoi usare subito. Il post LinkedIn esce con l'hook, il corpo e la chiusura. La newsletter esce con l'oggetto, l'apertura e la CTA. Non devi riscrivere niente: al massimo aggiusti un dettaglio.
             </p>
             <div className="mt-auto">
               <TelemetryTypewriter />
@@ -747,11 +739,11 @@ function Philosophy() {
   return (
     <section ref={sectionRef} className="relative py-32 md:py-44 overflow-hidden">
       <div className="absolute inset-0 bg-graphite" />
-      <div className="absolute inset-0 opacity-10">
-        <img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=1600&q=60"
+      <div className="absolute inset-0 opacity-25">
+        <img src="https://images.unsplash.com/photo-1519681393784-d120267933ba?w=1600&q=80"
           alt="" loading="lazy" className="w-full h-full object-cover" />
       </div>
-      <div className="absolute inset-0 bg-gradient-to-b from-graphite/50 via-transparent to-graphite/50" />
+      <div className="absolute inset-0 bg-gradient-to-b from-graphite/70 via-graphite/30 to-graphite/70" />
 
       <div className="relative z-10 max-w-4xl mx-auto px-6 text-center">
         <p className="philo-small text-ghost/40 text-lg sm:text-xl md:text-2xl mb-8 leading-relaxed">
@@ -826,7 +818,7 @@ function Catalog() {
   const sectionRef = useRef(null)
   const skills = [
     {
-      name: 'Italian LinkedIn Post Writer',
+      name: 'LinkedIn Post Writer Calibrato',
       product: 'linkedin-post-writer',
       price: '9€',
       desc: "Gli dai un'idea, anche vaga. La Skill costruisce un post LinkedIn completo con l'hook che ferma lo scroll, il corpo che tiene l'attenzione e la chiusura che genera interazione. Il tempo che ci metti tu: descrivere il concetto in una riga. Il tempo che ci mette la Skill: 40 secondi.",
