@@ -794,9 +794,9 @@ function Freebie() {
               È il punto di partenza perfetto. Una volta che la tua AI ha la tua voce, ogni altra Skill di UseSkill.it produce risultati ancora più precisi. Per questo la regaliamo: chi la prova capisce subito la differenza.
             </p>
 
-            <a href="#"
+            <a href="https://useskill.lemonsqueezy.com/checkout/buy/ae99b008-7732-473f-84e6-22abffa6e332?embed=1"
               data-product="brand-voice-extractor"
-              className="btn-magnetic bg-plasma text-void font-bold text-base px-8 py-4 rounded-full inline-flex items-center gap-3 shadow-lg shadow-plasma/20">
+              className="lemonsqueezy-button btn-magnetic bg-plasma text-void font-bold text-base px-8 py-4 rounded-full inline-flex items-center gap-3 shadow-lg shadow-plasma/20">
               <span className="btn-bg bg-plasma-glow rounded-full"></span>
               <Download size={18} className="relative z-10" />
               <span className="relative z-10">Scarica gratis il Brand Voice Extractor</span>
@@ -822,6 +822,7 @@ function Catalog() {
       name: 'LinkedIn Post Writer Calibrato',
       product: 'linkedin-post-writer',
       price: '9€',
+      url: 'https://useskill.lemonsqueezy.com/checkout/buy/7e8d750a-0dbd-404c-bcdd-3cd168eb480a?embed=1',
       desc: "Gli dai un'idea, anche vaga. La Skill costruisce un post LinkedIn completo con l'hook che ferma lo scroll, il corpo che tiene l'attenzione e la chiusura che genera interazione. Il tempo che ci metti tu: descrivere il concetto in una riga. Il tempo che ci mette la Skill: 40 secondi.",
       tag: 'Più venduta',
     },
@@ -829,24 +830,28 @@ function Catalog() {
       name: 'Newsletter Generator IT',
       product: 'newsletter-generator',
       price: '12€',
+      url: 'https://useskill.lemonsqueezy.com/checkout/buy/8a9dfa95-6d1e-4010-840d-953a900fff47?embed=1',
       desc: "Parti dai tuoi appunti o dai punti chiave della settimana. La Skill genera una newsletter completa con oggetto, apertura, corpo strutturato e un invito all'azione chiaro. Quello che prima richiedeva un'ora di scrittura diventa un lavoro da 5 minuti.",
     },
     {
       name: 'Instagram Carousel Script',
       product: 'instagram-carousel',
       price: '9€',
+      url: 'https://useskill.lemonsqueezy.com/checkout/buy/1c7f4347-0a49-4539-8bec-3f105a627799?embed=1',
       desc: "Un concetto diventa dieci slide. Ogni slide ha il numero giusto di parole per essere leggibile su mobile, un hook iniziale che ferma il pollice e una chiusura con call to action. Tu pensi al contenuto, la Skill pensa a tutto il resto.",
     },
     {
       name: 'Content Calendar Builder',
       product: 'content-calendar',
       price: '15€',
+      url: 'https://useskill.lemonsqueezy.com/checkout/buy/da4b1375-d3a7-4edc-b775-252a9e4b8e88?embed=1',
       desc: "Dai tuoi obiettivi e il tuo settore, la Skill genera 30 giorni di contenuti con idee concrete, angoli diversi e formati alternati. Niente suggerimenti generici che leggi e pensi 'questo non lo pubblicherei mai'. Solo idee che useresti davvero.",
     },
     {
       name: 'Client Onboarding Interview',
       product: 'client-onboarding',
       price: '7€',
+      url: 'https://useskill.lemonsqueezy.com/checkout/buy/cb0f3af8-c9c2-4d2d-9daf-e8faa95022c0?embed=1',
       desc: "Genera un questionario di onboarding personalizzato per il tuo settore. Le domande sono quelle che ti servono per capire il cliente prima della prima call. Il risultato è un documento professionale che puoi mandare così com'è.",
     },
   ]
@@ -886,9 +891,9 @@ function Catalog() {
               <p className="text-ghost/45 text-sm leading-relaxed flex-1 mb-6">{s.desc}</p>
               <div className="flex items-center justify-between">
                 <span className="font-heading font-700 text-xl text-ghost">{s.price}</span>
-                <a href="#"
+                <a href={s.url}
                   data-product={s.product}
-                  className="btn-magnetic bg-ghost/5 hover:bg-plasma/15 text-ghost text-sm font-medium px-5 py-2.5 rounded-full inline-flex items-center gap-2 border border-ghost/10 hover:border-plasma/20 transition-colors">
+                  className="lemonsqueezy-button btn-magnetic bg-ghost/5 hover:bg-plasma/15 text-ghost text-sm font-medium px-5 py-2.5 rounded-full inline-flex items-center gap-2 border border-ghost/10 hover:border-plasma/20 transition-colors">
                   <span className="relative z-10 flex items-center gap-2">
                     Acquista <ChevronRight size={14} />
                   </span>
@@ -966,9 +971,9 @@ function Bundle() {
                 <span className="font-heading font-800 text-4xl text-ghost">47€</span>
                 <span className="text-ghost/30 text-sm ml-2">una tantum</span>
               </div>
-              <a href="#"
+              <a href="https://useskill.lemonsqueezy.com/checkout/buy/680c9fe0-a874-48f7-8e38-fc7902d47027?embed=1"
                 data-product="bundle-metodo"
-                className="btn-magnetic bg-plasma text-void font-bold text-base px-8 py-4 rounded-full inline-flex items-center gap-3 shadow-lg shadow-plasma/25">
+                className="lemonsqueezy-button btn-magnetic bg-plasma text-void font-bold text-base px-8 py-4 rounded-full inline-flex items-center gap-3 shadow-lg shadow-plasma/25">
                 <span className="btn-bg bg-plasma-glow rounded-full"></span>
                 <Package size={18} className="relative z-10" />
                 <span className="relative z-10">Prendi il bundle completo</span>
@@ -1238,28 +1243,28 @@ function Recensioni() {
       name: 'Francesca M.',
       role: 'Consulente marketing, Milano',
       initials: 'FM',
-      text: 'Prima riscrivevo quasi tutto. Adesso pubblico il primo output. Con il LinkedIn Post Writer ho dimezzato il tempo che ci passo, e i post fanno più numeri di quelli che scrivevo io da zero.',
+      text: 'Riscrivevo quasi tutto quello che mi usciva da Claude. Adesso no. Il LinkedIn Post Writer esce già con il mio tono — quello vero, non la versione generica che sembra uguale a tutti. Ci ho messo due settimane a rendermi conto che non stavo più correggendo niente.',
       skill: 'LinkedIn Post Writer Calibrato',
     },
     {
       name: 'Davide R.',
       role: 'Copywriter freelance, Roma',
       initials: 'DR',
-      text: 'Ho provato i prompt lunghi, le project instructions, i template. Niente funzionava davvero in modo consistente. La Skill funziona perché non devi spiegare ogni volta chi sei.',
+      text: 'Ho passato ore a costruire la project instruction perfetta. Funzionava qualche settimana, poi Claude si dimenticava tutto tra una sessione e l\'altra. Con la Skill non succede. Parte sempre da dove hai lasciato tu.',
       skill: 'Brand Voice Extractor',
     },
     {
       name: 'Alessia T.',
       role: 'Founder studio design, Torino',
       initials: 'AT',
-      text: 'Il Content Calendar Builder mi ha dato un mese di calendario editoriale strutturato in una sessione. Non l\'avevo mai fatto così velocemente in vita mia. Onestamente.',
+      text: 'Ho chiuso il calendario di aprile in quaranta minuti. Prima ci stavo una mattinata intera, a volte di più. E alla fine lo guardavo e pensavo che metà delle idee non le avrei mai usate. Adesso le uso quasi tutte.',
       skill: 'Content Calendar Builder',
     },
     {
       name: 'Marco B.',
       role: 'Imprenditore, Napoli',
       initials: 'MB',
-      text: 'Il Brand Voice Extractor mi ha tirato fuori cose sul mio stile di comunicazione che non avevo mai formalizzato. Adesso quando apro Claude parte già da lì.',
+      text: 'Pensavo servisse capire bene come funziona l\'AI per ottenere qualcosa di decente. Invece no. Carichi la Skill, apri Claude, e lui sa già come comunichi. Non devi spiegare niente.',
       skill: 'Brand Voice Extractor',
     },
   ]
