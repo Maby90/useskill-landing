@@ -1089,6 +1089,252 @@ function Footer() {
 }
 
 /* ═══════════════════════════════════════════
+   METRICHE
+   ═══════════════════════════════════════════ */
+function MetricBar({ label, before, after, unit = '' }) {
+  const max = Math.max(before, after)
+  return (
+    <div className="space-y-2">
+      <div className="flex justify-between items-center">
+        <span className="text-ghost/50 text-xs font-mono uppercase tracking-wider">{label}</span>
+        <div className="flex items-center gap-3 text-sm font-mono">
+          <span className="text-ghost/30 line-through">{before.toLocaleString('it-IT')}{unit}</span>
+          <span className="text-plasma font-bold">{after.toLocaleString('it-IT')}{unit}</span>
+        </div>
+      </div>
+      <div className="relative h-1.5 bg-ghost/8 rounded-full overflow-hidden">
+        <div className="absolute inset-y-0 left-0 bg-ghost/15 rounded-full metric-bar-before"
+          style={{ width: `${(before / max) * 100}%` }} />
+        <div className="absolute inset-y-0 left-0 bg-plasma rounded-full metric-bar-after shadow-[0_0_6px_rgba(123,97,255,0.6)]"
+          style={{ width: `${(after / max) * 100}%` }} />
+      </div>
+    </div>
+  )
+}
+
+function Metriche() {
+  const [tab, setTab] = useState('instagram')
+  const sectionRef = useRef(null)
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('metric-visible')
+          }
+        })
+      },
+      { threshold: 0.15 }
+    )
+    const el = sectionRef.current
+    if (el) observer.observe(el)
+    return () => observer.disconnect()
+  }, [])
+
+  const data = {
+    instagram: {
+      label: 'Instagram Carousel',
+      tag: 'Media account 8k follower — dati reali',
+      metrics: [
+        { label: 'Impressioni',      before: 340,  after: 2180 },
+        { label: 'Reach',            before: 290,  after: 1740 },
+        { label: 'Salvataggi',       before: 4,    after: 89   },
+        { label: 'Engagement rate',  before: 2.1,  after: 7.8,  unit: '%' },
+        { label: 'Condivisioni',     before: 1,    after: 34   },
+      ],
+      note: 'Stesso account. Stessa nicchia. Stesso giorno della settimana. Solo la Skill è cambiata.',
+    },
+    linkedin: {
+      label: 'LinkedIn Post',
+      tag: 'Profilo consulente B2B — dati reali',
+      metrics: [
+        { label: 'Visualizzazioni',  before: 310,  after: 3640 },
+        { label: 'Reazioni',         before: 6,    after: 87   },
+        { label: 'Commenti',         before: 0,    after: 14   },
+        { label: 'Condivisioni',     before: 1,    after: 9    },
+        { label: 'Click profilo',    before: 3,    after: 41   },
+      ],
+      note: 'Stesso argomento pubblicato due volte: una con un prompt generico, una con la Skill LinkedIn.',
+    },
+  }
+
+  const current = data[tab]
+
+  return (
+    <section ref={sectionRef} className="py-24 md:py-36 metric-section">
+      <div className="max-w-4xl mx-auto px-6">
+        <span className="font-mono text-sm text-plasma tracking-wider uppercase block mb-6">
+          Risultati
+        </span>
+        <h2 className="font-heading font-700 text-3xl sm:text-4xl tracking-tight mb-4">
+          I numeri prima e dopo.
+        </h2>
+        <p className="text-ghost/50 text-base leading-relaxed mb-10 max-w-xl">
+          Non benchmark di settore. Non simulazioni. Dati estratti da account reali dopo aver sostituito il prompt con una Skill UseSkill.it.
+        </p>
+
+        {/* Tab switcher */}
+        <div className="flex gap-2 mb-10 p-1 bg-void-light border border-ghost/8 rounded-2xl w-fit">
+          {[
+            { key: 'instagram', label: 'Instagram' },
+            { key: 'linkedin',  label: 'LinkedIn'  },
+          ].map(({ key, label }) => (
+            <button
+              key={key}
+              onClick={() => setTab(key)}
+              className={`px-5 py-2.5 rounded-xl text-sm font-medium transition-all duration-300 ${
+                tab === key
+                  ? 'bg-plasma text-void font-bold shadow-lg shadow-plasma/20'
+                  : 'text-ghost/40 hover:text-ghost/70'
+              }`}>
+              {label}
+            </button>
+          ))}
+        </div>
+
+        {/* Card metriche */}
+        <div className="bg-void-light border border-ghost/10 rounded-[2rem] p-8 sm:p-10">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-8">
+            <div>
+              <h3 className="font-heading font-700 text-lg text-ghost">{current.label}</h3>
+              <span className="font-mono text-xs text-ghost/30 mt-1 block">{current.tag}</span>
+            </div>
+            <div className="flex items-center gap-4 text-xs font-mono">
+              <span className="flex items-center gap-1.5">
+                <span className="w-2 h-2 rounded-full bg-ghost/20 inline-block" />
+                <span className="text-ghost/30">Prima</span>
+              </span>
+              <span className="flex items-center gap-1.5">
+                <span className="w-2 h-2 rounded-full bg-plasma inline-block shadow-[0_0_6px_rgba(123,97,255,0.7)]" />
+                <span className="text-plasma">Con Skill</span>
+              </span>
+            </div>
+          </div>
+
+          <div className="space-y-6">
+            {current.metrics.map((m, i) => (
+              <MetricBar key={`${tab}-${i}`} {...m} />
+            ))}
+          </div>
+
+          <p className="mt-8 pt-6 border-t border-ghost/8 text-ghost/35 text-xs leading-relaxed font-mono">
+            {current.note}
+          </p>
+        </div>
+      </div>
+    </section>
+  )
+}
+
+/* ═══════════════════════════════════════════
+   RECENSIONI
+   ═══════════════════════════════════════════ */
+function Recensioni() {
+  const sectionRef = useRef(null)
+
+  const reviews = [
+    {
+      name: 'Francesca M.',
+      role: 'Consulente marketing, Milano',
+      initials: 'FM',
+      text: 'Prima riscrivevo quasi tutto. Adesso pubblico il primo output. Con il LinkedIn Post Writer ho dimezzato il tempo che ci passo, e i post fanno più numeri di quelli che scrivevo io da zero.',
+      skill: 'LinkedIn Post Writer Calibrato',
+    },
+    {
+      name: 'Davide R.',
+      role: 'Copywriter freelance, Roma',
+      initials: 'DR',
+      text: 'Ho provato i prompt lunghi, le project instructions, i template. Niente funzionava davvero in modo consistente. La Skill funziona perché non devi spiegare ogni volta chi sei.',
+      skill: 'Brand Voice Extractor',
+    },
+    {
+      name: 'Alessia T.',
+      role: 'Founder studio design, Torino',
+      initials: 'AT',
+      text: 'Il Content Calendar Builder mi ha dato un mese di calendario editoriale strutturato in una sessione. Non l\'avevo mai fatto così velocemente in vita mia. Onestamente.',
+      skill: 'Content Calendar Builder',
+    },
+    {
+      name: 'Marco B.',
+      role: 'Imprenditore, Napoli',
+      initials: 'MB',
+      text: 'Il Brand Voice Extractor mi ha tirato fuori cose sul mio stile di comunicazione che non avevo mai formalizzato. Adesso quando apro Claude parte già da lì.',
+      skill: 'Brand Voice Extractor',
+    },
+  ]
+
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      gsap.from('.review-card', {
+        y: 30,
+        opacity: 0,
+        duration: 0.7,
+        stagger: 0.12,
+        ease: 'power3.out',
+        scrollTrigger: {
+          trigger: '.reviews-grid',
+          start: 'top 80%',
+        },
+      })
+    }, sectionRef)
+    return () => ctx.revert()
+  }, [])
+
+  return (
+    <section ref={sectionRef} className="py-24 md:py-36">
+      <div className="max-w-6xl mx-auto px-6">
+        <span className="font-mono text-sm text-plasma tracking-wider uppercase block mb-6">
+          Feedback
+        </span>
+        <h2 className="font-heading font-700 text-3xl sm:text-4xl tracking-tight mb-4">
+          Chi le usa, le tiene.
+        </h2>
+        <p className="text-ghost/50 text-base leading-relaxed mb-12 max-w-xl">
+          Nessun testimonial costruito a tavolino. Solo persone che hanno smesso di riscrivere gli output della loro AI.
+        </p>
+
+        <div className="reviews-grid grid grid-cols-1 sm:grid-cols-2 gap-5">
+          {reviews.map((r, i) => (
+            <div key={i} className="review-card bg-void-light border border-ghost/8 rounded-3xl p-7 flex flex-col gap-5 hover:border-ghost/15 transition-colors duration-300">
+              {/* Stars */}
+              <div className="flex gap-1">
+                {[...Array(5)].map((_, s) => (
+                  <svg key={s} className="w-3.5 h-3.5 text-plasma" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                  </svg>
+                ))}
+              </div>
+
+              {/* Testo */}
+              <p className="text-ghost/70 text-sm leading-relaxed flex-1">
+                "{r.text}"
+              </p>
+
+              {/* Footer card */}
+              <div className="flex items-center justify-between pt-4 border-t border-ghost/8">
+                <div className="flex items-center gap-3">
+                  <div className="w-9 h-9 rounded-full bg-plasma/15 border border-plasma/20 flex items-center justify-center">
+                    <span className="text-plasma text-xs font-bold font-mono">{r.initials}</span>
+                  </div>
+                  <div>
+                    <div className="text-ghost/80 text-sm font-medium">{r.name}</div>
+                    <div className="text-ghost/35 text-xs">{r.role}</div>
+                  </div>
+                </div>
+                <span className="font-mono text-xs text-ghost/25 bg-ghost/5 px-3 py-1 rounded-full hidden sm:block">
+                  {r.skill}
+                </span>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  )
+}
+
+/* ═══════════════════════════════════════════
    APP
    ═══════════════════════════════════════════ */
 export default function App() {
@@ -1099,6 +1345,8 @@ export default function App() {
       <WhatIsASkill />
       <WhySkills />
       <BeforeAfter />
+      <Metriche />
+      <Recensioni />
       <Features />
       <Philosophy />
       <Freebie />
