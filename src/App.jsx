@@ -85,13 +85,13 @@ function Hero() {
   useEffect(() => {
     const ctx = gsap.context(() => {
       gsap.from('.hero-line', {
-        y: 50, opacity: 0, duration: 1, stagger: 0.12, ease: 'power3.out', delay: 0.3
+        y: 50, duration: 1, stagger: 0.12, ease: 'power3.out', delay: 0.3
       })
       gsap.from('.hero-cta', {
-        y: 30, opacity: 0, duration: 0.8, ease: 'power3.out', delay: 1
+        y: 30, duration: 0.8, ease: 'power3.out', delay: 1
       })
       gsap.from('.hero-badge', {
-        y: 20, opacity: 0, duration: 0.7, ease: 'power3.out', delay: 1.3
+        y: 20, duration: 0.7, ease: 'power3.out', delay: 1.3
       })
     }, heroRef)
     return () => ctx.revert()
@@ -101,7 +101,7 @@ function Hero() {
     <section ref={heroRef} className="relative min-h-[100dvh] flex items-end overflow-hidden">
       <div className="absolute inset-0">
         <img
-          src="https://images.unsplash.com/photo-1534996858221-380b92700493?w=1600&q=80"
+          src="https://images.unsplash.com/photo-1557683316-973673baf926?w=1600&q=80"
           alt="" className="w-full h-full object-cover opacity-30"
           fetchpriority="high"
         />
@@ -163,15 +163,15 @@ function WhatIsASkill() {
   useEffect(() => {
     const ctx = gsap.context(() => {
       gsap.from('.what-title', {
-        y: 40, opacity: 0, duration: 0.8, ease: 'power3.out',
+        y: 40, duration: 0.8, ease: 'power3.out',
         scrollTrigger: { trigger: '.what-title', start: 'top 85%' }
       })
       gsap.from('.what-text', {
-        y: 30, opacity: 0, duration: 0.7, stagger: 0.1, ease: 'power3.out',
+        y: 30, duration: 0.7, stagger: 0.1, ease: 'power3.out',
         scrollTrigger: { trigger: '.what-text', start: 'top 85%' }
       })
       gsap.from('.what-step', {
-        y: 30, opacity: 0, duration: 0.6, stagger: 0.15, ease: 'power3.out',
+        y: 30, duration: 0.6, stagger: 0.15, ease: 'power3.out',
         scrollTrigger: { trigger: '.what-steps', start: 'top 80%' }
       })
     }, sectionRef)
@@ -212,13 +212,13 @@ function WhatIsASkill() {
             La tua AI è potente. Ma senza istruzioni, improvvisa.
           </h2>
           <p className="what-text text-ghost/60 text-base sm:text-lg leading-relaxed mb-6">
-            Quando chiedi alla tua AI di scriverti un post LinkedIn, lei parte da zero ogni volta. Non sa chi sei, non sa per chi lavori, non sa come parli. Il risultato è un testo generico che devi riscrivere da capo, e a quel punto tanto valeva scriverlo tu dall'inizio.
+            Quando chiedi alla tua AI di scriverti un post LinkedIn, lei parte da zero. O al massimo dal file di progetto che hai compilato una volta e non hai più aggiornato. Non sa cosa hai già pubblicato, non sa come parli, non sa che risultato ti aspetti. Il risultato è un testo generico che devi riscrivere da capo.
           </p>
           <p className="what-text text-ghost/60 text-base sm:text-lg leading-relaxed mb-6">
             Una Skill cambia le regole. È un file di istruzioni che carichi nella tua AI una sola volta. Da quel momento, lei sa esattamente che tipo di contenuto produci, che struttura funziona nel tuo settore, e che risultato ti aspetti. Ogni output esce già calibrato, pronto da pubblicare o da usare con modifiche minime.
           </p>
           <p className="what-text text-ghost/50 text-base leading-relaxed mb-12">
-            Non serve saper programmare e non serve un abbonamento a pagamento. Funziona su Claude, Google Antigravity e Manus, anche con i piani gratuiti. Due minuti per attivarla, e il tempo che risparmi si sente dal primo utilizzo.
+            Non serve saper programmare e non serve nessun abbonamento a pagamento. Funziona su Claude, Google Antigravity e Manus, anche con i piani gratuiti. Due minuti per installarla. Il tempo che risparmi si vede dal primo utilizzo.
           </p>
         </div>
 
@@ -269,7 +269,7 @@ function WhySkills() {
       iconColor: 'text-ghost/25',
       highlight: false,
       title: 'Funziona una volta, poi ricominci da zero',
-      desc: "Ogni sessione parte da zero. Riscrivi le istruzioni, le abbrevi, le dimentichi. L'output dipende da quanto hai spiegato bene quel giorno, non da come lavori tu.",
+      desc: "Ogni sessione parte da zero. Riscrivi le istruzioni, le abbrevi, le dimentichi. L'output dipende da quanto hai spiegato bene in quel prompt, mai da come lavori tu e dagli output che produci per natura.",
       verdict: 'Nessuna memoria. Nessuna coerenza.',
       verdictColor: 'text-red-400/50',
     },
@@ -305,7 +305,7 @@ function WhySkills() {
           Non tutti i file .md sono uguali.
         </h2>
         <p className="text-ghost/50 text-base mb-16 max-w-lg">
-          Qualsiasi testo può diventare un'istruzione per la tua AI. La differenza sta in come è progettato quel testo, e su quanti output reali è stato verificato prima che tu lo vedessi.
+          Qualsiasi testo può diventare un'istruzione per la tua AI. La differenza sta in come è progettato quel testo, e su quanti output reali è stato testato prima di essere qui disponibile per te.
         </p>
 
         <div className="why-grid grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -353,11 +353,11 @@ function BeforeAfter() {
   useEffect(() => {
     const ctx = gsap.context(() => {
       gsap.from('.ba-header', {
-        y: 40, opacity: 0, duration: 0.8, ease: 'power3.out',
+        y: 40, duration: 0.8, ease: 'power3.out',
         scrollTrigger: { trigger: '.ba-header', start: 'top 85%' }
       })
       gsap.from('.ba-card', {
-        y: 30, opacity: 0, duration: 0.7, ease: 'power3.out',
+        y: 30, duration: 0.7, ease: 'power3.out',
         scrollTrigger: { trigger: '.ba-card', start: 'top 85%' }
       })
     }, sectionRef)
@@ -388,7 +388,7 @@ function BeforeAfter() {
         { text: "Nel 2023 ho fatturato meno dell'anno prima lavorando 20 ore in più a settimana.", bad: false },
         { text: "Ho tenuto un log di ogni attività per 90 giorni: cosa facevo, quando, e quanto valeva in termini di risultati concreti. I numeri erano fastidiosi da guardare. L'87% del fatturato era arrivato da decisioni prese nelle prime due ore del mattino. Riunioni, revisioni, email: tutto il resto era gestione di cose che qualcun altro avrebbe potuto fare.", bad: false },
         { text: "Da gennaio lavoro 32 ore a settimana invece di 52. Le prime due ore di ogni giornata sono blindate: niente email, niente call, niente Slack. Solo il lavoro che sposta l'ago. Nel primo semestre di quest'anno ho chiuso +43% rispetto allo stesso periodo del 2023.", bad: false },
-        { text: "La produttività non è fare di più. È avere dati su dove vanno davvero i tuoi risultati, e poi difendere quello spazio come se fosse l'unica risorsa che non puoi recuperare. Perché lo è.", bad: false },
+        { text: "Tre mesi di log, un foglio di calcolo e una regola rigida: le prime due ore di ogni giornata appartengono al lavoro che produce. Il resto ha imparato ad aspettare.", bad: false },
       ],
       footer: 'Output generato in 41 secondi',
     },
@@ -426,7 +426,7 @@ function BeforeAfter() {
             La differenza si vede al primo output.
           </h2>
           <p className="text-ghost/50 text-base max-w-lg">
-            Stessa richiesta, stessa AI, stessa mattina. Quello che cambia è che la Skill sa già chi sei, come scrivi, e che risultato ti aspetti.
+            Stessa richiesta, stessa IA, stessa mattina. Quello che cambia è che la Skill sa già chi sei, come scrivi, e che risultato ti aspetti.
           </p>
         </div>
 
@@ -671,7 +671,7 @@ function Features() {
   useEffect(() => {
     const ctx = gsap.context(() => {
       gsap.from('.feature-card', {
-        y: 40, opacity: 0, duration: 0.7, stagger: 0.15, ease: 'power3.out',
+        y: 40, duration: 0.7, stagger: 0.15, ease: 'power3.out',
         scrollTrigger: { trigger: '.features-grid', start: 'top 80%' }
       })
     }, sectionRef)
@@ -733,11 +733,11 @@ function Philosophy() {
   useEffect(() => {
     const ctx = gsap.context(() => {
       gsap.from('.philo-small', {
-        y: 30, opacity: 0, duration: 0.8, ease: 'power3.out',
+        y: 30, duration: 0.8, ease: 'power3.out',
         scrollTrigger: { trigger: '.philo-small', start: 'top 85%' }
       })
       gsap.from('.philo-big', {
-        y: 40, opacity: 0, duration: 1, ease: 'power3.out',
+        y: 40, duration: 1, ease: 'power3.out',
         scrollTrigger: { trigger: '.philo-big', start: 'top 85%' }
       })
     }, sectionRef)
@@ -774,7 +774,7 @@ function Freebie() {
   useEffect(() => {
     const ctx = gsap.context(() => {
       gsap.from('.freebie-content', {
-        y: 40, opacity: 0, duration: 0.8, ease: 'power3.out',
+        y: 40, duration: 0.8, ease: 'power3.out',
         scrollTrigger: { trigger: '.freebie-content', start: 'top 80%' }
       })
     }, sectionRef)
@@ -861,7 +861,7 @@ function Catalog() {
   useEffect(() => {
     const ctx = gsap.context(() => {
       gsap.from('.catalog-card', {
-        y: 30, opacity: 0, duration: 0.6, stagger: 0.1, ease: 'power3.out',
+        y: 30, duration: 0.6, stagger: 0.1, ease: 'power3.out',
         scrollTrigger: { trigger: '.catalog-grid', start: 'top 80%' }
       })
     }, sectionRef)
@@ -918,7 +918,7 @@ function Bundle() {
   useEffect(() => {
     const ctx = gsap.context(() => {
       gsap.from('.bundle-box', {
-        y: 40, opacity: 0, duration: 0.9, ease: 'power3.out',
+        y: 40, duration: 0.9, ease: 'power3.out',
         scrollTrigger: { trigger: '.bundle-box', start: 'top 80%' }
       })
     }, sectionRef)
@@ -1023,7 +1023,7 @@ function FAQ() {
           Domande
         </span>
         <h2 className="font-heading font-700 text-3xl sm:text-4xl tracking-tight mb-12">
-          Tutto quello che vuoi sapere
+          Tutto quello che devi sapere
         </h2>
 
         <div className="space-y-3">
@@ -1076,9 +1076,9 @@ function Footer() {
           <div>
             <h4 className="font-heading font-600 text-sm text-ghost/60 mb-4">Legale</h4>
             <div className="flex flex-col gap-2">
-              <a href="#" className="link-lift text-ghost/40 hover:text-ghost text-sm">Privacy Policy</a>
-              <a href="#" className="link-lift text-ghost/40 hover:text-ghost text-sm">Termini di servizio</a>
-              <a href="#" className="link-lift text-ghost/40 hover:text-ghost text-sm">Cookie Policy</a>
+              <a href="/privacy" className="link-lift text-ghost/40 hover:text-ghost text-sm">Privacy Policy</a>
+              <a href="/termini" className="link-lift text-ghost/40 hover:text-ghost text-sm">Termini di servizio</a>
+              <a href="/cookie" className="link-lift text-ghost/40 hover:text-ghost text-sm">Cookie Policy</a>
             </div>
           </div>
         </div>
