@@ -796,6 +796,7 @@ function Freebie() {
 
             <a href="https://useskill.lemonsqueezy.com/checkout/buy/ae99b008-7732-473f-84e6-22abffa6e332?embed=1"
               data-product="brand-voice-extractor"
+              onClick={() => { if (typeof fbq !== 'undefined') fbq('track', 'Lead', { content_name: 'Brand Voice Extractor', currency: 'EUR', value: 0 }) }}
               className="lemonsqueezy-button btn-magnetic bg-plasma text-void font-bold text-base px-8 py-4 rounded-full inline-flex items-center gap-3 shadow-lg shadow-plasma/20">
               <span className="btn-bg bg-plasma-glow rounded-full"></span>
               <Download size={18} className="relative z-10" />
@@ -893,6 +894,17 @@ function Catalog() {
                 <span className="font-heading font-700 text-xl text-ghost">{s.price}</span>
                 <a href={s.url}
                   data-product={s.product}
+                  onClick={() => {
+                    if (typeof fbq !== 'undefined') {
+                      fbq('track', 'InitiateCheckout', {
+                        content_name: s.name,
+                        content_ids: [s.product],
+                        content_type: 'product',
+                        value: parseFloat(s.price),
+                        currency: 'EUR',
+                      })
+                    }
+                  }}
                   className="lemonsqueezy-button btn-magnetic bg-ghost/5 hover:bg-plasma/15 text-ghost text-sm font-medium px-5 py-2.5 rounded-full inline-flex items-center gap-2 border border-ghost/10 hover:border-plasma/20 transition-colors">
                   <span className="relative z-10 flex items-center gap-2">
                     Acquista <ChevronRight size={14} />
@@ -973,6 +985,7 @@ function Bundle() {
               </div>
               <a href="https://useskill.lemonsqueezy.com/checkout/buy/680c9fe0-a874-48f7-8e38-fc7902d47027?embed=1"
                 data-product="bundle-metodo"
+                onClick={() => { if (typeof fbq !== 'undefined') fbq('track', 'InitiateCheckout', { content_name: 'Bundle Il Metodo UseSkill.it', content_ids: ['bundle-metodo'], content_type: 'product', value: 47, currency: 'EUR' }) }}
                 className="lemonsqueezy-button btn-magnetic bg-plasma text-void font-bold text-base px-8 py-4 rounded-full inline-flex items-center gap-3 shadow-lg shadow-plasma/25">
                 <span className="btn-bg bg-plasma-glow rounded-full"></span>
                 <Package size={18} className="relative z-10" />
