@@ -48,5 +48,56 @@
     <script type="module" src="/src/main.jsx"></script>
     <!-- LemonSqueezy overlay checkout -->
     <script src="https://app.lemonsqueezy.com/js/lemon.js" defer></script>
+    <!-- LemonSqueezy Checkout.Success → Meta Purchase event -->
+    <script>
+      function initLemonSqueezy() {
+        if (typeof window.createLemonSqueezy === 'function') {
+          window.createLemonSqueezy()
+          LemonSqueezy.Setup({
+            eventHandler: function(data) {
+              if (data.event === 'Checkout.Success') {
+                var order = data.data && data.data.order && data.data.order.data
+                if (!order) return
+                var attrs = order.attributes || {}
+                var total = (attrs.total || 0) / 100
+                var currency = (attrs.currency || 'eur').toUpperCase()
+                var productName = attrs.first_order_item
+                  ? attrs.first_order_item.product_name
+                  : 'Skill UseSkill.it'
+                var orderId = order.id || ''
+                // Client-side Purchase pixel
+                if (typeof fbq !== 'undefined') {
+                  fbq('track', 'Purchase', {
+                    value: total,
+                    currency: currency,
+                    content_name: productName,
+                    content_type: 'product',
+                    order_id: orderId
+                  })
+                }
+                // Server-side CAPI (deduplication iOS14+)
+                fetch('/api/purchase', {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({
+                    event_time: Math.floor(Date.now() / 1000),
+                    value: total,
+                    currency: currency,
+                    content_name: productName,
+                    order_id: orderId,
+                    client_user_agent: navigator.userAgent,
+                    fbc: document.cookie.match(/_fbc=([^;]+)/)?.[1] || '',
+                    fbp: document.cookie.match(/_fbp=([^;]+)/)?.[1] || ''
+                  })
+                }).catch(function() {})
+              }
+            }
+          })
+        } else {
+          setTimeout(initLemonSqueezy, 300)
+        }
+      }
+      initLemonSqueezy()
+    </script>
   </body>
 </html>
