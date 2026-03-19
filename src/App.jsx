@@ -248,13 +248,18 @@ function WhySkills() {
   const sectionRef = useRef(null)
 
   useEffect(() => {
-    const ctx = gsap.context(() => {
-      gsap.from('.why-card', {
-        y: 30, opacity: 0, duration: 0.7, stagger: 0.15, ease: 'power3.out',
-        scrollTrigger: { trigger: '.why-grid', start: 'top 80%' }
-      })
-    }, sectionRef)
-    return () => ctx.revert()
+    const grid = sectionRef.current?.querySelector('.why-grid')
+    if (!grid) return
+    const cards = Array.from(grid.querySelectorAll('.why-card'))
+    gsap.set(cards, { opacity: 0, y: 28 })
+    const observer = new IntersectionObserver((entries) => {
+      if (entries[0].isIntersecting) {
+        gsap.to(cards, { opacity: 1, y: 0, duration: 0.65, stagger: 0.13, ease: 'power3.out' })
+        observer.disconnect()
+      }
+    }, { threshold: 0.05 })
+    observer.observe(grid)
+    return () => observer.disconnect()
   }, [])
 
   const items = [
@@ -380,11 +385,10 @@ function BeforeAfter() {
       label: 'Stessa richiesta, Skill attiva',
       prompt: '"Scrivimi un post LinkedIn sulla produttività"',
       lines: [
-        { text: "Ho smesso di usare il metodo Pomodoro sei mesi fa.", bad: false },
-        { text: "Non perché non funzioni. Ma perché le mie scadenze reali non aspettano 25 minuti.", bad: false },
-        { text: "La vera svolta è stata smettere di ottimizzare il tempo e iniziare a ottimizzare le decisioni. Ogni mattina scelgo la cosa che, se finita, rende il resto della giornata secondaria. Solo quella.", bad: false },
-        { text: "Il resto aspetta, o lo delego, o sparisce da solo.", bad: false },
-        { text: "Stai ancora cercando il sistema perfetto, o hai già deciso cosa conta davvero?", bad: false },
+        { text: "Nel 2023 ho fatturato meno dell'anno prima lavorando 20 ore in più a settimana.", bad: false },
+        { text: "Ho tenuto un log di ogni attività per 90 giorni: cosa facevo, quando, e quanto valeva in termini di risultati concreti. I numeri erano fastidiosi da guardare. L'87% del fatturato era arrivato da decisioni prese nelle prime due ore del mattino. Riunioni, revisioni, email: tutto il resto era gestione di cose che qualcun altro avrebbe potuto fare.", bad: false },
+        { text: "Da gennaio lavoro 32 ore a settimana invece di 52. Le prime due ore di ogni giornata sono blindate: niente email, niente call, niente Slack. Solo il lavoro che sposta l'ago. Nel primo semestre di quest'anno ho chiuso +43% rispetto allo stesso periodo del 2023.", bad: false },
+        { text: "La produttività non è fare di più. È avere dati su dove vanno davvero i tuoi risultati, e poi difendere quello spazio come se fosse l'unica risorsa che non puoi recuperare. Perché lo è.", bad: false },
       ],
       footer: 'Output generato in 41 secondi',
     },
