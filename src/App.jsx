@@ -195,7 +195,7 @@ function WhatIsASkill() {
       icon: <Sparkles size={24} />,
       num: '03',
       title: 'Chiedi quello che ti serve',
-      desc: 'Scrivi cosa ti serve e l\'output esce già strutturato, nel formato giusto, pronto.',
+      desc: "Scrivi cosa ti serve e l'output esce già strutturato, nel formato giusto, pronto.",
     },
   ]
 
@@ -235,6 +235,283 @@ function WhatIsASkill() {
               <p className="text-ghost/50 text-sm leading-relaxed">{s.desc}</p>
             </div>
           ))}
+        </div>
+      </div>
+    </section>
+  )
+}
+
+/* ═══════════════════════════════════════════
+   WHY SKILLS vs PROMPT vs PROJECT INSTRUCTIONS
+   ═══════════════════════════════════════════ */
+function WhySkills() {
+  const sectionRef = useRef(null)
+
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      gsap.from('.why-card', {
+        y: 30, opacity: 0, duration: 0.7, stagger: 0.15, ease: 'power3.out',
+        scrollTrigger: { trigger: '.why-grid', start: 'top 80%' }
+      })
+    }, sectionRef)
+    return () => ctx.revert()
+  }, [])
+
+  const items = [
+    {
+      label: 'Un prompt standard',
+      icon: '↩',
+      iconColor: 'text-ghost/25',
+      highlight: false,
+      title: 'Funziona una volta, poi ricominci da zero',
+      desc: "Ogni sessione parte da zero. Riscrivi le istruzioni, le abbrevi, le dimentichi. L'output dipende da quanto hai spiegato bene quel giorno, non da come lavori tu.",
+      verdict: 'Nessuna memoria. Nessuna coerenza.',
+      verdictColor: 'text-red-400/50',
+    },
+    {
+      label: 'Istruzioni di progetto',
+      icon: '≡',
+      iconColor: 'text-ghost/35',
+      highlight: false,
+      title: 'Meglio di un prompt, ma senza architettura',
+      desc: "Un blocco di testo scritto una volta, senza gerarchia né struttura. L'AI lo legge come può e lo interpreta liberamente. Il risultato cambia a seconda di come è formulata la richiesta.",
+      verdict: 'Memoria presente, ma nessun controllo sul risultato.',
+      verdictColor: 'text-amber-400/50',
+    },
+    {
+      label: 'Skill UseSkill',
+      icon: '◆',
+      iconColor: 'text-plasma',
+      highlight: true,
+      title: 'Struttura testata, risultato replicabile',
+      desc: "Ogni file ha un'architettura precisa: contesto operativo, regole di formato, gate di qualità, esempi di output attesi. L'AI sa esattamente cosa fare e come valutare il risultato. Ogni volta.",
+      verdict: 'Testata su centinaia di output reali prima di essere pubblicata.',
+      verdictColor: 'text-plasma/70',
+    },
+  ]
+
+  return (
+    <section ref={sectionRef} className="py-24 md:py-36">
+      <div className="max-w-6xl mx-auto px-6">
+        <span className="font-mono text-sm text-plasma tracking-wider uppercase block mb-6">
+          Skill vs prompt
+        </span>
+        <h2 className="font-heading font-700 text-3xl sm:text-4xl tracking-tight mb-4 max-w-xl">
+          Non tutti i file .md sono uguali.
+        </h2>
+        <p className="text-ghost/50 text-base mb-16 max-w-lg">
+          Qualsiasi testo può diventare un'istruzione per la tua AI. La differenza sta in come è progettato quel testo, e su quanti output reali è stato verificato prima che tu lo vedessi.
+        </p>
+
+        <div className="why-grid grid grid-cols-1 md:grid-cols-3 gap-6">
+          {items.map((item, i) => (
+            <div key={i} className={`why-card border rounded-[2rem] p-8 flex flex-col transition-all duration-500 ${
+              item.highlight
+                ? 'bg-void-light border-plasma/30 shadow-lg shadow-plasma/8'
+                : 'bg-void-light border-ghost/8'
+            }`}>
+              <div className="flex items-center gap-3 mb-6">
+                <span className={`font-mono text-xl leading-none ${item.iconColor}`}>{item.icon}</span>
+                <span className="font-mono text-[10px] text-ghost/30 uppercase tracking-widest">{item.label}</span>
+              </div>
+              <h3 className={`font-heading font-600 text-base mb-3 ${item.highlight ? 'text-ghost' : 'text-ghost/70'}`}>
+                {item.title}
+              </h3>
+              <p className="text-ghost/45 text-sm leading-relaxed flex-1 mb-6">{item.desc}</p>
+              <div className={`font-mono text-xs pt-5 border-t border-ghost/8 leading-relaxed ${item.verdictColor}`}>
+                {item.verdict}
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div className="mt-8 bg-void-light border border-ghost/8 rounded-2xl px-6 py-5 flex flex-col sm:flex-row items-start sm:items-center gap-4">
+          <div className="w-2 h-2 rounded-full bg-plasma shrink-0 pulse-dot mt-1 sm:mt-0" />
+          <p className="text-ghost/40 text-sm leading-relaxed">
+            Prima di pubblicare una Skill, la testiamo su scenari reali: obiettivi diversi, settori diversi, livelli di esperienza diversi. Se l'output non è pronto da usare, la Skill non esce.
+          </p>
+        </div>
+      </div>
+    </section>
+  )
+}
+
+/* ═══════════════════════════════════════════
+   BEFORE / AFTER
+   ═══════════════════════════════════════════ */
+function BeforeAfter() {
+  const [active, setActive] = useState('before')
+  const cardRef = useRef(null)
+  const sectionRef = useRef(null)
+  const animating = useRef(false)
+
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      gsap.from('.ba-header', {
+        y: 40, opacity: 0, duration: 0.8, ease: 'power3.out',
+        scrollTrigger: { trigger: '.ba-header', start: 'top 85%' }
+      })
+      gsap.from('.ba-card', {
+        y: 30, opacity: 0, duration: 0.7, ease: 'power3.out',
+        scrollTrigger: { trigger: '.ba-card', start: 'top 85%' }
+      })
+    }, sectionRef)
+    return () => ctx.revert()
+  }, [])
+
+  const data = {
+    before: {
+      badge: 'Senza Skill',
+      badgeStyle: 'bg-ghost/8 text-ghost/35',
+      label: 'AI standard, nessuna istruzione specifica',
+      prompt: '"Scrivimi un post LinkedIn sulla produttività"',
+      lines: [
+        { text: 'La produttività è fondamentale nel mondo del lavoro moderno.', bad: true },
+        { text: "È importante sottolineare che per essere più produttivi bisogna organizzare il proprio tempo in modo efficace.", bad: true },
+        { text: 'Utilizza strumenti come calendari digitali e to-do list per gestire le tue attività.', bad: false },
+        { text: "In definitiva, la chiave del successo è trovare un equilibrio sano tra lavoro e vita privata.", bad: true },
+        { text: "Qual è la tua tecnica di produttività preferita? Condividi nei commenti! 👇", bad: false },
+      ],
+      footer: null,
+    },
+    after: {
+      badge: 'Con Italian LinkedIn Post Writer',
+      badgeStyle: 'bg-plasma/15 text-plasma',
+      label: 'Stessa richiesta, Skill attiva',
+      prompt: '"Scrivimi un post LinkedIn sulla produttività"',
+      lines: [
+        { text: "Ho smesso di usare il metodo Pomodoro sei mesi fa.", bad: false },
+        { text: "Non perché non funzioni. Ma perché le mie scadenze reali non aspettano 25 minuti.", bad: false },
+        { text: "La vera svolta è stata smettere di ottimizzare il tempo e iniziare a ottimizzare le decisioni. Ogni mattina scelgo la cosa che, se finita, rende il resto della giornata secondaria. Solo quella.", bad: false },
+        { text: "Il resto aspetta, o lo delego, o sparisce da solo.", bad: false },
+        { text: "Stai ancora cercando il sistema perfetto, o hai già deciso cosa conta davvero?", bad: false },
+      ],
+      footer: 'Output generato in 41 secondi',
+    },
+  }
+
+  const toggle = (side) => {
+    if (side === active || animating.current) return
+    animating.current = true
+    gsap.to(cardRef.current, {
+      opacity: 0, y: 10, duration: 0.22, ease: 'power2.in',
+      onComplete: () => {
+        setActive(side)
+        gsap.fromTo(cardRef.current,
+          { opacity: 0, y: -10 },
+          {
+            opacity: 1, y: 0, duration: 0.35, ease: 'power3.out',
+            onComplete: () => { animating.current = false }
+          }
+        )
+      }
+    })
+  }
+
+  const current = data[active]
+
+  return (
+    <section ref={sectionRef} id="before-after" className="py-24 md:py-36 overflow-hidden">
+      <div className="max-w-4xl mx-auto px-6">
+
+        <div className="ba-header mb-12">
+          <span className="font-mono text-sm text-plasma tracking-wider uppercase block mb-6">
+            Prima e dopo
+          </span>
+          <h2 className="font-heading font-700 text-3xl sm:text-4xl tracking-tight mb-4">
+            La differenza si vede al primo output.
+          </h2>
+          <p className="text-ghost/50 text-base max-w-lg">
+            Stessa richiesta, stessa AI, stessa mattina. Quello che cambia è che la Skill sa già chi sei, come scrivi, e che risultato ti aspetti.
+          </p>
+        </div>
+
+        {/* Toggle */}
+        <div className="flex items-center gap-2 mb-8 bg-void-light border border-ghost/10 rounded-full p-1.5 w-fit">
+          <button
+            onClick={() => toggle('before')}
+            className={`font-mono text-xs px-5 py-2.5 rounded-full transition-all duration-300 ${
+              active === 'before'
+                ? 'bg-ghost/10 text-ghost'
+                : 'text-ghost/30 hover:text-ghost/60'
+            }`}>
+            Senza Skill
+          </button>
+          <button
+            onClick={() => toggle('after')}
+            className={`font-mono text-xs px-5 py-2.5 rounded-full transition-all duration-300 ${
+              active === 'after'
+                ? 'bg-plasma text-void font-semibold shadow-md shadow-plasma/25'
+                : 'text-ghost/30 hover:text-ghost/60'
+            }`}>
+            Con Skill
+          </button>
+        </div>
+
+        {/* Card */}
+        <div ref={cardRef} className={`ba-card border rounded-[2rem] p-8 sm:p-10 transition-colors duration-500 ${
+          active === 'after'
+            ? 'bg-void-light border-plasma/30 shadow-xl shadow-plasma/8'
+            : 'bg-void-light border-ghost/8'
+        }`}>
+          {/* Header */}
+          <div className="flex flex-wrap items-center gap-3 mb-6">
+            <span className={`font-mono text-[10px] uppercase tracking-widest px-3 py-1.5 rounded-full ${current.badgeStyle}`}>
+              {current.badge}
+            </span>
+            <span className="font-mono text-[10px] text-ghost/25">{current.label}</span>
+          </div>
+
+          {/* Prompt echo */}
+          <div className="bg-ghost/5 border border-ghost/8 rounded-xl px-5 py-3 mb-8 font-mono text-xs text-ghost/35 flex items-center gap-3">
+            <span className="text-ghost/20">↩</span>
+            {current.prompt}
+          </div>
+
+          {/* Output lines */}
+          <div className="space-y-4">
+            {current.lines.map((line, i) => (
+              <p key={`${active}-${i}`} className={`text-sm leading-relaxed transition-all duration-300 ${
+                line.bad
+                  ? 'text-ghost/25 line-through decoration-red-400/30 decoration-1'
+                  : active === 'after' ? 'text-ghost/80' : 'text-ghost/55'
+              }`}>
+                {line.text}
+              </p>
+            ))}
+          </div>
+
+          {/* Footer / timer */}
+          {current.footer && (
+            <div className="mt-8 pt-6 border-t border-ghost/8 flex items-center gap-3">
+              <div className="w-2 h-2 rounded-full bg-emerald-500 pulse-dot" />
+              <span className="font-mono text-xs text-ghost/35">{current.footer}</span>
+            </div>
+          )}
+
+          {/* Bad output disclaimer */}
+          {active === 'before' && (
+            <div className="mt-8 pt-6 border-t border-ghost/8 flex items-start gap-3">
+              <span className="text-ghost/20 font-mono text-xs mt-0.5">✕</span>
+              <span className="font-mono text-xs text-ghost/25">Testo reale, generato senza istruzioni. Le frasi barrate sono i pattern AI più comuni: vaghi, generici, pubblicabili ma dimenticabili.</span>
+            </div>
+          )}
+        </div>
+
+        {/* Nudge */}
+        <div className="mt-6 text-center">
+          <p className="text-ghost/30 text-xs font-mono">
+            {active === 'before'
+              ? 'Clicca "Con Skill" per vedere cosa cambia →'
+              : 'Vuoi lo stesso risultato? Inizia gratis dal Brand Voice Extractor.'}
+          </p>
+          {active === 'after' && (
+            <a href="#freebie"
+              data-product="brand-voice-extractor"
+              className="inline-block mt-4 bg-plasma/10 hover:bg-plasma/20 text-plasma font-mono text-xs px-6 py-2.5 rounded-full border border-plasma/20 transition-colors">
+              Prova gratis il Brand Voice Extractor
+            </a>
+          )}
         </div>
       </div>
     </section>
@@ -339,7 +616,6 @@ function CursorScheduler() {
     const sequence = async () => {
       setCursorPos({ x: -30, y: 20, visible: true })
       await wait(400)
-
       for (let i = 0; i < 5; i++) {
         const x = 10 + i * 40
         setCursorPos({ x, y: 20, visible: true })
@@ -347,19 +623,15 @@ function CursorScheduler() {
         setActiveDay(i)
         await wait(200)
       }
-
       setCursorPos({ x: 120, y: 60, visible: true })
       await wait(300)
       setSaved(true)
       await wait(1500)
-
       setCursorPos({ x: 200, y: 60, visible: false })
       await wait(500)
-
       setActiveDay(-1)
       setSaved(false)
     }
-
     sequence()
     const interval = setInterval(sequence, 6000)
     return () => clearInterval(interval)
@@ -828,6 +1100,8 @@ export default function App() {
       <Navbar />
       <Hero />
       <WhatIsASkill />
+      <WhySkills />
+      <BeforeAfter />
       <Features />
       <Philosophy />
       <Freebie />
