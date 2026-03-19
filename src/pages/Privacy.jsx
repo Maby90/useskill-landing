@@ -58,7 +58,7 @@ export default function Privacy() {
               <h2 className="font-heading font-600 text-lg text-plasma mb-3">1. Titolare del trattamento</h2>
               <p>
                 Il titolare del trattamento dei dati personali è <strong className="text-ghost">Mariarosaria Prochilo</strong>,
-                con sede in [INDIRIZZO DA COMPLETARE], P.IVA [DA COMPLETARE].
+                con sede in Via Gaetano Pilati, 50136 Firenze (FI), P.IVA 03068590805.
               </p>
               <p className="mt-2">
                 Contatto email: <a href="mailto:info@useskill.it" className="text-plasma hover:underline">info@useskill.it</a>

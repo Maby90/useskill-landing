@@ -50,7 +50,7 @@ export default function Termini() {
             <section>
               <h2 className="font-heading font-600 text-lg text-plasma mb-3">1. Definizioni</h2>
               <ul className="list-disc list-inside space-y-1">
-                <li><strong className="text-ghost/80">UseSkill</strong> — il servizio gestito da Mariarosaria Prochilo, P.IVA [DA COMPLETARE], con sede in [INDIRIZZO DA COMPLETARE], raggiungibile a <a href="mailto:info@useskill.it" className="text-plasma hover:underline">info@useskill.it</a>.</li>
+                <li><strong className="text-ghost/80">UseSkill</strong> — il servizio gestito da Mariarosaria Prochilo, P.IVA 03068590805, con sede in Via Gaetano Pilati, 50136 Firenze (FI), raggiungibile a <a href="mailto:info@useskill.it" className="text-plasma hover:underline">info@useskill.it</a>.</li>
                 <li><strong className="text-ghost/80">Skill</strong> — file in formato .md (Markdown) contenente istruzioni strutturate per sistemi di intelligenza artificiale. Ogni Skill è un prodotto digitale scaricabile.</li>
                 <li><strong className="text-ghost/80">Acquirente</strong> — qualsiasi persona fisica o giuridica che acquista una Skill tramite il sito useskill.it.</li>
                 <li><strong className="text-ghost/80">AI compatibile</strong> — qualsiasi sistema di intelligenza artificiale che supporti l'utilizzo di file di istruzioni in formato Markdown come contesto operativo (es. Claude, Google Gemini via Antigravity, Manus).</li>
@@ -126,7 +126,7 @@ export default function Termini() {
             <section>
               <h2 className="font-heading font-600 text-lg text-plasma mb-3">8. Legge applicabile e foro competente</h2>
               <p>
-                I presenti Termini sono regolati dalla legge italiana. Per qualsiasi controversia relativa all'interpretazione, validità o esecuzione dei presenti Termini, le parti concordano sulla competenza esclusiva del Tribunale di Napoli.
+                I presenti Termini sono regolati dalla legge italiana. Per qualsiasi controversia relativa all'interpretazione, validità o esecuzione dei presenti Termini, le parti concordano sulla competenza esclusiva del Tribunale di Firenze.
               </p>
             </section>
 
