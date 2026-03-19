@@ -35,6 +35,7 @@ function Navbar() {
       <a href="#" className="font-heading font-bold text-base sm:text-lg tracking-tight whitespace-nowrap">
         <span className="text-ghost">Use</span>
         <span className="text-plasma">Skill</span>
+        <span className="text-ghost">.it</span>
       </a>
 
       <div className="hidden sm:flex items-center gap-6 flex-1 justify-center">
@@ -284,7 +285,7 @@ function WhySkills() {
       verdictColor: 'text-amber-400/50',
     },
     {
-      label: 'Skill UseSkill',
+      label: 'Skill UseSkill.it',
       icon: '◆',
       iconColor: 'text-plasma',
       highlight: true,
@@ -684,7 +685,7 @@ function Features() {
           <div className="feature-card bg-void-light border border-ghost/8 rounded-[2rem] p-8 hover:border-plasma/20 transition-all duration-500 min-h-[320px] flex flex-col">
             <h3 className="font-heading font-600 text-lg mb-2">Funziona con l'AI che già usi, gratis</h3>
             <p className="text-ghost/50 text-sm leading-relaxed mb-6">
-              Non devi cambiare strumento e non devi pagare nessun abbonamento. Le Skill di UseSkill funzionano su Claude free, Google Antigravity e Manus. Scarichi il file, lo carichi, e in due minuti la tua AI lavora come non ha mai fatto prima.
+              Non devi cambiare strumento e non devi pagare nessun abbonamento. Le Skill di UseSkill.it funzionano su Claude free, Google Antigravity e Manus. Scarichi il file, lo carichi, e in due minuti la tua AI lavora come non ha mai fatto prima.
             </p>
             <div className="mt-auto">
               <DiagnosticShuffler />
@@ -750,7 +751,7 @@ function Philosophy() {
           Tutti usano l'AI. Quasi nessuno ottiene output che pubblicherebbe così come escono.
         </p>
         <p className="philo-big font-drama italic text-3xl sm:text-5xl md:text-6xl leading-tight">
-          UseSkill è il <span className="text-plasma">metodo</span> che mancava.
+          UseSkill.it è il <span className="text-plasma">metodo</span> che mancava.
         </p>
       </div>
     </section>
@@ -790,7 +791,7 @@ function Freebie() {
               Incolli 3 o più testi che hai scritto tu. La Skill li analizza e genera una Guida Completa del tuo Tono di Voce: profilo stilistico, vocabolario ricorrente, personalità comunicativa e un prompt system pronto da incollare in qualsiasi AI.
             </p>
             <p className="text-ghost/40 text-sm leading-relaxed mb-8">
-              È il punto di partenza perfetto. Una volta che la tua AI ha la tua voce, ogni altra Skill di UseSkill produce risultati ancora più precisi. Per questo la regaliamo: chi la prova capisce subito la differenza.
+              È il punto di partenza perfetto. Una volta che la tua AI ha la tua voce, ogni altra Skill di UseSkill.it produce risultati ancora più precisi. Per questo la regaliamo: chi la prova capisce subito la differenza.
             </p>
 
             <a href="#"
@@ -924,7 +925,7 @@ function Bundle() {
     'Instagram Carousel Script (valore 9€)',
     'Content Calendar Builder (valore 15€)',
     'Client Onboarding Interview (valore 7€)',
-    'Guida "Il Metodo UseSkill" — come usare tutte le Skill insieme come sistema',
+    'Guida "Il Metodo UseSkill.it" — come usare tutte le Skill insieme come sistema',
   ]
 
   return (
@@ -945,7 +946,7 @@ function Bundle() {
             </div>
 
             <h2 className="font-heading font-700 text-2xl sm:text-3xl md:text-4xl tracking-tight mb-3">
-              Il Metodo UseSkill
+              Il Metodo UseSkill.it
             </h2>
             <p className="text-ghost/60 text-base leading-relaxed mb-8 max-w-lg">
               Questo non è uno sconto sulle Skill singole. È un sistema completo per gestire tutta la tua comunicazione con l'AI. Dentro c'è ogni Skill del catalogo più una guida che spiega come farle lavorare insieme: parti dalla voce del brand, costruisci il calendario editoriale, produci i contenuti, gestisci l'onboarding. Ogni pezzo si incastra con il successivo. Il risultato è un flusso di lavoro dove l'AI produce contenuti che pubblichi, non bozze che riscrivi.
@@ -1050,7 +1051,7 @@ function Footer() {
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-12 mb-16">
           <div>
             <div className="font-heading font-bold text-xl mb-3">
-              Use<span className="text-plasma">Skill</span>
+              Use<span className="text-plasma">Skill</span>.it
             </div>
             <p className="text-ghost/40 text-sm leading-relaxed">
               Skill professionali in italiano per far lavorare l'AI come il tuo miglior collaboratore.
@@ -1076,7 +1077,7 @@ function Footer() {
         </div>
 
         <div className="border-t border-ghost/8 pt-8 flex flex-col sm:flex-row justify-between items-center gap-4">
-          <p className="text-ghost/25 text-xs">© 2026 UseSkill. Tutti i diritti riservati.</p>
+          <p className="text-ghost/25 text-xs">© 2026 UseSkill.it. Tutti i diritti riservati.</p>
           <div className="flex items-center gap-2">
             <div className="w-2 h-2 rounded-full bg-emerald-500 pulse-dot" />
             <span className="font-mono text-xs text-ghost/30">Operativo</span>
