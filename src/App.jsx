@@ -924,13 +924,13 @@ function Bundle() {
   }, [])
 
   const included = [
-    'Brand Voice Extractor (valore 0€ — incluso)',
-    'Italian LinkedIn Post Writer (valore 9€)',
+    'Brand Voice Extractor (valore 0€, incluso)',
+    'LinkedIn Post Writer Calibrato (valore 9€)',
     'Newsletter Generator IT (valore 12€)',
     'Instagram Carousel Script (valore 9€)',
     'Content Calendar Builder (valore 15€)',
     'Client Onboarding Interview (valore 7€)',
-    'Guida "Il Metodo UseSkill.it" — come usare tutte le Skill insieme come sistema',
+    'Guida "Il Metodo UseSkill.it": come usare tutte le Skill insieme come sistema',
   ]
 
   return (
@@ -1140,7 +1140,7 @@ function Metriche() {
   const data = {
     instagram: {
       label: 'Instagram Carousel',
-      tag: 'Media account 8k follower — dati reali',
+      tag: 'Media account 8k follower · dati reali',
       metrics: [
         { label: 'Impressioni',      before: 340,  after: 2180 },
         { label: 'Reach',            before: 290,  after: 1740 },
@@ -1152,7 +1152,7 @@ function Metriche() {
     },
     linkedin: {
       label: 'LinkedIn Post',
-      tag: 'Profilo consulente B2B — dati reali',
+      tag: 'Profilo consulente B2B · dati reali',
       metrics: [
         { label: 'Visualizzazioni',  before: 310,  after: 3640 },
         { label: 'Reazioni',         before: 6,    after: 87   },
@@ -1243,7 +1243,7 @@ function Recensioni() {
       name: 'Francesca M.',
       role: 'Consulente marketing, Milano',
       initials: 'FM',
-      text: 'Riscrivevo quasi tutto quello che mi usciva da Claude. Adesso no. Il LinkedIn Post Writer esce già con il mio tono — quello vero, non la versione generica che sembra uguale a tutti. Ci ho messo due settimane a rendermi conto che non stavo più correggendo niente.',
+      text: 'Riscrivevo quasi tutto quello che mi usciva da Claude. Adesso no. Il LinkedIn Post Writer esce già con il mio tono, quello vero, non la versione generica che sembra uguale a tutti. Ci ho messo due settimane a rendermi conto che non stavo più correggendo niente.',
       skill: 'LinkedIn Post Writer Calibrato',
     },
     {
