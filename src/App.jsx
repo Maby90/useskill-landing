@@ -823,7 +823,7 @@ function Catalog() {
       name: 'LinkedIn Post Writer Calibrato',
       product: 'linkedin-post-writer',
       price: '9€',
-      url: 'https://useskill.lemonsqueezy.com/checkout/buy/7e8d750a-0dbd-404c-bcdd-3cd168eb480a?embed=1',
+      url: 'https://useskill.lemonsqueezy.com/checkout/buy/cb0f3af8-c9c2-4d2d-9daf-e8faa95022c0?embed=1',
       desc: "Gli dai un'idea, anche vaga. La Skill costruisce un post LinkedIn completo con l'hook che ferma lo scroll, il corpo che tiene l'attenzione e la chiusura che genera interazione. Il tempo che ci metti tu: descrivere il concetto in una riga. Il tempo che ci mette la Skill: 40 secondi.",
       tag: 'Più venduta',
     },
@@ -831,28 +831,28 @@ function Catalog() {
       name: 'Newsletter Generator IT',
       product: 'newsletter-generator',
       price: '12€',
-      url: 'https://useskill.lemonsqueezy.com/checkout/buy/8a9dfa95-6d1e-4010-840d-953a900fff47?embed=1',
+      url: 'https://useskill.lemonsqueezy.com/checkout/buy/680c9fe0-a874-48f7-8e38-fc7902d47027?embed=1',
       desc: "Parti dai tuoi appunti o dai punti chiave della settimana. La Skill genera una newsletter completa con oggetto, apertura, corpo strutturato e un invito all'azione chiaro. Quello che prima richiedeva un'ora di scrittura diventa un lavoro da 5 minuti.",
     },
     {
       name: 'Instagram Carousel Script',
       product: 'instagram-carousel',
       price: '9€',
-      url: 'https://useskill.lemonsqueezy.com/checkout/buy/1c7f4347-0a49-4539-8bec-3f105a627799?embed=1',
+      url: 'https://useskill.lemonsqueezy.com/checkout/buy/da4b1375-d3a7-4edc-b775-252a9e4b8e88?embed=1',
       desc: "Un concetto diventa dieci slide. Ogni slide ha il numero giusto di parole per essere leggibile su mobile, un hook iniziale che ferma il pollice e una chiusura con call to action. Tu pensi al contenuto, la Skill pensa a tutto il resto.",
     },
     {
       name: 'Content Calendar Builder',
       product: 'content-calendar',
       price: '15€',
-      url: 'https://useskill.lemonsqueezy.com/checkout/buy/da4b1375-d3a7-4edc-b775-252a9e4b8e88?embed=1',
+      url: 'https://useskill.lemonsqueezy.com/checkout/buy/8a9dfa95-6d1e-4010-840d-953a900fff47?embed=1',
       desc: "Dai tuoi obiettivi e il tuo settore, la Skill genera 30 giorni di contenuti con idee concrete, angoli diversi e formati alternati. Niente suggerimenti generici che leggi e pensi 'questo non lo pubblicherei mai'. Solo idee che useresti davvero.",
     },
     {
       name: 'Client Onboarding Interview',
       product: 'client-onboarding',
       price: '7€',
-      url: 'https://useskill.lemonsqueezy.com/checkout/buy/cb0f3af8-c9c2-4d2d-9daf-e8faa95022c0?embed=1',
+      url: 'https://useskill.lemonsqueezy.com/checkout/buy/7e8d750a-0dbd-404c-bcdd-3cd168eb480a?embed=1',
       desc: "Genera un questionario di onboarding personalizzato per il tuo settore. Le domande sono quelle che ti servono per capire il cliente prima della prima call. Il risultato è un documento professionale che puoi mandare così com'è.",
     },
   ]
@@ -983,7 +983,7 @@ function Bundle() {
                 <span className="font-heading font-800 text-4xl text-ghost">47€</span>
                 <span className="text-ghost/30 text-sm ml-2">una tantum</span>
               </div>
-              <a href="https://useskill.lemonsqueezy.com/checkout/buy/680c9fe0-a874-48f7-8e38-fc7902d47027?embed=1"
+              <a href="https://useskill.lemonsqueezy.com/checkout/buy/1c7f4347-0a49-4539-8bec-3f105a627799?embed=1"
                 data-product="bundle-metodo"
                 onClick={() => { if (typeof fbq !== 'undefined') fbq('track', 'InitiateCheckout', { content_name: 'Bundle Il Metodo UseSkill.it', content_ids: ['bundle-metodo'], content_type: 'product', value: 47, currency: 'EUR' }) }}
                 className="lemonsqueezy-button btn-magnetic bg-plasma text-void font-bold text-base px-8 py-4 rounded-full inline-flex items-center gap-3 shadow-lg shadow-plasma/25">
