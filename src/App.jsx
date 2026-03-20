@@ -814,6 +814,44 @@ function Freebie() {
 }
 
 /* ═══════════════════════════════════════════
+   CATALOG CARD (shared)
+   ═══════════════════════════════════════════ */
+function CatalogCard({ s }) {
+  return (
+    <div className="catalog-card group bg-void-light border border-ghost/8 rounded-[2rem] p-7 flex flex-col hover:border-plasma/20 transition-all duration-500">
+      {s.tag && (
+        <span className="inline-block self-start bg-plasma/15 text-plasma font-mono text-[10px] uppercase tracking-widest px-3 py-1 rounded-full mb-4">
+          {s.tag}
+        </span>
+      )}
+      <h3 className="font-heading font-600 text-base mb-2">{s.name}</h3>
+      <p className="text-ghost/45 text-sm leading-relaxed flex-1 mb-6">{s.desc}</p>
+      <div className="flex items-center justify-between">
+        <span className="font-heading font-700 text-xl text-ghost">{s.price}</span>
+        <a href={s.url}
+          data-product={s.product}
+          onClick={() => {
+            if (typeof fbq !== 'undefined') {
+              fbq('track', 'InitiateCheckout', {
+                content_name: s.name,
+                content_ids: [s.product],
+                content_type: 'product',
+                value: parseFloat(s.price),
+                currency: 'EUR',
+              })
+            }
+          }}
+          className="lemonsqueezy-button btn-magnetic bg-ghost/5 hover:bg-plasma/15 text-ghost text-sm font-medium px-5 py-2.5 rounded-full inline-flex items-center gap-2 border border-ghost/10 hover:border-plasma/20 transition-colors">
+          <span className="relative z-10 flex items-center gap-2">
+            Acquista <ChevronRight size={14} />
+          </span>
+        </a>
+      </div>
+    </div>
+  )
+}
+
+/* ═══════════════════════════════════════════
    CATALOG
    ═══════════════════════════════════════════ */
 function Catalog() {
@@ -880,38 +918,16 @@ function Catalog() {
           Ogni Skill è stata testata su decine di output reali prima di essere pubblicata. Compri una volta, usi per sempre, su tutte le AI compatibili.
         </p>
 
-        <div className="catalog-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {skills.map((s, i) => (
-            <div key={i} className="catalog-card group bg-void-light border border-ghost/8 rounded-[2rem] p-7 flex flex-col hover:border-plasma/20 transition-all duration-500">
-              {s.tag && (
-                <span className="inline-block self-start bg-plasma/15 text-plasma font-mono text-[10px] uppercase tracking-widest px-3 py-1 rounded-full mb-4">
-                  {s.tag}
-                </span>
-              )}
-              <h3 className="font-heading font-600 text-base mb-2">{s.name}</h3>
-              <p className="text-ghost/45 text-sm leading-relaxed flex-1 mb-6">{s.desc}</p>
-              <div className="flex items-center justify-between">
-                <span className="font-heading font-700 text-xl text-ghost">{s.price}</span>
-                <a href={s.url}
-                  data-product={s.product}
-                  onClick={() => {
-                    if (typeof fbq !== 'undefined') {
-                      fbq('track', 'InitiateCheckout', {
-                        content_name: s.name,
-                        content_ids: [s.product],
-                        content_type: 'product',
-                        value: parseFloat(s.price),
-                        currency: 'EUR',
-                      })
-                    }
-                  }}
-                  className="lemonsqueezy-button btn-magnetic bg-ghost/5 hover:bg-plasma/15 text-ghost text-sm font-medium px-5 py-2.5 rounded-full inline-flex items-center gap-2 border border-ghost/10 hover:border-plasma/20 transition-colors">
-                  <span className="relative z-10 flex items-center gap-2">
-                    Acquista <ChevronRight size={14} />
-                  </span>
-                </a>
-              </div>
-            </div>
+        {/* Riga 1: 3 card */}
+        <div className="catalog-grid grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+          {skills.slice(0, 3).map((s, i) => (
+            <CatalogCard key={i} s={s} />
+          ))}
+        </div>
+        {/* Riga 2: 2 card centrate */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-[calc(66.666%+12px)] mx-auto">
+          {skills.slice(3).map((s, i) => (
+            <CatalogCard key={i+3} s={s} />
           ))}
         </div>
       </div>
@@ -1353,6 +1369,180 @@ function Recensioni() {
 }
 
 /* ═══════════════════════════════════════════
+   COMING SOON
+   ═══════════════════════════════════════════ */
+function ComingSoon() {
+  const [email, setEmail] = useState('')
+  const [privacy, setPrivacy] = useState(false)
+  const [status, setStatus] = useState('idle') // idle | loading | success | error
+
+  const upcoming = [
+    { name: 'Meta ADV Copy Generator',    cat: 'Advertising',  desc: 'Inserzioni Facebook e Instagram scritte per convertire, non per sembrare belle.' },
+    { name: 'Google Ads Script',          cat: 'Advertising',  desc: 'Annunci di ricerca con titoli, descrizioni e callout ottimizzati per il tuo settore.' },
+    { name: 'E-commerce Product Writer',  cat: 'E-commerce',   desc: 'Schede prodotto che rispondono alle obiezioni prima che il cliente le formuli.' },
+    { name: 'Email Sales Sequence',       cat: 'Email',        desc: 'Sequenza di benvenuto, nurture e conversione pronta da caricare nel tuo ESP.' },
+    { name: 'YouTube Script Builder',     cat: 'Video',        desc: 'Script con hook, struttura narrativa e CTA finale. Funziona per tutorial e storytelling.' },
+    { name: 'Personal Brand Bio',         cat: 'Branding',     desc: 'Bio professionale declinata per LinkedIn, Instagram, sito e speaker kit. Una sessione, quattro versioni.' },
+  ]
+
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    if (!privacy || !email.includes('@')) return
+    setStatus('loading')
+    try {
+      const r = await fetch('/api/subscribe', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email }),
+      })
+      if (r.ok) {
+        setStatus('success')
+        if (typeof fbq !== 'undefined') fbq('track', 'Lead', { content_name: 'coming-soon-newsletter' })
+      } else {
+        setStatus('error')
+      }
+    } catch {
+      setStatus('error')
+    }
+  }
+
+  return (
+    <section className="py-24 md:py-36 overflow-hidden">
+      <div className="max-w-6xl mx-auto px-6">
+
+        {/* Header */}
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-6 mb-16">
+          <div>
+            <span className="font-mono text-sm text-plasma tracking-wider uppercase block mb-6">
+              In sviluppo
+            </span>
+            <h2 className="font-heading font-700 text-3xl sm:text-4xl tracking-tight mb-4">
+              Le prossime Skill.
+            </h2>
+            <p className="text-ghost/50 text-base leading-relaxed max-w-lg">
+              Nessuna Skill viene pubblicata prima di centinaia di test su output reali. Quello che vedi qui è in lavorazione. Quando è pronta, la trovi nel catalogo.
+            </p>
+          </div>
+          <div className="shrink-0">
+            <span className="font-mono text-xs text-ghost/25 bg-ghost/5 border border-ghost/8 px-4 py-2 rounded-full">
+              {upcoming.length} skill in sviluppo
+            </span>
+          </div>
+        </div>
+
+        {/* Grid skill coming soon */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-20">
+          {upcoming.map((s, i) => (
+            <div key={i}
+              className="relative bg-void-light border border-ghost/8 rounded-2xl p-6 overflow-hidden group hover:border-ghost/15 transition-colors duration-300">
+
+              {/* Overlay "In arrivo" */}
+              <div className="absolute inset-0 bg-void/60 backdrop-blur-[1px] rounded-2xl flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10">
+                <span className="font-mono text-xs text-plasma tracking-widest uppercase border border-plasma/30 bg-plasma/10 px-4 py-2 rounded-full">
+                  In arrivo
+                </span>
+              </div>
+
+              <div className="flex items-start justify-between gap-3 mb-3">
+                <span className="font-mono text-xs text-ghost/30 bg-ghost/5 px-2.5 py-1 rounded-full">
+                  {s.cat}
+                </span>
+                {/* Lucchetto */}
+                <svg className="w-4 h-4 text-ghost/20 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" />
+                </svg>
+              </div>
+
+              <h3 className="font-heading font-600 text-base text-ghost/60 mb-2 blur-[0.5px]">{s.name}</h3>
+              <p className="text-ghost/30 text-sm leading-relaxed blur-[0.5px]">{s.desc}</p>
+
+              {/* Barra progress fittizia */}
+              <div className="mt-5 space-y-1">
+                <div className="flex justify-between items-center">
+                  <span className="font-mono text-xs text-ghost/20">Testing</span>
+                  <span className="font-mono text-xs text-ghost/20">{[67,82,45,91,58,73][i]}%</span>
+                </div>
+                <div className="h-0.5 bg-ghost/8 rounded-full overflow-hidden">
+                  <div className="h-full bg-plasma/40 rounded-full" style={{ width: `${[67,82,45,91,58,73][i]}%` }} />
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Form iscrizione */}
+        <div className="relative bg-void-light border border-plasma/20 rounded-[2.5rem] p-8 sm:p-12 overflow-hidden">
+          <div className="absolute -top-40 -right-40 w-80 h-80 bg-plasma/6 rounded-full blur-[100px]" />
+          <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-plasma/4 rounded-full blur-[100px]" />
+
+          <div className="relative z-10 max-w-xl">
+            <div className="flex items-center gap-3 mb-5">
+              <div className="w-2 h-2 rounded-full bg-plasma pulse-dot" />
+              <span className="font-mono text-xs text-plasma tracking-widest uppercase">Aggiornamenti in anteprima</span>
+            </div>
+
+            <h3 className="font-heading font-700 text-2xl sm:text-3xl tracking-tight mb-3">
+              Sai quando escono prima di tutti.
+            </h3>
+            <p className="text-ghost/50 text-sm leading-relaxed mb-8">
+              Quando una nuova Skill supera i test, gli iscritti la ricevono in anteprima a prezzo ridotto. Niente spam, solo aggiornamenti di prodotto.
+            </p>
+
+            {status === 'success' ? (
+              <div className="flex items-center gap-3 bg-plasma/10 border border-plasma/20 rounded-2xl px-6 py-4">
+                <Check size={18} className="text-plasma shrink-0" />
+                <span className="text-ghost/80 text-sm">Sei dentro. Ti scriviamo alla prossima uscita.</span>
+              </div>
+            ) : (
+              <form onSubmit={handleSubmit} className="space-y-4">
+                <div className="flex flex-col sm:flex-row gap-3">
+                  <input
+                    type="email"
+                    required
+                    placeholder="la tua@email.it"
+                    value={email}
+                    onChange={e => setEmail(e.target.value)}
+                    className="flex-1 bg-void border border-ghost/15 text-ghost placeholder-ghost/25 text-sm px-5 py-3.5 rounded-xl outline-none focus:border-plasma/50 transition-colors duration-200 font-mono"
+                  />
+                  <button
+                    type="submit"
+                    disabled={!privacy || status === 'loading'}
+                    className="bg-plasma text-void font-bold text-sm px-7 py-3.5 rounded-xl disabled:opacity-40 disabled:cursor-not-allowed hover:bg-plasma-glow transition-colors duration-200 shrink-0">
+                    {status === 'loading' ? 'Iscrivo...' : 'Avvisami'}
+                  </button>
+                </div>
+
+                <label className="flex items-start gap-3 cursor-pointer group">
+                  <div
+                    onClick={() => setPrivacy(!privacy)}
+                    className={`w-4 h-4 rounded border shrink-0 mt-0.5 flex items-center justify-center transition-colors duration-200 ${
+                      privacy ? 'bg-plasma border-plasma' : 'border-ghost/25 bg-transparent group-hover:border-ghost/40'
+                    }`}>
+                    {privacy && (
+                      <svg className="w-2.5 h-2.5 text-void" fill="none" viewBox="0 0 12 12" stroke="currentColor" strokeWidth={2.5}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M2 6l3 3 5-5" />
+                      </svg>
+                    )}
+                  </div>
+                  <span className="text-ghost/35 text-xs leading-relaxed">
+                    Ho letto l'<a href="/privacy" className="text-ghost/50 hover:text-ghost underline underline-offset-2 transition-colors">informativa privacy</a> e accetto di ricevere comunicazioni da UseSkill.it. Nessun dato viene condiviso con terze parti. Cancellazione in qualsiasi momento.
+                  </span>
+                </label>
+
+                {status === 'error' && (
+                  <p className="text-red-400/70 text-xs font-mono">Qualcosa non ha funzionato. Riprova tra poco.</p>
+                )}
+              </form>
+            )}
+          </div>
+        </div>
+
+      </div>
+    </section>
+  )
+}
+
+/* ═══════════════════════════════════════════
    APP
    ═══════════════════════════════════════════ */
 export default function App() {
@@ -1370,6 +1560,7 @@ export default function App() {
       <Freebie />
       <Catalog />
       <Bundle />
+      <ComingSoon />
       <FAQ />
       <Footer />
     </>
