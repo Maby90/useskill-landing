@@ -223,7 +223,7 @@ function WhatIsASkill() {
           </p>
         </div>
 
-        <div className="what-steps grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="what-steps grid grid-cols-1 md:grid-cols-3 gap-6 items-start">
           {steps.map((s, i) => (
             <div key={i} className="what-step group bg-void-light border border-ghost/8 rounded-[2rem] p-8 hover:border-plasma/20 transition-all duration-500">
               <div className="flex items-center gap-4 mb-5">
@@ -681,7 +681,7 @@ function Features() {
           Tre cose che cambiano tutto
         </h2>
 
-        <div className="features-grid grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="features-grid grid grid-cols-1 md:grid-cols-3 gap-6 items-start">
           <div className="feature-card bg-void-light border border-ghost/8 rounded-[2rem] p-8 hover:border-plasma/20 transition-all duration-500 min-h-[320px] flex flex-col">
             <h3 className="font-heading font-600 text-lg mb-2">Funziona con l'AI che già usi, gratis</h3>
             <p className="text-ghost/50 text-sm leading-relaxed mb-6">
@@ -819,11 +819,13 @@ function Freebie() {
 function CatalogCard({ s }) {
   return (
     <div className="catalog-card group bg-void-light border border-ghost/8 rounded-[2rem] p-7 flex flex-col hover:border-plasma/20 transition-all duration-500">
-      {s.tag && (
-        <span className="inline-block self-start bg-plasma/15 text-plasma font-mono text-[10px] uppercase tracking-widest px-3 py-1 rounded-full mb-4">
-          {s.tag}
-        </span>
-      )}
+      <div className="h-6 mb-4">
+        {s.tag && (
+          <span className="inline-block bg-plasma/15 text-plasma font-mono text-[10px] uppercase tracking-widest px-3 py-1 rounded-full">
+            {s.tag}
+          </span>
+        )}
+      </div>
       <h3 className="font-heading font-600 text-base mb-2">{s.name}</h3>
       <p className="text-ghost/45 text-sm leading-relaxed flex-1 mb-6">{s.desc}</p>
       <div className="flex items-center justify-between">
