@@ -19,61 +19,128 @@ function Navbar() {
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
+  // Blocca scroll body quando menu aperto
+  useEffect(() => {
+    document.body.style.overflow = mobileOpen ? 'hidden' : ''
+    return () => { document.body.style.overflow = '' }
+  }, [mobileOpen])
+
   const links = [
     { label: "Cos'è una Skill", href: '#what' },
-    { label: 'Catalogo', href: '#catalog' },
-    { label: 'Bundle', href: '#bundle' },
+    { label: 'Catalogo',        href: '#catalog' },
+    { label: 'Plugin',          href: '#plugin', badge: 'Nuovo' },
+    { label: 'Bundle',          href: '#bundle' },
   ]
 
   return (
-    <nav className={`fixed top-4 left-1/2 -translate-x-1/2 z-50 transition-all duration-500 ease-out
-      ${scrolled
-        ? 'bg-void/70 backdrop-blur-xl border border-ghost/10 shadow-lg shadow-plasma/5'
-        : 'bg-transparent border border-transparent'
-      } rounded-full px-4 sm:px-6 py-3 flex items-center gap-4 sm:gap-8 max-w-2xl w-[95%] sm:w-auto`}>
+    <>
+      <nav className={`fixed top-4 left-1/2 -translate-x-1/2 z-50 transition-all duration-500 ease-out
+        ${scrolled
+          ? 'bg-void/80 backdrop-blur-xl border border-ghost/10 shadow-lg shadow-plasma/5'
+          : 'bg-transparent border border-transparent'
+        } rounded-full px-4 sm:px-6 py-3 flex items-center gap-4 sm:gap-6 max-w-3xl w-[95%]`}>
 
-      <a href="#" className="font-heading font-bold text-base sm:text-lg tracking-tight whitespace-nowrap">
-        <span className="text-ghost">Use</span>
-        <span className="text-plasma">Skill</span>
-        <span className="text-ghost">.it</span>
-      </a>
+        <a href="#" className="font-heading font-bold text-base sm:text-lg tracking-tight whitespace-nowrap shrink-0">
+          <span className="text-ghost">Use</span>
+          <span className="text-plasma">Skill</span>
+          <span className="text-ghost">.it</span>
+        </a>
 
-      <div className="hidden sm:flex items-center gap-6 flex-1 justify-center">
-        {links.map(l => (
-          <a key={l.href} href={l.href}
-            className={`link-lift text-sm font-medium transition-colors ${scrolled ? 'text-ghost/70 hover:text-ghost' : 'text-ghost/60 hover:text-ghost'}`}>
-            {l.label}
-          </a>
-        ))}
-      </div>
-
-      <a href="#freebie"
-        data-product="brand-voice-extractor"
-        className="hidden sm:inline-flex btn-magnetic bg-plasma text-void font-semibold text-sm px-5 py-2 rounded-full items-center gap-2">
-        <span className="btn-bg bg-plasma-glow rounded-full"></span>
-        <span className="relative z-10">Prova gratis</span>
-      </a>
-
-      <button onClick={() => setMobileOpen(!mobileOpen)} className="sm:hidden text-ghost ml-auto">
-        {mobileOpen ? <X size={20} /> : <Menu size={20} />}
-      </button>
-
-      {mobileOpen && (
-        <div className="absolute top-full left-0 right-0 mt-2 bg-void-light/95 backdrop-blur-xl border border-ghost/10 rounded-3xl p-6 flex flex-col gap-4 sm:hidden">
+        {/* Desktop links */}
+        <div className="hidden md:flex items-center gap-5 flex-1 justify-center">
           {links.map(l => (
-            <a key={l.href} href={l.href} onClick={() => setMobileOpen(false)}
-              className="text-ghost/80 hover:text-ghost font-medium text-base">
+            <a key={l.href} href={l.href}
+              className={`link-lift text-sm font-medium transition-colors flex items-center gap-1.5 ${scrolled ? 'text-ghost/70 hover:text-ghost' : 'text-ghost/60 hover:text-ghost'}`}>
               {l.label}
+              {l.badge && (
+                <span className="bg-plasma/20 text-plasma text-[9px] font-mono uppercase tracking-widest px-1.5 py-0.5 rounded-full leading-none">
+                  {l.badge}
+                </span>
+              )}
             </a>
           ))}
-          <a href="#freebie" onClick={() => setMobileOpen(false)}
-            data-product="brand-voice-extractor"
-            className="bg-plasma text-void font-semibold text-center py-3 rounded-full">
-            Prova gratis
-          </a>
         </div>
-      )}
-    </nav>
+
+        <a href="#freebie"
+          data-product="brand-voice-extractor"
+          className="hidden md:inline-flex btn-magnetic bg-plasma text-void font-semibold text-sm px-5 py-2 rounded-full items-center gap-2 shrink-0">
+          <span className="btn-bg bg-plasma-glow rounded-full" />
+          <span className="relative z-10">Prova gratis</span>
+        </a>
+
+        {/* Burger mobile */}
+        <button
+          onClick={() => setMobileOpen(!mobileOpen)}
+          className="md:hidden text-ghost ml-auto p-1 shrink-0"
+          aria-label="Menu">
+          {mobileOpen ? <X size={22} /> : <Menu size={22} />}
+        </button>
+      </nav>
+
+      {/* Mobile menu — fullscreen overlay */}
+      <div className={`fixed inset-0 z-40 md:hidden transition-all duration-300 ${mobileOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}>
+        {/* Backdrop */}
+        <div
+          className="absolute inset-0 bg-void/90 backdrop-blur-xl"
+          onClick={() => setMobileOpen(false)}
+        />
+
+        {/* Pannello */}
+        <div className={`absolute inset-x-0 top-0 bg-void-light border-b border-ghost/10 transition-transform duration-400 ease-out ${mobileOpen ? 'translate-y-0' : '-translate-y-full'}`}>
+          {/* Header pannello */}
+          <div className="flex items-center justify-between px-6 py-5 border-b border-ghost/8">
+            <a href="#" onClick={() => setMobileOpen(false)} className="font-heading font-bold text-lg">
+              <span className="text-ghost">Use</span>
+              <span className="text-plasma">Skill</span>
+              <span className="text-ghost">.it</span>
+            </a>
+            <button onClick={() => setMobileOpen(false)} className="text-ghost/50 hover:text-ghost">
+              <X size={22} />
+            </button>
+          </div>
+
+          {/* Voci menu */}
+          <div className="px-6 py-6 space-y-1">
+            {links.map((l, i) => (
+              <a
+                key={l.href}
+                href={l.href}
+                onClick={() => setMobileOpen(false)}
+                className="flex items-center justify-between py-4 border-b border-ghost/6 group">
+                <span className="text-ghost/80 group-hover:text-ghost font-medium text-lg transition-colors">
+                  {l.label}
+                </span>
+                <div className="flex items-center gap-3">
+                  {l.badge && (
+                    <span className="bg-plasma/15 text-plasma text-[10px] font-mono uppercase tracking-widest px-2 py-1 rounded-full">
+                      {l.badge}
+                    </span>
+                  )}
+                  <ChevronRight size={16} className="text-ghost/20 group-hover:text-ghost/50 transition-colors" />
+                </div>
+              </a>
+            ))}
+          </div>
+
+          {/* CTA mobile */}
+          <div className="px-6 pb-8 pt-4 space-y-3">
+            <a
+              href="#freebie"
+              onClick={() => setMobileOpen(false)}
+              data-product="brand-voice-extractor"
+              className="block bg-plasma text-void font-bold text-center py-4 rounded-2xl text-base">
+              Prova gratis — Brand Voice Extractor
+            </a>
+            <a
+              href="#catalog"
+              onClick={() => setMobileOpen(false)}
+              className="block border border-ghost/15 text-ghost/60 font-medium text-center py-4 rounded-2xl text-sm hover:border-ghost/30 hover:text-ghost transition-colors">
+              Vedi il catalogo
+            </a>
+          </div>
+        </div>
+      </div>
+    </>
   )
 }
 
@@ -1602,7 +1669,7 @@ function Plugins() {
   }, [])
 
   return (
-    <section ref={sectionRef} className="py-24 md:py-40 overflow-hidden relative">
+    <section id="plugin" ref={sectionRef} className="py-24 md:py-40 overflow-hidden relative">
       {/* Background glow ambientale */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] bg-plasma/5 rounded-full blur-[120px]" />
