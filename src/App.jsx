@@ -1559,6 +1559,12 @@ function Plugins() {
     { cmd: '/calendario',  desc: '30 giorni di contenuti strutturati' },
     { cmd: '/onboarding',  desc: 'Questionario cliente personalizzato' },
     { cmd: '/voce',        desc: 'Estrae e salva il tuo tono di voce' },
+    { cmd: '/strategia',   desc: 'Strategia e posizionamento del brand' },
+    { cmd: '/riproponi',   desc: 'Repurposing contenuti esistenti' },
+    { cmd: '/landing',     desc: 'Copy completo per landing page' },
+    { cmd: '/email',       desc: 'Email di vendita e sequenze automatiche' },
+    { cmd: '/analisi',     desc: 'Analisi dei contenuti già pubblicati' },
+    { cmd: '/proposta',    desc: 'Proposta commerciale professionale' },
   ]
 
   useEffect(() => {
@@ -1616,6 +1622,10 @@ function Plugins() {
           </h2>
           <p className="text-ghost/50 text-base leading-relaxed">
             Un Plugin è un sistema completo che installi in Claude una sola volta. Dentro ci sono Skill, comandi slash e connettori preconfigurati. Apri Claude, scrivi <span className="font-mono text-plasma/80 text-sm bg-plasma/8 px-2 py-0.5 rounded">/post</span> e il tuo contenuto esce. Nessuna configurazione, nessun copia-incolla.
+            <span className="flex items-center gap-2 mt-4 text-ghost/35 text-sm">
+              <span className="w-1.5 h-1.5 rounded-full bg-amber-400/60 inline-block shrink-0" />
+              Richiede Claude Pro o Max. Non funziona con il piano gratuito.
+            </span>
           </p>
         </div>
 
@@ -1649,14 +1659,14 @@ function Plugins() {
                 </div>
 
                 <p className="text-ghost/60 text-sm leading-relaxed mb-8">
-                  Sei Skill per la comunicazione digitale in un unico Plugin. Installi una volta, hai sei comandi slash pronti. Ogni comando produce un output specifico con la tua voce, il tuo formato, il tuo settore. Non devi spiegare niente ogni volta.
+                  Dodici comandi slash, dodici Skill preconfigurate in un unico Plugin. Lo installi una volta. Da quel momento scrivi un comando e ottieni l'output: un post, una proposta, una sequenza email, un'analisi. Con la tua voce, il tuo formato, il tuo settore. Senza spiegare niente ogni volta.
                 </p>
 
                 {/* Cosa include */}
                 <div className="space-y-2 mb-10">
                   {[
-                    '6 Skill specializzate preconfigurate',
-                    '6 comandi slash attivi da subito',
+                    '12 Skill specializzate preconfigurate',
+                    '12 comandi slash attivi da subito',
                     'Brand Voice integrato in tutti gli output',
                     'Aggiornamenti automatici alle nuove versioni',
                   ].map((item, i) => (
@@ -1670,7 +1680,7 @@ function Plugins() {
                 {/* Prezzo + CTA */}
                 <div className="flex flex-col sm:flex-row items-start sm:items-center gap-5">
                   <div>
-                    <span className="font-heading font-800 text-3xl text-ghost">39€</span>
+                    <span className="font-heading font-800 text-3xl text-ghost">67€</span>
                     <span className="text-ghost/25 text-sm ml-2">una tantum</span>
                   </div>
                   <a
@@ -1689,7 +1699,7 @@ function Plugins() {
               <div className="p-8 sm:p-12">
                 <div className="flex items-center justify-between mb-6">
                   <span className="font-mono text-xs text-ghost/30 uppercase tracking-widest">Comandi slash</span>
-                  <span className="font-mono text-xs text-ghost/20 bg-ghost/5 px-3 py-1 rounded-full">6 comandi</span>
+                  <span className="font-mono text-xs text-ghost/20 bg-ghost/5 px-3 py-1 rounded-full">12 comandi</span>
                 </div>
 
                 {/* Terminale finto */}
@@ -1713,7 +1723,7 @@ function Plugins() {
                 </div>
 
                 <p className="font-mono text-xs text-ghost/20 leading-relaxed">
-                  Compatibile con Claude Pro e Team. Richiede Claude.ai con Projects attivi.
+                  Compatibile con Claude Pro e Max. Richiede Claude.ai con Projects attivi.
                 </p>
               </div>
             </div>
