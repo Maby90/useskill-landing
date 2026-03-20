@@ -1,16 +1,15 @@
 /**
- * POST /api/purchase
- * Chiamata client-side da index.html dopo Checkout.Success di LemonSqueezy
+ * POST /api/purchase — ES Module (project type: module)
  * Invia Purchase a Meta Conversions API con fbc/fbp per migliore attribuzione
  */
 
 const PIXEL_ID = '34173091455668145'
 const META_CAPI_URL = `https://graph.facebook.com/v19.0/${PIXEL_ID}/events`
 
-module.exports = async (req, res) => {
-  // CORS per chiamata same-origin
+export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', 'https://useskill.it')
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS')
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type')
   if (req.method === 'OPTIONS') return res.status(200).end()
   if (req.method !== 'POST') return res.status(405).end()
 
@@ -35,7 +34,7 @@ module.exports = async (req, res) => {
   }
 
   const userData = {
-    client_ip_address: req.headers['x-forwarded-for']?.split(',')[0] || req.socket?.remoteAddress || '',
+    client_ip_address: req.headers['x-forwarded-for']?.split(',')[0] || '',
     client_user_agent,
   }
   if (fbc) userData.fbc = fbc
@@ -43,23 +42,21 @@ module.exports = async (req, res) => {
   if (email_hash) userData.em = [email_hash]
 
   const capiPayload = {
-    data: [
-      {
-        event_name: 'Purchase',
-        event_time: event_time || Math.floor(Date.now() / 1000),
-        event_id: `client_${order_id || Date.now()}`,
-        action_source: 'website',
-        event_source_url: 'https://useskill.it',
-        user_data: userData,
-        custom_data: {
-          value: parseFloat(value),
-          currency: currency.toUpperCase(),
-          content_name,
-          content_type: 'product',
-          order_id,
-        },
+    data: [{
+      event_name: 'Purchase',
+      event_time: event_time || Math.floor(Date.now() / 1000),
+      event_id: `client_${order_id || Date.now()}`,
+      action_source: 'website',
+      event_source_url: 'https://useskill.it',
+      user_data: userData,
+      custom_data: {
+        value: parseFloat(value),
+        currency: currency.toUpperCase(),
+        content_name,
+        content_type: 'product',
+        order_id,
       },
-    ],
+    }],
   }
 
   try {
