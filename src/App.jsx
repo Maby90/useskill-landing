@@ -1545,6 +1545,191 @@ function ComingSoon() {
 }
 
 /* ═══════════════════════════════════════════
+   PLUGINS
+   ═══════════════════════════════════════════ */
+function Plugins() {
+  const sectionRef = useRef(null)
+  const cardRef    = useRef(null)
+  const glowRef    = useRef(null)
+
+  const commands = [
+    { cmd: '/post',        desc: 'Post LinkedIn pronto da pubblicare' },
+    { cmd: '/newsletter',  desc: 'Newsletter completa con oggetto e corpo' },
+    { cmd: '/carosello',   desc: 'Script per carosello Instagram slide-by-slide' },
+    { cmd: '/calendario',  desc: '30 giorni di contenuti strutturati' },
+    { cmd: '/onboarding',  desc: 'Questionario cliente personalizzato' },
+    { cmd: '/voce',        desc: 'Estrae e salva il tuo tono di voce' },
+  ]
+
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      // Glow pulse infinito
+      gsap.to(glowRef.current, {
+        scale: 1.15,
+        opacity: 0.6,
+        duration: 2.8,
+        ease: 'sine.inOut',
+        yoyo: true,
+        repeat: -1,
+      })
+
+      // Card reveal
+      gsap.from(cardRef.current, {
+        y: 60,
+        opacity: 0,
+        duration: 1,
+        ease: 'power3.out',
+        scrollTrigger: { trigger: cardRef.current, start: 'top 80%' },
+      })
+
+      // Commands stagger
+      gsap.from('.plugin-cmd', {
+        x: -20,
+        opacity: 0,
+        duration: 0.5,
+        stagger: 0.08,
+        ease: 'power2.out',
+        scrollTrigger: { trigger: '.plugin-cmd-list', start: 'top 82%' },
+      })
+    }, sectionRef)
+    return () => ctx.revert()
+  }, [])
+
+  return (
+    <section ref={sectionRef} className="py-24 md:py-40 overflow-hidden relative">
+      {/* Background glow ambientale */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] bg-plasma/5 rounded-full blur-[120px]" />
+      </div>
+
+      <div className="max-w-6xl mx-auto px-6 relative z-10">
+        {/* Header */}
+        <div className="max-w-2xl mb-16">
+          <div className="flex items-center gap-3 mb-6">
+            <span className="font-mono text-sm text-plasma tracking-wider uppercase">Plugin</span>
+            <span className="bg-plasma/15 text-plasma font-mono text-[10px] uppercase tracking-widest px-3 py-1 rounded-full border border-plasma/20">
+              Nuovo formato
+            </span>
+          </div>
+          <h2 className="font-heading font-700 text-3xl sm:text-4xl md:text-5xl tracking-tight mb-5 leading-tight">
+            Un livello sopra<br />alle Skill.
+          </h2>
+          <p className="text-ghost/50 text-base leading-relaxed">
+            Un Plugin è un sistema completo che installi in Claude una sola volta. Dentro ci sono Skill, comandi slash e connettori preconfigurati. Apri Claude, scrivi <span className="font-mono text-plasma/80 text-sm bg-plasma/8 px-2 py-0.5 rounded">/post</span> e il tuo contenuto esce. Nessuna configurazione, nessun copia-incolla.
+          </p>
+        </div>
+
+        {/* Plugin card — Content Creator Pro */}
+        <div ref={cardRef} className="relative group">
+          {/* Glow dietro la card */}
+          <div
+            ref={glowRef}
+            className="absolute inset-0 -m-8 bg-plasma/10 rounded-[3rem] blur-[60px] pointer-events-none"
+          />
+
+          <div className="relative bg-void-light border border-plasma/20 rounded-[2.5rem] overflow-hidden">
+            {/* Bordo superiore luminoso */}
+            <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-plasma/60 to-transparent" />
+
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-0">
+
+              {/* Colonna sinistra — info prodotto */}
+              <div className="p-8 sm:p-12 border-b lg:border-b-0 lg:border-r border-ghost/8">
+                <div className="flex items-center gap-3 mb-8">
+                  <div className="relative">
+                    <div className="w-12 h-12 rounded-2xl bg-plasma/15 border border-plasma/30 flex items-center justify-center">
+                      <Sparkles size={20} className="text-plasma" />
+                    </div>
+                    <div className="absolute -top-1 -right-1 w-3 h-3 bg-plasma rounded-full shadow-[0_0_8px_rgba(123,97,255,0.8)]" />
+                  </div>
+                  <div>
+                    <div className="font-heading font-700 text-base text-ghost">Content Creator Pro</div>
+                    <div className="font-mono text-xs text-ghost/30">content-creator-pro</div>
+                  </div>
+                </div>
+
+                <p className="text-ghost/60 text-sm leading-relaxed mb-8">
+                  Sei Skill per la comunicazione digitale in un unico Plugin. Installi una volta, hai sei comandi slash pronti. Ogni comando produce un output specifico con la tua voce, il tuo formato, il tuo settore. Non devi spiegare niente ogni volta.
+                </p>
+
+                {/* Cosa include */}
+                <div className="space-y-2 mb-10">
+                  {[
+                    '6 Skill specializzate preconfigurate',
+                    '6 comandi slash attivi da subito',
+                    'Brand Voice integrato in tutti gli output',
+                    'Aggiornamenti automatici alle nuove versioni',
+                  ].map((item, i) => (
+                    <div key={i} className="flex items-center gap-3">
+                      <div className="w-1.5 h-1.5 rounded-full bg-plasma shrink-0 shadow-[0_0_4px_rgba(123,97,255,0.7)]" />
+                      <span className="text-ghost/50 text-sm">{item}</span>
+                    </div>
+                  ))}
+                </div>
+
+                {/* Prezzo + CTA */}
+                <div className="flex flex-col sm:flex-row items-start sm:items-center gap-5">
+                  <div>
+                    <span className="font-heading font-800 text-3xl text-ghost">39€</span>
+                    <span className="text-ghost/25 text-sm ml-2">una tantum</span>
+                  </div>
+                  <a
+                    href="#"
+                    data-product="plugin-content-creator-pro"
+                    onClick={() => typeof fbq !== 'undefined' && fbq('track', 'InitiateCheckout', { content_name: 'Content Creator Pro Plugin', value: 39, currency: 'EUR' })}
+                    className="relative overflow-hidden bg-plasma text-void font-bold text-sm px-7 py-3.5 rounded-full inline-flex items-center gap-2.5 shadow-lg shadow-plasma/30 hover:shadow-plasma/50 transition-shadow duration-300 group/btn">
+                    <div className="absolute inset-0 bg-plasma-glow opacity-0 group-hover/btn:opacity-100 transition-opacity duration-300 rounded-full" />
+                    <Zap size={15} className="relative z-10" />
+                    <span className="relative z-10">Ottieni il Plugin</span>
+                  </a>
+                </div>
+              </div>
+
+              {/* Colonna destra — comandi */}
+              <div className="p-8 sm:p-12">
+                <div className="flex items-center justify-between mb-6">
+                  <span className="font-mono text-xs text-ghost/30 uppercase tracking-widest">Comandi slash</span>
+                  <span className="font-mono text-xs text-ghost/20 bg-ghost/5 px-3 py-1 rounded-full">6 comandi</span>
+                </div>
+
+                {/* Terminale finto */}
+                <div className="bg-void rounded-2xl border border-ghost/8 overflow-hidden mb-6">
+                  <div className="flex items-center gap-2 px-4 py-3 border-b border-ghost/5">
+                    <div className="w-2.5 h-2.5 rounded-full bg-red-500/40" />
+                    <div className="w-2.5 h-2.5 rounded-full bg-yellow-500/40" />
+                    <div className="w-2.5 h-2.5 rounded-full bg-green-500/40" />
+                    <span className="font-mono text-xs text-ghost/20 ml-2">claude.ai</span>
+                  </div>
+                  <div className="plugin-cmd-list p-5 space-y-3">
+                    {commands.map(({ cmd, desc }, i) => (
+                      <div key={i} className="plugin-cmd flex items-center gap-4 group/cmd">
+                        <span className="font-mono text-sm text-plasma font-bold w-28 shrink-0 group-hover/cmd:text-plasma-glow transition-colors duration-200">
+                          {cmd}
+                        </span>
+                        <span className="text-ghost/35 text-xs leading-relaxed">{desc}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                <p className="font-mono text-xs text-ghost/20 leading-relaxed">
+                  Compatibile con Claude Pro e Team. Richiede Claude.ai con Projects attivi.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Nota a fondo */}
+        <p className="text-center text-ghost/25 text-xs font-mono mt-8 leading-relaxed">
+          I Plugin vengono rilasciati solo dopo centinaia di test su output reali. Stesso standard delle Skill, formato più potente.
+        </p>
+      </div>
+    </section>
+  )
+}
+
+/* ═══════════════════════════════════════════
    APP
    ═══════════════════════════════════════════ */
 export default function App() {
@@ -1562,6 +1747,7 @@ export default function App() {
       <Freebie />
       <Catalog />
       <Bundle />
+      <Plugins />
       <ComingSoon />
       <FAQ />
       <Footer />
