@@ -24,14 +24,14 @@ export default async function handler(req, res) {
 
   try {
     const r = await fetch(
-      `https://connect.mailerlite.com/api/groups/${GROUP_ID}/subscribers`,
+      'https://connect.mailerlite.com/api/subscribers',
       {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${token}`,
         },
-        body: JSON.stringify({ email }),
+        body: JSON.stringify({ email, groups: [GROUP_ID] }),
       }
     )
     // 200 = già iscritto, 201 = nuovo iscritto
