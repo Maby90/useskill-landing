@@ -322,9 +322,9 @@ function WhatIsASkill() {
           </p>
         </div>
 
-        <div className="what-steps grid grid-cols-1 md:grid-cols-3 gap-6 items-start">
+        <div className="what-steps grid grid-cols-1 md:grid-cols-3 gap-6">
           {steps.map((s, i) => (
-            <div key={i} className="what-step group bg-void-light border border-ghost/8 rounded-[2rem] p-8 hover:border-plasma/20 transition-all duration-500">
+            <div key={i} className="what-step group bg-void-light border border-ghost/8 rounded-[2rem] p-8 hover:border-plasma/20 transition-all duration-500 h-full">
               <div className="flex items-center gap-4 mb-5">
                 <div className="w-12 h-12 rounded-2xl bg-plasma/10 flex items-center justify-center text-plasma group-hover:bg-plasma/20 transition-colors">
                   {s.icon}
@@ -410,7 +410,7 @@ function WhySkills() {
 
         <div className="why-grid grid grid-cols-1 md:grid-cols-3 gap-6">
           {items.map((item, i) => (
-            <div key={i} className={`why-card border rounded-[2rem] p-8 flex flex-col transition-all duration-500 ${
+            <div key={i} className={`why-card border rounded-[2rem] p-8 flex flex-col h-full transition-all duration-500 ${
               item.highlight
                 ? 'bg-void-light border-plasma/30 shadow-lg shadow-plasma/8'
                 : 'bg-void-light border-ghost/8'
@@ -780,8 +780,8 @@ function Features() {
           Tre cose che cambiano tutto
         </h2>
 
-        <div className="features-grid grid grid-cols-1 md:grid-cols-3 gap-6 items-start">
-          <div className="feature-card bg-void-light border border-ghost/8 rounded-[2rem] p-8 hover:border-plasma/20 transition-all duration-500 min-h-[320px] flex flex-col">
+        <div className="features-grid grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="feature-card bg-void-light border border-ghost/8 rounded-[2rem] p-8 hover:border-plasma/20 transition-all duration-500 min-h-[320px] flex flex-col h-full">
             <h3 className="font-heading font-600 text-lg mb-2">Funziona con l'AI che già usi, gratis</h3>
             <p className="text-ghost/50 text-sm leading-relaxed mb-6">
               Non devi cambiare strumento e non devi pagare nessun abbonamento. Le Skill di UseSkill.it funzionano su Claude free, Google Antigravity e Manus. Scarichi il file, lo carichi, e in due minuti la tua AI lavora come non ha mai fatto prima.
@@ -791,7 +791,7 @@ function Features() {
             </div>
           </div>
 
-          <div className="feature-card bg-void-light border border-ghost/8 rounded-[2rem] p-8 hover:border-plasma/20 transition-all duration-500 min-h-[320px] flex flex-col">
+          <div className="feature-card bg-void-light border border-ghost/8 rounded-[2rem] p-8 hover:border-plasma/20 transition-all duration-500 min-h-[320px] flex flex-col h-full">
             <h3 className="font-heading font-600 text-lg mb-2">Output pronti, non bozze da riscrivere</h3>
             <p className="text-ghost/50 text-sm leading-relaxed mb-6">
               Ogni Skill è costruita per produrre risultati che puoi usare subito. Il post LinkedIn esce con l'hook, il corpo e la chiusura. La newsletter esce con l'oggetto, l'apertura e la CTA. Non devi riscrivere niente: al massimo aggiusti un dettaglio.
@@ -801,10 +801,10 @@ function Features() {
             </div>
           </div>
 
-          <div className="feature-card bg-void-light border border-ghost/8 rounded-[2rem] p-8 hover:border-plasma/20 transition-all duration-500 min-h-[320px] flex flex-col">
+          <div className="feature-card bg-void-light border border-ghost/8 rounded-[2rem] p-8 hover:border-plasma/20 transition-all duration-500 min-h-[320px] flex flex-col h-full">
             <h3 className="font-heading font-600 text-lg mb-2">Ore di lavoro compresse in minuti</h3>
             <p className="text-ghost/50 text-sm leading-relaxed mb-6">
-              Un calendario editoriale di 30 giorni in 3 minuti. Un questionario di onboarding in 2. Un post LinkedIn in 40 secondi. Le Skill non sono scorciatoie: sono il flusso di lavoro che avresti costruito tu, già pronto e testato.
+              Un calendario editoriale di 30 giorni in 3 minuti. Un questionario di onboarding in 2. Un post LinkedIn in 40 secondi. Le Skill sono il flusso di lavoro che avresti costruito tu da zero. Già pronto, già testato.
             </p>
             <div className="mt-auto">
               <CursorScheduler />
@@ -862,6 +862,7 @@ function Philosophy() {
    ═══════════════════════════════════════════ */
 function Freebie() {
   const sectionRef = useRef(null)
+  const [freebieOpen, setFreebieOpen] = useState(false)
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -874,6 +875,7 @@ function Freebie() {
   }, [])
 
   return (
+    <>
     <section id="freebie" ref={sectionRef} className="py-24 md:py-36">
       <div className="max-w-6xl mx-auto px-6">
         <div className="freebie-content relative bg-gradient-to-br from-plasma/10 via-void-light to-void-light border border-plasma/20 rounded-[2.5rem] p-8 sm:p-12 md:p-16 overflow-hidden">
@@ -893,22 +895,132 @@ function Freebie() {
               È il punto di partenza perfetto. Una volta che la tua AI ha la tua voce, ogni altra Skill di UseSkill.it produce risultati ancora più precisi. Per questo la regaliamo: chi la prova capisce subito la differenza.
             </p>
 
-            <a href="/grazie?prodotto=brand-voice-extractor"
-              data-product="brand-voice-extractor"
-              onClick={() => { if (typeof fbq !== 'undefined') fbq('track', 'Lead', { content_name: 'Brand Voice Extractor', currency: 'EUR', value: 0 }) }}
+            <button
+              onClick={() => setFreebieOpen(true)}
               className="btn-magnetic bg-plasma text-void font-bold text-base px-8 py-4 rounded-full inline-flex items-center gap-3 shadow-lg shadow-plasma/20">
               <span className="btn-bg bg-plasma-glow rounded-full"></span>
               <Download size={18} className="relative z-10" />
               <span className="relative z-10">Scarica gratis il Brand Voice Extractor</span>
-            </a>
+            </button>
 
             <p className="text-ghost/30 text-xs mt-4">
-              Ricevi il file via email. Zero spam.
+              Gratuito per sempre · Zero spam
             </p>
           </div>
         </div>
       </div>
     </section>
+    {freebieOpen && <FreebieModal onClose={() => setFreebieOpen(false)} />}
+  </>
+  )
+}
+
+/* ═══════════════════════════════════════════
+   FREEBIE MODAL — raccolta email prima del download
+   ═══════════════════════════════════════════ */
+function FreebieModal({ onClose }) {
+  const [email, setEmail] = useState('')
+  const [privacy, setPrivacy] = useState(false)
+  const [status, setStatus] = useState('idle')
+
+  useEffect(() => {
+    const onKey = e => e.key === 'Escape' && onClose()
+    window.addEventListener('keydown', onKey)
+    document.body.style.overflow = 'hidden'
+    return () => { window.removeEventListener('keydown', onKey); document.body.style.overflow = '' }
+  }, [onClose])
+
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    if (!privacy || !email.includes('@')) return
+    setStatus('loading')
+    try {
+      await fetch('/api/subscribe', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, source: 'freebie' }),
+      })
+      if (typeof fbq !== 'undefined') fbq('track', 'Lead', { content_name: 'Brand Voice Extractor', value: 0, currency: 'EUR' })
+      window.location.href = '/grazie?prodotto=brand-voice-extractor'
+    } catch {
+      setStatus('error')
+    }
+  }
+
+  return (
+    <div className="fixed inset-0 z-[100] flex items-end sm:items-center justify-center px-0 sm:px-4">
+      <div className="absolute inset-0 bg-void/80 backdrop-blur-md" onClick={onClose} />
+      <div className="relative z-10 w-full sm:max-w-md bg-void-light border border-ghost/12 rounded-t-[2.5rem] sm:rounded-[2.5rem] overflow-hidden shadow-2xl shadow-void/50"
+        style={{ animation: 'slideUp .28s cubic-bezier(.22,1,.36,1)' }}>
+
+        <div className="flex items-center justify-between px-7 pt-7 pb-0">
+          <div className="h-1 w-10 bg-ghost/15 rounded-full mx-auto sm:hidden absolute top-3 left-1/2 -translate-x-1/2" />
+          <div className="flex items-center gap-2">
+            <span className="bg-plasma/15 text-plasma font-mono text-[10px] uppercase tracking-widest px-3 py-1 rounded-full">Gratis</span>
+            <span className="font-mono text-xs text-ghost/30 uppercase tracking-widest">Brand Voice Extractor</span>
+          </div>
+          <button onClick={onClose} className="text-ghost/30 hover:text-ghost transition-colors p-1">
+            <X size={18} />
+          </button>
+        </div>
+
+        <div className="px-7 py-6 space-y-5">
+          <div>
+            <h2 className="font-heading font-700 text-xl text-ghost mb-1">Dove ti mandiamo il file?</h2>
+            <p className="text-ghost/50 text-sm leading-relaxed">
+              Scaricabile subito dopo. Niente spam, solo aggiornamenti UseSkill.it quando escono nuove Skill.
+            </p>
+          </div>
+
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <input
+              type="email"
+              required
+              placeholder="la tua@email.it"
+              value={email}
+              onChange={e => setEmail(e.target.value)}
+              className="w-full bg-void border border-ghost/15 text-ghost placeholder-ghost/25 text-sm px-5 py-3.5 rounded-xl outline-none focus:border-plasma/50 transition-colors duration-200 font-mono"
+            />
+
+            <label className="flex items-start gap-3 cursor-pointer group">
+              <div
+                onClick={() => setPrivacy(!privacy)}
+                className={`w-4 h-4 rounded border shrink-0 mt-0.5 flex items-center justify-center transition-colors duration-200 ${
+                  privacy ? 'bg-plasma border-plasma' : 'border-ghost/25 bg-transparent group-hover:border-ghost/40'
+                }`}>
+                {privacy && (
+                  <svg className="w-2.5 h-2.5 text-void" fill="none" viewBox="0 0 12 12" stroke="currentColor" strokeWidth={2.5}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M2 6l3 3 5-5" />
+                  </svg>
+                )}
+              </div>
+              <span className="text-ghost/35 text-xs leading-relaxed">
+                Ho letto l'<a href="/privacy" className="text-ghost/50 hover:text-ghost underline underline-offset-2 transition-colors">informativa privacy</a> e accetto di ricevere comunicazioni da UseSkill.it. Cancellazione in qualsiasi momento.
+              </span>
+            </label>
+
+            {status === 'error' && (
+              <p className="text-red-400/70 text-xs font-mono">Qualcosa non ha funzionato. Riprova tra poco.</p>
+            )}
+
+            <div className="pt-1 pb-2">
+              <button
+                type="submit"
+                disabled={!privacy || status === 'loading'}
+                className="w-full bg-plasma text-void font-bold text-base py-4 rounded-2xl flex items-center justify-center gap-3 shadow-lg shadow-plasma/25 hover:shadow-plasma/40 transition-shadow disabled:opacity-60">
+                {status === 'loading'
+                  ? <span>Carico...</span>
+                  : <><Download size={17} /><span>Scarica gratis</span></>
+                }
+              </button>
+              <p className="text-center text-ghost/25 text-xs mt-3">
+                Zero spam · Cancellazione in qualsiasi momento
+              </p>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
   )
 }
 
@@ -1019,7 +1131,7 @@ function CatalogCard({ s }) {
   return (
     <>
       <div
-        className="catalog-card group bg-void-light border border-ghost/8 rounded-[2rem] p-7 flex flex-col hover:border-plasma/20 transition-all duration-500 cursor-pointer"
+        className="catalog-card group bg-void-light border border-ghost/8 rounded-[2rem] p-7 flex flex-col h-full hover:border-plasma/20 transition-all duration-500 cursor-pointer"
         onClick={() => setModalOpen(true)}>
         <div className="h-6 mb-4">
           {s.tag && (
@@ -1054,45 +1166,45 @@ function Catalog() {
       price: '9€',
       tag: 'Più venduta',
       desc: "Gli dai un'idea, anche vaga. La Skill costruisce un post LinkedIn completo con l'hook che ferma lo scroll, il corpo che tiene l'attenzione e la chiusura che genera interazione. Il tempo che ci metti tu: descrivere il concetto in una riga. Il tempo che ci mette la Skill: 40 secondi.",
-      tagline: 'Da un\'idea a un post pubblicabile. In 40 secondi.',
-      modalDesc: 'Il problema dei post LinkedIn generici è che suonano come tutti gli altri. Questa Skill impara il ritmo delle tue frasi, le parole che usi, il tono — e costruisce post che sembrano scritti da te. Non bozze da correggere. Testi che pubblichi.',
+      tagline: "Da un'idea a un post pubblicabile. In 40 secondi.",
+      modalDesc: "I post LinkedIn generici suonano uguali. Questa Skill conosce il tuo ritmo, le tue parole, il tuo tono. L'output esce già scritto come lo scriveresti tu. Di solito non cambi niente.",
       includes: [
-        'SKILL.md — il file da caricare nella tua AI',
-        'profile.md — il profilo tono di voce da abbinare',
-        'README.md — guida installazione passo-passo (2 minuti)',
-        'Compatibile con Claude, Antigravity e Manus',
+        'SKILL.md da caricare nella tua AI',
+        'profile.md con il tuo tono di voce',
+        'README.md con le istruzioni di installazione',
+        'Funziona su Claude, Antigravity e Manus',
       ],
-      forWho: 'Per freelance, consulenti e founder che pubblicano su LinkedIn almeno due volte a settimana e vogliono smettere di riscrivere ogni output.',
+      forWho: 'Freelance, consulenti e founder che pubblicano su LinkedIn ogni settimana e non vogliono più correggere ogni output prima di pubblicare.',
     },
     {
       name: 'Newsletter Generator IT',
       product: 'newsletter-generator',
       price: '12€',
       desc: "Parti dai tuoi appunti o dai punti chiave della settimana. La Skill genera una newsletter completa con oggetto, apertura, corpo strutturato e un invito all'azione chiaro. Quello che prima richiedeva un'ora di scrittura diventa un lavoro da 5 minuti.",
-      tagline: "Un'ora di scrittura in cinque minuti.",
-      modalDesc: "Parti dagli appunti della settimana, anche disorganizzati. La Skill li trasforma in una newsletter con oggetto pensato per l'apertura, un'apertura che aggancia, un corpo strutturato e una chiusura con un invito chiaro. Quello che ottieni è pronto da incollare nel tuo ESP.",
+      tagline: "Appunti dentro. Newsletter fuori.",
+      modalDesc: "Prendi gli appunti della settimana, anche confusi, e passali alla Skill. Lei li trasforma in una newsletter con un oggetto che spinge all'apertura, un'apertura che tiene, un corpo strutturato e una chiusura con un invito chiaro. Pronto da incollare nel tuo ESP.",
       includes: [
-        'SKILL.md — il file da caricare nella tua AI',
-        'profile.md — il profilo tono di voce da abbinare',
-        'README.md — guida installazione passo-passo (2 minuti)',
-        'Compatibile con Claude, Antigravity e Manus',
+        'SKILL.md da caricare nella tua AI',
+        'profile.md con il tuo tono di voce',
+        'README.md con le istruzioni di installazione',
+        'Funziona su Claude, Antigravity e Manus',
       ],
-      forWho: 'Per chi ha una lista email attiva e pubblica con regolarità, ma non vuole passare ore a costruire ogni numero da zero.',
+      forWho: 'Chi ha una lista email e pubblica con una certa regolarità, ma non vuole dedicare ore a costruire ogni numero da zero.',
     },
     {
       name: 'Instagram Carousel Script',
       product: 'instagram-carousel',
       price: '9€',
       desc: "Un concetto diventa dieci slide. Ogni slide ha il numero giusto di parole per essere leggibile su mobile, un hook iniziale che ferma il pollice e una chiusura con call to action. Tu pensi al contenuto, la Skill pensa a tutto il resto.",
-      tagline: 'Il formato con il tasso di salvataggio più alto. Costruito dalla Skill.',
-      modalDesc: 'Il carousel richiede struttura: un hook forte nella prima slide, un ritmo che mantiene l\'attenzione slide dopo slide, una call to action nell\'ultima. Ogni slide deve stare in piedi da sola e fare parte di un percorso. La Skill gestisce tutto questo per te.',
+      tagline: 'Un concetto. Dieci slide. Nessuna vuota.',
+      modalDesc: 'Un carousel funziona quando ogni slide ha un motivo per esistere. La prima deve fermare il pollice. Le slide centrali devono mantenere l\'attenzione. L\'ultima deve dire cosa fare. La Skill costruisce questa struttura partendo dal tuo argomento.',
       includes: [
-        'SKILL.md — il file da caricare nella tua AI',
-        'profile.md — il profilo tono di voce da abbinare',
-        'README.md — guida installazione passo-passo (2 minuti)',
-        'Compatibile con Claude, Antigravity e Manus',
+        'SKILL.md da caricare nella tua AI',
+        'profile.md con il tuo tono di voce',
+        'README.md con le istruzioni di installazione',
+        'Funziona su Claude, Antigravity e Manus',
       ],
-      forWho: 'Per creator e professionisti che usano i caroselli come formato principale e vogliono aumentare il tasso di salvataggio e condivisione.',
+      forWho: 'Creator e professionisti che usano i caroselli come formato principale e vogliono salvataggi e condivisioni, non solo visualizzazioni.',
     },
     {
       name: 'Content Calendar Builder',
@@ -1100,29 +1212,29 @@ function Catalog() {
       price: '15€',
       desc: "Dai tuoi obiettivi e il tuo settore, la Skill genera 30 giorni di contenuti con idee concrete, angoli diversi e formati alternati. Niente suggerimenti generici che leggi e pensi 'questo non lo pubblicherei mai'. Solo idee che useresti davvero.",
       tagline: '30 giorni di contenuti in una sessione.',
-      modalDesc: 'Dici alla Skill i tuoi obiettivi, il settore e i formati che vuoi usare. Lei genera un calendario con idee concrete, angoli diversi e una distribuzione sensata tra educazione, autorevolezza e vendita. Nessuna ripetizione. Nessun suggerimento che non useresti mai.',
+      modalDesc: 'Dici alla Skill i tuoi obiettivi, il settore e i formati che vuoi usare. Lei genera trenta idee concrete, con angoli diversi e una distribuzione sensata tra contenuti educativi, contenuti di autorevolezza e contenuti commerciali. Idee che pubblicheresti, non idee da cestinare.',
       includes: [
-        'SKILL.md — il file da caricare nella tua AI',
-        'profile.md — il profilo tono di voce da abbinare',
-        'README.md — guida installazione passo-passo (2 minuti)',
-        'Compatibile con Claude, Antigravity e Manus',
+        'SKILL.md da caricare nella tua AI',
+        'profile.md con il tuo tono di voce',
+        'README.md con le istruzioni di installazione',
+        'Funziona su Claude, Antigravity e Manus',
       ],
-      forWho: 'Per chi gestisce uno o più profili social e pianifica i contenuti con anticipo, senza voler passare un pomeriggio intero sul calendario.',
+      forWho: 'Chi gestisce uno o più profili social e pianifica i contenuti con anticipo, senza voler dedicare un pomeriggio intero al calendario ogni mese.',
     },
     {
       name: 'Client Onboarding Interview',
       product: 'client-onboarding',
       price: '7€',
       desc: "Genera un questionario di onboarding personalizzato per il tuo settore. Le domande sono quelle che ti servono per capire il cliente prima della prima call. Il risultato è un documento professionale che puoi mandare così com'è.",
-      tagline: 'Le domande giuste. Prima ancora della prima call.',
-      modalDesc: 'Un onboarding mal fatto spreca tempo tuo e del cliente. Questa Skill genera un questionario professionale con le domande specifiche per il tuo settore — quelle che ti servono per capire il cliente, impostare il lavoro e arrivare alla prima call già preparato.',
+      tagline: 'Le domande giuste prima della prima call.',
+      modalDesc: 'Un onboarding fatto male spreca tempo su entrambi i lati. Questa Skill genera un questionario con le domande specifiche per il tuo settore, quelle che ti aiutano a capire il cliente, impostare il lavoro e arrivare alla prima call già con le informazioni che ti servono.',
       includes: [
-        'SKILL.md — il file da caricare nella tua AI',
-        'profile.md — il profilo tono di voce da abbinare',
-        'README.md — guida installazione passo-passo (2 minuti)',
-        'Compatibile con Claude, Antigravity e Manus',
+        'SKILL.md da caricare nella tua AI',
+        'profile.md con il tuo tono di voce',
+        'README.md con le istruzioni di installazione',
+        'Funziona su Claude, Antigravity e Manus',
       ],
-      forWho: 'Per consulenti, freelance e agenzie che gestiscono nuovi clienti e vogliono arrivare alla prima call con le informazioni giuste già in mano.',
+      forWho: 'Consulenti, freelance e agenzie che gestiscono nuovi clienti e vogliono smettere di sprecare la prima call a raccogliere informazioni di base.',
     },
   ]
 
@@ -1156,7 +1268,7 @@ function Catalog() {
           ))}
         </div>
         {/* Riga 2: 2 card centrate */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-[calc(66.666%+12px)] mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:max-w-[calc(66.666%-8px)] mx-auto">
           {skills.slice(3).map((s, i) => (
             <CatalogCard key={i+3} s={s} />
           ))}
@@ -1213,7 +1325,7 @@ function Bundle() {
               Il Metodo UseSkill.it
             </h2>
             <p className="text-ghost/60 text-base leading-relaxed mb-8 max-w-lg">
-              Questo non è uno sconto sulle Skill singole. È un sistema completo per gestire tutta la tua comunicazione con l'AI. Dentro c'è ogni Skill del catalogo più una guida che spiega come farle lavorare insieme: parti dalla voce del brand, costruisci il calendario editoriale, produci i contenuti, gestisci l'onboarding. Ogni pezzo si incastra con il successivo. Il risultato è un flusso di lavoro dove l'AI produce contenuti che pubblichi, non bozze che riscrivi.
+              Le Skill singole funzionano bene. Il Bundle aggiunge una cosa sola: una guida che spiega come usarle nell'ordine giusto, come un sistema unico. Dalla voce del brand al calendario editoriale, dalla produzione dei contenuti all'onboarding clienti. Ogni Skill alimenta quella successiva. Alla fine hai un flusso di lavoro dove l'AI produce contenuti che pubblichi.
             </p>
 
             <div className="space-y-3 mb-10">
@@ -1601,7 +1713,7 @@ function ComingSoon() {
   const [status, setStatus] = useState('idle') // idle | loading | success | error
 
   const upcoming = [
-    { name: 'Meta ADV Copy Generator',    cat: 'Advertising',  desc: 'Inserzioni Facebook e Instagram scritte per convertire, non per sembrare belle.' },
+    { name: 'Meta ADV Copy Generator',    cat: 'Advertising',  desc: 'Copy completo per inserzioni Facebook e Instagram: titolo, testo e CTA già calibrati per il tuo obiettivo di conversione.' },
     { name: 'Google Ads Script',          cat: 'Advertising',  desc: 'Annunci di ricerca con titoli, descrizioni e callout ottimizzati per il tuo settore.' },
     { name: 'E-commerce Product Writer',  cat: 'E-commerce',   desc: 'Schede prodotto che rispondono alle obiezioni prima che il cliente le formuli.' },
     { name: 'Email Sales Sequence',       cat: 'Email',        desc: 'Sequenza di benvenuto, nurture e conversione pronta da caricare nel tuo ESP.' },
@@ -1881,7 +1993,7 @@ function Plugins() {
                 </div>
 
                 <p className="text-ghost/60 text-sm leading-relaxed mb-8">
-                  Dodici comandi slash, dodici Skill preconfigurate in un unico Plugin. Lo installi una volta. Da quel momento scrivi un comando e ottieni l'output: un post, una proposta, una sequenza email, un'analisi. Con la tua voce, il tuo formato, il tuo settore. Senza spiegare niente ogni volta.
+                  Dodici comandi slash, dodici Skill preconfigurate in un unico Plugin. Lo installi una volta. Da quel momento scrivi un comando e ottieni l'output già calibrato sul tuo modo di scrivere: un post, una proposta, una sequenza email, un'analisi. Senza riscrivere le istruzioni a ogni sessione.
                 </p>
 
                 {/* Cosa include */}
@@ -2043,17 +2155,17 @@ function ThankYou() {
             </div>
 
             <h1 className="font-heading font-700 text-3xl sm:text-4xl tracking-tight mb-3">
-              {product.value === 0 ? 'Skill in arrivo.' : 'Acquisto completato.'}
+              {product.value === 0 ? 'Eccola. È tua.' : 'Acquisto completato.'}
             </h1>
             <p className="text-ghost/50 text-base leading-relaxed mb-10">
               {product.value === 0
-                ? 'Controlla la tua email — ti abbiamo mandato il link per scaricare la Skill.'
+                ? 'Scarica il file qui sotto e caricalo nella tua AI. Due minuti e sei operativo.'
                 : `Hai acquistato: ${product.label}. Scarica i file qui sotto e installala in pochi minuti.`
               }
             </p>
 
             {/* Download files */}
-            {product.value > 0 && (
+            {(true) && (
               <div className="bg-void-light border border-ghost/10 rounded-3xl p-6 mb-10 text-left">
                 <p className="text-ghost/40 font-mono text-xs uppercase tracking-widest mb-4">File inclusi</p>
                 <div className="space-y-2 mb-6">
@@ -2077,7 +2189,7 @@ function ThankYou() {
             )}
 
             {/* Istruzioni installazione */}
-            {product.value > 0 && (
+            {(true) && (
               <div className="text-left mb-10">
                 <p className="text-ghost/40 font-mono text-xs uppercase tracking-widest mb-5">Come installare</p>
                 <div className="space-y-4">
