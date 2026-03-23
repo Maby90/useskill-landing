@@ -3,6 +3,28 @@ import crypto from 'crypto'
 
 const PIXEL_ID = '34173091455668145'
 
+// Gruppo MailerLite per ogni prodotto (aggiungi altri quando li crei)
+const PRODUCT_GROUPS = {
+  'linkedin-post-writer': '182758422813344940',
+}
+
+async function addToMailerLite(email, groupId) {
+  const token = process.env.MAILERLITE_API_TOKEN
+  if (!token || !email || !groupId) return
+  try {
+    await fetch(`https://connect.mailerlite.com/api/subscribers`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`,
+      },
+      body: JSON.stringify({ email, groups: [groupId] }),
+    })
+  } catch (e) {
+    console.error('MailerLite error:', e)
+  }
+}
+
 async function getRawBody(req) {
   return new Promise((resolve, reject) => {
     let data = ''
@@ -46,6 +68,10 @@ export default async function handler(req, res) {
       body: JSON.stringify({ data: [{ event_name: 'Purchase', event_time: Math.floor(Date.now()/1000), event_id: `stripe_${orderId}`, action_source: 'website', event_source_url: 'https://useskill.it', user_data: { em: email ? [hashEmail(email)] : [] }, custom_data: { value, currency, content_name: product, content_type: 'product', order_id: orderId } }] }),
     }).catch(e => console.error('CAPI error:', e))
   }
+
+  // Aggiungi al gruppo MailerLite se esiste per questo prodotto
+  const groupId = PRODUCT_GROUPS[product]
+  if (groupId) await addToMailerLite(email, groupId)
 
   console.log(`[Webhook] Purchase OK — ${product} ${value}€`)
   return res.status(200).json({ ok: true })
