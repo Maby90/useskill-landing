@@ -913,61 +913,132 @@ function Freebie() {
 }
 
 /* ═══════════════════════════════════════════
+   PRODUCT MODAL
+   ═══════════════════════════════════════════ */
+async function goToCheckout(product, name, value, setLoading) {
+  setLoading(true)
+  if (typeof fbq !== 'undefined') fbq('track', 'InitiateCheckout', { content_name: name, content_ids: [product], content_type: 'product', value, currency: 'EUR' })
+  try {
+    const r = await fetch('/api/checkout', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ product }) })
+    const data = await r.json()
+    if (data.url) window.location.href = data.url
+    else setLoading(false)
+  } catch { setLoading(false) }
+}
+
+function ProductModal({ s, onClose }) {
+  const [loading, setLoading] = useState(false)
+  const numericPrice = parseFloat(s.price)
+
+  // chiudi con ESC o click fuori
+  useEffect(() => {
+    const onKey = e => e.key === 'Escape' && onClose()
+    window.addEventListener('keydown', onKey)
+    document.body.style.overflow = 'hidden'
+    return () => { window.removeEventListener('keydown', onKey); document.body.style.overflow = '' }
+  }, [onClose])
+
+  return (
+    <div className="fixed inset-0 z-[100] flex items-end sm:items-center justify-center px-0 sm:px-4">
+      {/* Overlay */}
+      <div className="absolute inset-0 bg-void/80 backdrop-blur-md" onClick={onClose} />
+
+      {/* Card */}
+      <div className="relative z-10 w-full sm:max-w-lg bg-void-light border border-ghost/12 rounded-t-[2.5rem] sm:rounded-[2.5rem] overflow-hidden shadow-2xl shadow-void/50 animate-[slideUp_0.3s_ease-out]"
+        style={{ animation: 'slideUp .28s cubic-bezier(.22,1,.36,1)' }}>
+
+        {/* Top bar */}
+        <div className="flex items-center justify-between px-7 pt-7 pb-0">
+          <div className="h-1 w-10 bg-ghost/15 rounded-full mx-auto sm:hidden absolute top-3 left-1/2 -translate-x-1/2" />
+          <div className="flex items-center gap-3">
+            {s.tag && (
+              <span className="bg-plasma/15 text-plasma font-mono text-[10px] uppercase tracking-widest px-3 py-1 rounded-full">
+                {s.tag}
+              </span>
+            )}
+            <span className="font-mono text-xs text-ghost/30 uppercase tracking-widest">Skill UseSkill.it</span>
+          </div>
+          <button onClick={onClose} className="text-ghost/30 hover:text-ghost transition-colors p-1">
+            <X size={18} />
+          </button>
+        </div>
+
+        <div className="px-7 py-6 space-y-5 max-h-[80vh] overflow-y-auto">
+          {/* Nome + tagline */}
+          <div>
+            <h2 className="font-heading font-700 text-xl text-ghost mb-1">{s.name}</h2>
+            <p className="text-plasma text-sm font-medium">{s.tagline}</p>
+          </div>
+
+          {/* Descrizione persuasiva */}
+          <p className="text-ghost/60 text-sm leading-relaxed">{s.modalDesc}</p>
+
+          {/* Cosa ricevi */}
+          <div className="bg-void border border-ghost/8 rounded-2xl p-5 space-y-3">
+            <p className="font-mono text-xs text-ghost/30 uppercase tracking-widest mb-4">Cosa ricevi</p>
+            {s.includes.map((item, i) => (
+              <div key={i} className="flex items-start gap-3">
+                <Check size={14} className="text-plasma shrink-0 mt-0.5" />
+                <span className="text-ghost/60 text-sm">{item}</span>
+              </div>
+            ))}
+          </div>
+
+          {/* Per chi è */}
+          <p className="text-ghost/35 text-xs leading-relaxed border-l-2 border-plasma/30 pl-4">
+            {s.forWho}
+          </p>
+
+          {/* CTA */}
+          <div className="pt-2 pb-2">
+            <button
+              onClick={() => goToCheckout(s.product, s.name, numericPrice, setLoading)}
+              disabled={loading}
+              className="w-full bg-plasma text-void font-bold text-base py-4 rounded-2xl flex items-center justify-center gap-3 shadow-lg shadow-plasma/25 hover:shadow-plasma/40 transition-shadow disabled:opacity-60">
+              {loading
+                ? <span>Carico...</span>
+                : <><Zap size={17} /><span>Acquista a {s.price} una tantum</span></>
+              }
+            </button>
+            <p className="text-center text-ghost/25 text-xs mt-3">
+              Pagamento sicuro via Stripe · File scaricabili subito dopo l'acquisto
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+/* ═══════════════════════════════════════════
    CATALOG CARD (shared)
    ═══════════════════════════════════════════ */
 function CatalogCard({ s }) {
-  const [loading, setLoading] = useState(false)
-
-  const handleBuy = async () => {
-    if (loading) return
-    setLoading(true)
-    if (typeof fbq !== 'undefined') {
-      fbq('track', 'InitiateCheckout', {
-        content_name: s.name,
-        content_ids: [s.product],
-        content_type: 'product',
-        value: parseFloat(s.price),
-        currency: 'EUR',
-      })
-    }
-    try {
-      const r = await fetch('/api/checkout', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ product: s.product }),
-      })
-      const data = await r.json()
-      if (data.url) window.location.href = data.url
-      else setLoading(false)
-    } catch {
-      setLoading(false)
-    }
-  }
+  const [modalOpen, setModalOpen] = useState(false)
 
   return (
-    <div className="catalog-card group bg-void-light border border-ghost/8 rounded-[2rem] p-7 flex flex-col hover:border-plasma/20 transition-all duration-500">
-      <div className="h-6 mb-4">
-        {s.tag && (
-          <span className="inline-block bg-plasma/15 text-plasma font-mono text-[10px] uppercase tracking-widest px-3 py-1 rounded-full">
-            {s.tag}
+    <>
+      <div
+        className="catalog-card group bg-void-light border border-ghost/8 rounded-[2rem] p-7 flex flex-col hover:border-plasma/20 transition-all duration-500 cursor-pointer"
+        onClick={() => setModalOpen(true)}>
+        <div className="h-6 mb-4">
+          {s.tag && (
+            <span className="inline-block bg-plasma/15 text-plasma font-mono text-[10px] uppercase tracking-widest px-3 py-1 rounded-full">
+              {s.tag}
+            </span>
+          )}
+        </div>
+        <h3 className="font-heading font-600 text-base mb-2">{s.name}</h3>
+        <p className="text-ghost/45 text-sm leading-relaxed flex-1 mb-6">{s.desc}</p>
+        <div className="flex items-center justify-between">
+          <span className="font-heading font-700 text-xl text-ghost">{s.price}</span>
+          <span className="bg-ghost/5 text-ghost text-sm font-medium px-5 py-2.5 rounded-full inline-flex items-center gap-2 border border-ghost/10 group-hover:border-plasma/20 group-hover:bg-plasma/10 transition-colors">
+            Scopri <ChevronRight size={14} />
           </span>
-        )}
+        </div>
       </div>
-      <h3 className="font-heading font-600 text-base mb-2">{s.name}</h3>
-      <p className="text-ghost/45 text-sm leading-relaxed flex-1 mb-6">{s.desc}</p>
-      <div className="flex items-center justify-between">
-        <span className="font-heading font-700 text-xl text-ghost">{s.price}</span>
-        <button
-          data-product={s.product}
-          onClick={handleBuy}
-          disabled={loading}
-          className="btn-magnetic bg-ghost/5 hover:bg-plasma/15 text-ghost text-sm font-medium px-5 py-2.5 rounded-full inline-flex items-center gap-2 border border-ghost/10 hover:border-plasma/20 transition-colors disabled:opacity-50">
-          <span className="relative z-10 flex items-center gap-2">
-            {loading ? 'Carico...' : <><span>Acquista</span><ChevronRight size={14} /></>}
-          </span>
-        </button>
-      </div>
-    </div>
+      {modalOpen && <ProductModal s={s} onClose={() => setModalOpen(false)} />}
+    </>
   )
 }
 
@@ -981,37 +1052,77 @@ function Catalog() {
       name: 'LinkedIn Post Writer Calibrato',
       product: 'linkedin-post-writer',
       price: '9€',
-      url: 'https://useskill.lemonsqueezy.com/checkout/buy/cb0f3af8-c9c2-4d2d-9daf-e8faa95022c0?embed=1',
-      desc: "Gli dai un'idea, anche vaga. La Skill costruisce un post LinkedIn completo con l'hook che ferma lo scroll, il corpo che tiene l'attenzione e la chiusura che genera interazione. Il tempo che ci metti tu: descrivere il concetto in una riga. Il tempo che ci mette la Skill: 40 secondi.",
       tag: 'Più venduta',
+      desc: "Gli dai un'idea, anche vaga. La Skill costruisce un post LinkedIn completo con l'hook che ferma lo scroll, il corpo che tiene l'attenzione e la chiusura che genera interazione. Il tempo che ci metti tu: descrivere il concetto in una riga. Il tempo che ci mette la Skill: 40 secondi.",
+      tagline: 'Da un\'idea a un post pubblicabile. In 40 secondi.',
+      modalDesc: 'Il problema dei post LinkedIn generici è che suonano come tutti gli altri. Questa Skill impara il ritmo delle tue frasi, le parole che usi, il tono — e costruisce post che sembrano scritti da te. Non bozze da correggere. Testi che pubblichi.',
+      includes: [
+        'SKILL.md — il file da caricare nella tua AI',
+        'profile.md — il profilo tono di voce da abbinare',
+        'README.md — guida installazione passo-passo (2 minuti)',
+        'Compatibile con Claude, Antigravity e Manus',
+      ],
+      forWho: 'Per freelance, consulenti e founder che pubblicano su LinkedIn almeno due volte a settimana e vogliono smettere di riscrivere ogni output.',
     },
     {
       name: 'Newsletter Generator IT',
       product: 'newsletter-generator',
       price: '12€',
-      url: 'https://useskill.lemonsqueezy.com/checkout/buy/680c9fe0-a874-48f7-8e38-fc7902d47027?embed=1',
       desc: "Parti dai tuoi appunti o dai punti chiave della settimana. La Skill genera una newsletter completa con oggetto, apertura, corpo strutturato e un invito all'azione chiaro. Quello che prima richiedeva un'ora di scrittura diventa un lavoro da 5 minuti.",
+      tagline: "Un'ora di scrittura in cinque minuti.",
+      modalDesc: "Parti dagli appunti della settimana, anche disorganizzati. La Skill li trasforma in una newsletter con oggetto pensato per l'apertura, un'apertura che aggancia, un corpo strutturato e una chiusura con un invito chiaro. Quello che ottieni è pronto da incollare nel tuo ESP.",
+      includes: [
+        'SKILL.md — il file da caricare nella tua AI',
+        'profile.md — il profilo tono di voce da abbinare',
+        'README.md — guida installazione passo-passo (2 minuti)',
+        'Compatibile con Claude, Antigravity e Manus',
+      ],
+      forWho: 'Per chi ha una lista email attiva e pubblica con regolarità, ma non vuole passare ore a costruire ogni numero da zero.',
     },
     {
       name: 'Instagram Carousel Script',
       product: 'instagram-carousel',
       price: '9€',
-      url: 'https://useskill.lemonsqueezy.com/checkout/buy/da4b1375-d3a7-4edc-b775-252a9e4b8e88?embed=1',
       desc: "Un concetto diventa dieci slide. Ogni slide ha il numero giusto di parole per essere leggibile su mobile, un hook iniziale che ferma il pollice e una chiusura con call to action. Tu pensi al contenuto, la Skill pensa a tutto il resto.",
+      tagline: 'Il formato con il tasso di salvataggio più alto. Costruito dalla Skill.',
+      modalDesc: 'Il carousel richiede struttura: un hook forte nella prima slide, un ritmo che mantiene l\'attenzione slide dopo slide, una call to action nell\'ultima. Ogni slide deve stare in piedi da sola e fare parte di un percorso. La Skill gestisce tutto questo per te.',
+      includes: [
+        'SKILL.md — il file da caricare nella tua AI',
+        'profile.md — il profilo tono di voce da abbinare',
+        'README.md — guida installazione passo-passo (2 minuti)',
+        'Compatibile con Claude, Antigravity e Manus',
+      ],
+      forWho: 'Per creator e professionisti che usano i caroselli come formato principale e vogliono aumentare il tasso di salvataggio e condivisione.',
     },
     {
       name: 'Content Calendar Builder',
       product: 'content-calendar',
       price: '15€',
-      url: 'https://useskill.lemonsqueezy.com/checkout/buy/8a9dfa95-6d1e-4010-840d-953a900fff47?embed=1',
       desc: "Dai tuoi obiettivi e il tuo settore, la Skill genera 30 giorni di contenuti con idee concrete, angoli diversi e formati alternati. Niente suggerimenti generici che leggi e pensi 'questo non lo pubblicherei mai'. Solo idee che useresti davvero.",
+      tagline: '30 giorni di contenuti in una sessione.',
+      modalDesc: 'Dici alla Skill i tuoi obiettivi, il settore e i formati che vuoi usare. Lei genera un calendario con idee concrete, angoli diversi e una distribuzione sensata tra educazione, autorevolezza e vendita. Nessuna ripetizione. Nessun suggerimento che non useresti mai.',
+      includes: [
+        'SKILL.md — il file da caricare nella tua AI',
+        'profile.md — il profilo tono di voce da abbinare',
+        'README.md — guida installazione passo-passo (2 minuti)',
+        'Compatibile con Claude, Antigravity e Manus',
+      ],
+      forWho: 'Per chi gestisce uno o più profili social e pianifica i contenuti con anticipo, senza voler passare un pomeriggio intero sul calendario.',
     },
     {
       name: 'Client Onboarding Interview',
       product: 'client-onboarding',
       price: '7€',
-      url: 'https://useskill.lemonsqueezy.com/checkout/buy/7e8d750a-0dbd-404c-bcdd-3cd168eb480a?embed=1',
       desc: "Genera un questionario di onboarding personalizzato per il tuo settore. Le domande sono quelle che ti servono per capire il cliente prima della prima call. Il risultato è un documento professionale che puoi mandare così com'è.",
+      tagline: 'Le domande giuste. Prima ancora della prima call.',
+      modalDesc: 'Un onboarding mal fatto spreca tempo tuo e del cliente. Questa Skill genera un questionario professionale con le domande specifiche per il tuo settore — quelle che ti servono per capire il cliente, impostare il lavoro e arrivare alla prima call già preparato.',
+      includes: [
+        'SKILL.md — il file da caricare nella tua AI',
+        'profile.md — il profilo tono di voce da abbinare',
+        'README.md — guida installazione passo-passo (2 minuti)',
+        'Compatibile con Claude, Antigravity e Manus',
+      ],
+      forWho: 'Per consulenti, freelance e agenzie che gestiscono nuovi clienti e vogliono arrivare alla prima call con le informazioni giuste già in mano.',
     },
   ]
 
