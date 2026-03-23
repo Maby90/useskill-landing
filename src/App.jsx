@@ -110,30 +110,25 @@ function Navbar() {
       </nav>
 
       {/* Mobile menu — fullscreen overlay */}
-      <div className={`fixed inset-0 z-40 md:hidden transition-all duration-300 ${mobileOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}>
-        {/* Backdrop */}
-        <div
-          className="absolute inset-0 bg-void/90 backdrop-blur-xl"
-          onClick={() => setMobileOpen(false)}
-        />
+      <div className={`fixed inset-0 z-[60] md:hidden transition-opacity duration-300 ${mobileOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}>
+        {/* Pannello fullscreen */}
+        <div className={`absolute inset-0 bg-void flex flex-col transition-transform duration-400 ease-out ${mobileOpen ? 'translate-y-0' : '-translate-y-full'}`}>
 
-        {/* Pannello */}
-        <div className={`absolute inset-x-0 top-0 bg-void-light border-b border-ghost/10 transition-transform duration-400 ease-out ${mobileOpen ? 'translate-y-0' : '-translate-y-full'}`}>
-          {/* Header pannello */}
-          <div className="flex items-center justify-between px-6 py-5 border-b border-ghost/8">
+          {/* Header */}
+          <div className="flex items-center justify-between px-6 py-5 border-b border-ghost/8 shrink-0">
             <a href="#" onClick={() => setMobileOpen(false)} className="font-heading font-bold text-lg">
               <span className="text-ghost">Use</span>
               <span className="text-plasma">Skill</span>
               <span className="text-ghost">.it</span>
             </a>
-            <button onClick={() => setMobileOpen(false)} className="text-ghost/50 hover:text-ghost">
+            <button onClick={() => setMobileOpen(false)} className="text-ghost/50 hover:text-ghost p-1">
               <X size={22} />
             </button>
           </div>
 
           {/* Voci menu */}
-          <div className="px-6 py-6 space-y-1">
-            {links.map((l, i) => (
+          <div className="px-6 py-4 space-y-1 flex-1 overflow-y-auto">
+            {links.map((l) => (
               <a
                 key={l.href}
                 href={l.href}
@@ -155,7 +150,7 @@ function Navbar() {
           </div>
 
           {/* CTA mobile */}
-          <div className="px-6 pb-8 pt-4 space-y-3">
+          <div className="px-6 pt-4 pb-12 space-y-3 shrink-0 border-t border-ghost/6">
             <a
               href="#freebie"
               onClick={() => setMobileOpen(false)}
@@ -170,6 +165,7 @@ function Navbar() {
               Vedi il catalogo
             </a>
           </div>
+
         </div>
       </div>
     </>
