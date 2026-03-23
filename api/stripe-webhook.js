@@ -6,6 +6,7 @@ const PIXEL_ID = '34173091455668145'
 // Gruppo MailerLite per ogni prodotto (aggiungi altri quando li crei)
 const PRODUCT_GROUPS = {
   'linkedin-post-writer': '182758422813344940',
+  'instagram-carousel':   '182759842155333516',
 }
 
 async function addToMailerLite(email, groupId) {
