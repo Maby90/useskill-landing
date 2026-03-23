@@ -1,11 +1,5 @@
-/**
- * POST /api/stripe-webhook
- * Riceve checkout.session.completed da Stripe
- * Invia Purchase event a Meta CAPI
- */
-
-const Stripe = require('stripe')
-const crypto = require('crypto')
+import Stripe from 'stripe'
+import crypto from 'crypto'
 
 const PIXEL_ID = '34173091455668145'
 
@@ -18,31 +12,23 @@ async function getRawBody(req) {
   })
 }
 
-function hashEmail(email) {
-  return crypto.createHash('sha256').update(email.trim().toLowerCase()).digest('hex')
-}
-
-module.exports = async (req, res) => {
+export default async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).end()
 
   const rawBody = await getRawBody(req)
   const sig     = req.headers['stripe-signature']
-  const secret  = process.env.STRIPE_WEBHOOK_SECRET
-  const stripe  = Stripe(process.env.STRIPE_SECRET_KEY)
+  const stripe  = new Stripe(process.env.STRIPE_SECRET_KEY)
 
   let event
   try {
-    event = stripe.webhooks.constructEvent(rawBody, sig, secret)
+    event = stripe.webhooks.constructEvent(rawBody, sig, process.env.STRIPE_WEBHOOK_SECRET)
   } catch (err) {
-    console.error('Webhook signature invalida:', err.message)
     return res.status(400).json({ error: 'Invalid signature' })
   }
 
-  if (event.type !== 'checkout.session.completed') {
-    return res.status(200).json({ skipped: true })
-  }
+  if (event.type !== 'checkout.session.completed') return res.status(200).json({ skipped: true })
 
-  const session  = event.data.object
+  const session = event.data.object
   if (session.payment_status !== 'paid') return res.status(200).json({ skipped: true })
 
   const email    = session.customer_details?.email || ''
@@ -50,38 +36,17 @@ module.exports = async (req, res) => {
   const currency = (session.currency || 'eur').toUpperCase()
   const product  = session.metadata?.product || 'Skill UseSkill.it'
   const orderId  = session.id
+  const token    = process.env.META_CAPI_ACCESS_TOKEN
 
-  const accessToken = process.env.META_CAPI_ACCESS_TOKEN
-  if (!accessToken) return res.status(200).json({ warning: 'no capi token' })
-
-  try {
-    await fetch(`https://graph.facebook.com/v19.0/${PIXEL_ID}/events?access_token=${accessToken}`, {
+  if (token) {
+    const hashEmail = e => crypto.createHash('sha256').update(e.trim().toLowerCase()).digest('hex')
+    await fetch(`https://graph.facebook.com/v19.0/${PIXEL_ID}/events?access_token=${token}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        data: [{
-          event_name: 'Purchase',
-          event_time: Math.floor(Date.now() / 1000),
-          event_id: `stripe_${orderId}`,
-          action_source: 'website',
-          event_source_url: 'https://useskill.it',
-          user_data: {
-            em: email ? [hashEmail(email)] : [],
-          },
-          custom_data: {
-            value,
-            currency,
-            content_name: product,
-            content_type: 'product',
-            order_id: orderId,
-          },
-        }],
-      }),
-    })
-    console.log(`[Stripe Webhook] Purchase OK — ${product} ${value}€`)
-    return res.status(200).json({ ok: true })
-  } catch (err) {
-    console.error('Meta CAPI error:', err)
-    return res.status(500).json({ error: 'capi_error' })
+      body: JSON.stringify({ data: [{ event_name: 'Purchase', event_time: Math.floor(Date.now()/1000), event_id: `stripe_${orderId}`, action_source: 'website', event_source_url: 'https://useskill.it', user_data: { em: email ? [hashEmail(email)] : [] }, custom_data: { value, currency, content_name: product, content_type: 'product', order_id: orderId } }] }),
+    }).catch(e => console.error('CAPI error:', e))
   }
+
+  console.log(`[Webhook] Purchase OK — ${product} ${value}€`)
+  return res.status(200).json({ ok: true })
 }

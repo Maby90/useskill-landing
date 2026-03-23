@@ -1,8 +1,3 @@
-/**
- * POST /api/subscribe — ES Module (project type: module)
- * Iscrive email alla lista Newsletter su MailerLite
- */
-
 const GROUP_ID = '182446171981087750'
 
 export default async function handler(req, res) {
@@ -12,37 +7,22 @@ export default async function handler(req, res) {
   if (req.method === 'OPTIONS') return res.status(200).end()
   if (req.method !== 'POST') return res.status(405).end()
 
-  const body = req.body || {}
-  const email = (body.email || '').trim()
-
-  if (!email || !email.includes('@')) {
-    return res.status(400).json({ error: 'Email non valida' })
-  }
+  const { email } = req.body || {}
+  if (!email || !email.includes('@')) return res.status(400).json({ error: 'Email non valida' })
 
   const token = process.env.MAILERLITE_API_TOKEN
   if (!token) return res.status(500).json({ error: 'Token mancante' })
 
   try {
-    const r = await fetch(
-      'https://connect.mailerlite.com/api/subscribers',
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`,
-        },
-        body: JSON.stringify({ email, groups: [GROUP_ID] }),
-      }
-    )
-    // 200 = già iscritto, 201 = nuovo iscritto
-    if (r.status === 200 || r.status === 201) {
-      return res.status(200).json({ ok: true })
-    }
-    const err = await r.json().catch(() => ({}))
-    console.error('MailerLite error:', r.status, err)
-    return res.status(502).json({ error: 'Errore iscrizione' })
+    const r = await fetch(`https://connect.mailerlite.com/api/groups/${GROUP_ID}/subscribers`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+      body: JSON.stringify({ email }),
+    })
+    const json = await r.json()
+    if (r.status === 200 || r.status === 201) return res.status(200).json({ ok: true })
+    return res.status(502).json({ error: 'Errore iscrizione', details: json })
   } catch (err) {
-    console.error('Subscribe fallita:', err)
     return res.status(500).json({ error: 'Errore interno' })
   }
 }

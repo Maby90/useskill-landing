@@ -1,9 +1,4 @@
-/**
- * POST /api/checkout
- * Crea una Stripe Checkout Session e restituisce l'URL
- */
-
-const Stripe = require('stripe')
+import Stripe from 'stripe'
 
 const PRICES = {
   'linkedin-post-writer':   { name: 'LinkedIn Post Writer Calibrato', amount: 900  },
@@ -15,7 +10,7 @@ const PRICES = {
   'plugin-content-creator': { name: 'Content Creator Pro Plugin',     amount: 6700 },
 }
 
-module.exports = async (req, res) => {
+export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', 'https://useskill.it')
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS')
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type')
@@ -26,7 +21,7 @@ module.exports = async (req, res) => {
   const price = PRICES[product]
   if (!price) return res.status(400).json({ error: 'Prodotto non trovato' })
 
-  const stripe = Stripe(process.env.STRIPE_SECRET_KEY)
+  const stripe = new Stripe(process.env.STRIPE_SECRET_KEY)
 
   try {
     const session = await stripe.checkout.sessions.create({
@@ -46,15 +41,13 @@ module.exports = async (req, res) => {
       success_url: `https://useskill.it/grazie?prodotto=${product}&session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `https://useskill.it/#catalog`,
       locale: 'it',
-      payment_method_types: ['card'],
       allow_promotion_codes: true,
-      automatic_tax: { enabled: true },
-      billing_address_collection: 'auto',
+      automatic_tax: { enabled: false },
     })
 
     return res.status(200).json({ url: session.url })
   } catch (err) {
-    console.error('Stripe checkout error:', err)
-    return res.status(500).json({ error: 'Errore creazione sessione' })
+    console.error('Stripe checkout error:', err.message)
+    return res.status(500).json({ error: err.message })
   }
 }
