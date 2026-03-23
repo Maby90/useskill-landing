@@ -320,7 +320,7 @@ function WhatIsASkill() {
 
         <div className="what-steps grid grid-cols-1 md:grid-cols-3 gap-6">
           {steps.map((s, i) => (
-            <div key={i} className="what-step group bg-void-light border border-ghost/8 rounded-[2rem] p-8 hover:border-plasma/20 transition-all duration-500 h-full">
+            <div key={i} className="what-step group bg-void-light border border-ghost/8 rounded-[2rem] p-8 hover:border-plasma/20 transition-all duration-500 flex flex-col">
               <div className="flex items-center gap-4 mb-5">
                 <div className="w-12 h-12 rounded-2xl bg-plasma/10 flex items-center justify-center text-plasma group-hover:bg-plasma/20 transition-colors">
                   {s.icon}
@@ -328,7 +328,7 @@ function WhatIsASkill() {
                 <span className="font-mono text-sm text-ghost/30">{s.num}</span>
               </div>
               <h3 className="font-heading font-600 text-lg mb-2">{s.title}</h3>
-              <p className="text-ghost/50 text-sm leading-relaxed">{s.desc}</p>
+              <p className="text-ghost/50 text-sm leading-relaxed flex-1">{s.desc}</p>
             </div>
           ))}
         </div>
@@ -406,7 +406,7 @@ function WhySkills() {
 
         <div className="why-grid grid grid-cols-1 md:grid-cols-3 gap-6">
           {items.map((item, i) => (
-            <div key={i} className={`why-card border rounded-[2rem] p-8 flex flex-col h-full transition-all duration-500 ${
+            <div key={i} className={`why-card border rounded-[2rem] p-8 flex flex-col transition-all duration-500 ${
               item.highlight
                 ? 'bg-void-light border-plasma/30 shadow-lg shadow-plasma/8'
                 : 'bg-void-light border-ghost/8'
@@ -777,7 +777,7 @@ function Features() {
         </h2>
 
         <div className="features-grid grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className="feature-card bg-void-light border border-ghost/8 rounded-[2rem] p-8 hover:border-plasma/20 transition-all duration-500 min-h-[320px] flex flex-col h-full">
+          <div className="feature-card bg-void-light border border-ghost/8 rounded-[2rem] p-8 hover:border-plasma/20 transition-all duration-500 min-h-[320px] flex flex-col">
             <h3 className="font-heading font-600 text-lg mb-2">Funziona con l'AI che già usi, gratis</h3>
             <p className="text-ghost/50 text-sm leading-relaxed mb-6">
               Non devi cambiare strumento e non devi pagare nessun abbonamento. Le Skill di UseSkill.it funzionano su Claude free, Google Antigravity e Manus. Scarichi il file, lo carichi, e in due minuti la tua AI lavora come non ha mai fatto prima.
@@ -787,7 +787,7 @@ function Features() {
             </div>
           </div>
 
-          <div className="feature-card bg-void-light border border-ghost/8 rounded-[2rem] p-8 hover:border-plasma/20 transition-all duration-500 min-h-[320px] flex flex-col h-full">
+          <div className="feature-card bg-void-light border border-ghost/8 rounded-[2rem] p-8 hover:border-plasma/20 transition-all duration-500 min-h-[320px] flex flex-col">
             <h3 className="font-heading font-600 text-lg mb-2">Output pronti, non bozze da riscrivere</h3>
             <p className="text-ghost/50 text-sm leading-relaxed mb-6">
               Ogni Skill è costruita per produrre risultati che puoi usare subito. Il post LinkedIn esce con l'hook, il corpo e la chiusura. La newsletter esce con l'oggetto, l'apertura e la CTA. Non devi riscrivere niente: al massimo aggiusti un dettaglio.
@@ -797,7 +797,7 @@ function Features() {
             </div>
           </div>
 
-          <div className="feature-card bg-void-light border border-ghost/8 rounded-[2rem] p-8 hover:border-plasma/20 transition-all duration-500 min-h-[320px] flex flex-col h-full">
+          <div className="feature-card bg-void-light border border-ghost/8 rounded-[2rem] p-8 hover:border-plasma/20 transition-all duration-500 min-h-[320px] flex flex-col">
             <h3 className="font-heading font-600 text-lg mb-2">Ore di lavoro compresse in minuti</h3>
             <p className="text-ghost/50 text-sm leading-relaxed mb-6">
               Un calendario editoriale di 30 giorni in 3 minuti. Un questionario di onboarding in 2. Un post LinkedIn in 40 secondi. Le Skill sono il flusso di lavoro che avresti costruito tu da zero. Già pronto, già testato.
@@ -1127,7 +1127,7 @@ function CatalogCard({ s, autoOpen = false }) {
   return (
     <>
       <div
-        className="catalog-card group bg-void-light border border-ghost/8 rounded-[2rem] p-7 flex flex-col h-full hover:border-plasma/20 transition-all duration-500 cursor-pointer"
+        className="catalog-card group bg-void-light border border-ghost/8 rounded-[2rem] p-7 flex flex-col hover:border-plasma/20 transition-all duration-500 cursor-pointer"
         onClick={() => setModalOpen(true)}>
         <div className="h-6 mb-4">
           {s.tag && (
