@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
+import { BrowserRouter, Routes, Route, useNavigate, useSearchParams } from 'react-router-dom'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { Download, Zap, ChevronRight, ArrowDown, Check, Package, Sparkles, Menu, X } from 'lucide-react'
@@ -900,6 +901,7 @@ function CatalogCard({ s }) {
         <a href={s.url}
           data-product={s.product}
           onClick={() => {
+            localStorage.setItem('ls_last_product', s.product)
             if (typeof fbq !== 'undefined') {
               fbq('track', 'InitiateCheckout', {
                 content_name: s.name,
@@ -1070,7 +1072,7 @@ function Bundle() {
               </div>
               <a href="https://useskill.lemonsqueezy.com/checkout/buy/1c7f4347-0a49-4539-8bec-3f105a627799?embed=1"
                 data-product="bundle-metodo"
-                onClick={() => { if (typeof fbq !== 'undefined') fbq('track', 'InitiateCheckout', { content_name: 'Bundle Il Metodo UseSkill.it', content_ids: ['bundle-metodo'], content_type: 'product', value: 47, currency: 'EUR' }) }}
+                onClick={() => { localStorage.setItem('ls_last_product', 'bundle-metodo'); if (typeof fbq !== 'undefined') fbq('track', 'InitiateCheckout', { content_name: 'Bundle Il Metodo UseSkill.it', content_ids: ['bundle-metodo'], content_type: 'product', value: 47, currency: 'EUR' }) }}
                 className="lemonsqueezy-button btn-magnetic bg-plasma text-void font-bold text-base px-8 py-4 rounded-full inline-flex items-center gap-3 shadow-lg shadow-plasma/25">
                 <span className="btn-bg bg-plasma-glow rounded-full"></span>
                 <Package size={18} className="relative z-10" />
@@ -1753,7 +1755,7 @@ function Plugins() {
                   <a
                     href="#"
                     data-product="plugin-content-creator-pro"
-                    onClick={() => typeof fbq !== 'undefined' && fbq('track', 'InitiateCheckout', { content_name: 'Content Creator Pro Plugin', value: 39, currency: 'EUR' })}
+                    onClick={() => { localStorage.setItem('ls_last_product', 'plugin-content-creator'); if (typeof fbq !== 'undefined') fbq('track', 'InitiateCheckout', { content_name: 'Content Creator Pro Plugin', value: 67, currency: 'EUR' }) }}
                     className="relative overflow-hidden bg-plasma text-void font-bold text-sm px-7 py-3.5 rounded-full inline-flex items-center gap-2.5 shadow-lg shadow-plasma/30 hover:shadow-plasma/50 transition-shadow duration-300 group/btn">
                     <div className="absolute inset-0 bg-plasma-glow opacity-0 group-hover/btn:opacity-100 transition-opacity duration-300 rounded-full" />
                     <Zap size={15} className="relative z-10" />
@@ -1807,9 +1809,160 @@ function Plugins() {
 }
 
 /* ═══════════════════════════════════════════
-   APP
+   THANK YOU PAGE
    ═══════════════════════════════════════════ */
-export default function App() {
+const PRODUCT_MAP = {
+  'brand-voice-extractor':   { folder: 'a7f3c9e2-bve',       label: 'Brand Voice Extractor',         value: 0,  files: ['SKILL.md', 'profile.md', 'README.md'] },
+  'linkedin-post-writer':    { folder: 'b4d1e8f3-lpw',       label: 'LinkedIn Post Writer Calibrato', value: 9,  files: ['SKILL.md', 'profile.md', 'README.md'] },
+  'newsletter-generator':    { folder: 'c6a2f9d4-nlg',       label: 'Newsletter Generator IT',        value: 12, files: ['SKILL.md', 'profile.md', 'README.md'] },
+  'instagram-carousel':      { folder: 'd8e3a1b5-ics',       label: 'Instagram Carousel Script',      value: 9,  files: ['SKILL.md', 'profile.md', 'README.md'] },
+  'content-calendar':        { folder: 'e2f4b6c7-ccb',       label: 'Content Calendar Builder',       value: 15, files: ['SKILL.md', 'profile.md', 'README.md'] },
+  'client-onboarding':       { folder: 'f1a3d5e8-coi',       label: 'Client Onboarding Interview',    value: 7,  files: ['SKILL.md', 'profile.md', 'README.md'] },
+  'bundle-metodo':           { folder: 'g9b2c4d6-bundle',    label: 'Il Metodo UseSkill.it (Bundle)', value: 47, files: ['SKILL.md', 'il-metodo-useskill.md', 'README.md'] },
+  'plugin-content-creator':  { folder: 'h3e5f7a9-plugin',   label: 'Content Creator Pro Plugin',     value: 67, files: ['content-creator-pro-plugin.zip'] },
+}
+
+function ThankYou() {
+  const [params] = useSearchParams()
+  const prodotto = params.get('prodotto') || ''
+  const product  = PRODUCT_MAP[prodotto]
+
+  // Pixel tracking
+  useEffect(() => {
+    if (!product) return
+    if (typeof window.fbq === 'undefined') return
+    if (product.value === 0) {
+      window.fbq('track', 'Lead', { content_name: prodotto })
+    } else {
+      window.fbq('track', 'Purchase', {
+        value: product.value,
+        currency: 'EUR',
+        content_name: product.label,
+        content_type: 'product',
+      })
+    }
+  }, [prodotto])
+
+  const steps = [
+    { n: '01', title: 'Claude', body: 'Apri Claude → vai nella sezione Skill → carica il file SKILL.md' },
+    { n: '02', title: 'Antigravity', body: 'Vai nella cartella del tuo agente → carica SKILL.md' },
+    { n: '03', title: 'Manus', body: 'Apri il workspace → carica il file nel pannello laterale' },
+  ]
+
+  return (
+    <div className="min-h-screen bg-void flex flex-col items-center justify-center px-6 py-24 relative overflow-hidden">
+      {/* Glow bg */}
+      <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[400px] bg-plasma/8 rounded-full blur-[120px] pointer-events-none" />
+
+      <div className="relative z-10 max-w-xl w-full text-center">
+        {/* Logo */}
+        <a href="/" className="inline-block font-heading font-bold text-xl mb-12 tracking-tight">
+          <span className="text-ghost">Use</span>
+          <span className="text-plasma">Skill</span>
+          <span className="text-ghost">.it</span>
+        </a>
+
+        {product ? (
+          <>
+            {/* Check animato */}
+            <div className="w-16 h-16 rounded-full bg-plasma/15 border border-plasma/30 flex items-center justify-center mx-auto mb-8 shadow-[0_0_40px_rgba(123,97,255,0.3)]">
+              <Check size={28} className="text-plasma" />
+            </div>
+
+            <h1 className="font-heading font-700 text-3xl sm:text-4xl tracking-tight mb-3">
+              {product.value === 0 ? 'Skill in arrivo.' : 'Acquisto completato.'}
+            </h1>
+            <p className="text-ghost/50 text-base leading-relaxed mb-10">
+              {product.value === 0
+                ? 'Controlla la tua email — ti abbiamo mandato il link per scaricare la Skill.'
+                : `Hai acquistato: ${product.label}. Scarica i file qui sotto e installala in pochi minuti.`
+              }
+            </p>
+
+            {/* Download files */}
+            {product.value > 0 && (
+              <div className="bg-void-light border border-ghost/10 rounded-3xl p-6 mb-10 text-left">
+                <p className="text-ghost/40 font-mono text-xs uppercase tracking-widest mb-4">File inclusi</p>
+                <div className="space-y-2 mb-6">
+                  {product.files.map(f => (
+                    <a
+                      key={f}
+                      href={`/downloads/${product.folder}/${f}`}
+                      download
+                      className="flex items-center gap-3 text-ghost/70 hover:text-ghost text-sm py-2.5 px-4 rounded-xl hover:bg-ghost/5 transition-colors group">
+                      <Download size={15} className="text-plasma shrink-0 group-hover:text-plasma-glow transition-colors" />
+                      <span className="font-mono">{f}</span>
+                    </a>
+                  ))}
+                </div>
+                <a
+                  href={`/downloads/${product.folder}/`}
+                  className="w-full block bg-plasma text-void font-bold text-center py-3.5 rounded-xl text-sm hover:shadow-lg hover:shadow-plasma/25 transition-shadow">
+                  Scarica tutto
+                </a>
+              </div>
+            )}
+
+            {/* Istruzioni installazione */}
+            {product.value > 0 && (
+              <div className="text-left mb-10">
+                <p className="text-ghost/40 font-mono text-xs uppercase tracking-widest mb-5">Come installare</p>
+                <div className="space-y-4">
+                  {steps.map(s => (
+                    <div key={s.n} className="flex gap-4 items-start">
+                      <span className="font-mono text-xs text-plasma/60 shrink-0 mt-0.5">{s.n}</span>
+                      <div>
+                        <span className="text-ghost/60 font-medium text-sm">{s.title} — </span>
+                        <span className="text-ghost/40 text-sm">{s.body}</span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            <a href="/#catalog" className="text-ghost/30 hover:text-ghost/60 text-sm underline underline-offset-4 transition-colors">
+              Torna al catalogo
+            </a>
+          </>
+        ) : (
+          <>
+            <h1 className="font-heading font-700 text-3xl tracking-tight mb-3">Pagina non trovata.</h1>
+            <p className="text-ghost/40 text-sm mb-8">Nessun prodotto associato a questa URL.</p>
+            <a href="/" className="text-plasma text-sm underline underline-offset-4">Torna alla home</a>
+          </>
+        )}
+      </div>
+    </div>
+  )
+}
+
+/* ═══════════════════════════════════════════
+   LANDING (tutto il sito)
+   ═══════════════════════════════════════════ */
+function Landing() {
+  const navigate = useNavigate()
+
+  // Ascolta evento acquisto completato da LemonSqueezy overlay
+  useEffect(() => {
+    function initLS() {
+      if (typeof window.createLemonSqueezy === 'function') {
+        window.createLemonSqueezy()
+        window.LemonSqueezy.Setup({
+          eventHandler: (data) => {
+            if (data.event === 'Checkout.Success') {
+              const prodotto = localStorage.getItem('ls_last_product') || ''
+              navigate(`/grazie?prodotto=${prodotto}`)
+            }
+          },
+        })
+      } else {
+        setTimeout(initLS, 600)
+      }
+    }
+    initLS()
+  }, [navigate])
+
   return (
     <>
       <Navbar />
@@ -1829,5 +1982,19 @@ export default function App() {
       <FAQ />
       <Footer />
     </>
+  )
+}
+
+/* ═══════════════════════════════════════════
+   APP
+   ═══════════════════════════════════════════ */
+export default function App() {
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Landing />} />
+        <Route path="/grazie" element={<ThankYou />} />
+      </Routes>
+    </BrowserRouter>
   )
 }
