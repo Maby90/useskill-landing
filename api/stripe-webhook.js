@@ -8,6 +8,7 @@ const PRODUCT_GROUPS = {
   'linkedin-post-writer': '182758422813344940',
   'instagram-carousel':   '182759842155333516',
   'newsletter-generator': '182762133059012306',
+  'content-calendar':     '182762270881744685',
 }
 
 async function addToMailerLite(email, groupId) {
