@@ -1,5 +1,3 @@
-import Stripe from 'stripe'
-
 export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', 'https://useskill.it')
   if (req.method !== 'GET') return res.status(405).end()
@@ -7,21 +5,18 @@ export default async function handler(req, res) {
   const { session_id } = req.query
   if (!session_id) return res.status(400).json({ error: 'session_id mancante' })
 
-  const stripe = new Stripe(process.env.STRIPE_SECRET_KEY)
-
+  const key = process.env.STRIPE_SECRET_KEY
   try {
-    const session = await stripe.checkout.sessions.retrieve(session_id)
-    if (session.payment_status === 'paid') {
-      return res.status(200).json({
-        ok: true,
-        product: session.metadata?.product || '',
-        amount: session.amount_total,
-        currency: session.currency,
-      })
+    const r = await fetch(`https://api.stripe.com/v1/checkout/sessions/${session_id}`, {
+      headers: { 'Authorization': `Bearer ${key}` },
+    })
+    const data = await r.json()
+    if (!r.ok) return res.status(502).json({ ok: false })
+    if (data.payment_status === 'paid') {
+      return res.status(200).json({ ok: true, product: data.metadata?.product || '' })
     }
-    return res.status(402).json({ ok: false, status: session.payment_status })
+    return res.status(402).json({ ok: false, status: data.payment_status })
   } catch (err) {
-    console.error('Stripe verify error:', err.message)
     return res.status(500).json({ error: err.message })
   }
 }

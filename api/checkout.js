@@ -1,5 +1,3 @@
-import Stripe from 'stripe'
-
 const PRICES = {
   'linkedin-post-writer':   { name: 'LinkedIn Post Writer Calibrato', amount: 900  },
   'newsletter-generator':   { name: 'Newsletter Generator IT',        amount: 1200 },
@@ -21,33 +19,40 @@ export default async function handler(req, res) {
   const price = PRICES[product]
   if (!price) return res.status(400).json({ error: 'Prodotto non trovato' })
 
-  const stripe = new Stripe(process.env.STRIPE_SECRET_KEY)
+  const key = process.env.STRIPE_SECRET_KEY
+  if (!key) return res.status(500).json({ error: 'Stripe key mancante' })
+
+  const params = new URLSearchParams({
+    mode: 'payment',
+    locale: 'it',
+    allow_promotion_codes: 'true',
+    'line_items[0][quantity]': '1',
+    'line_items[0][price_data][currency]': 'eur',
+    'line_items[0][price_data][unit_amount]': String(price.amount),
+    'line_items[0][price_data][product_data][name]': price.name,
+    'line_items[0][price_data][product_data][description]': 'Skill AI per UseSkill.it — pronta per Claude, Antigravity, Manus',
+    'metadata[product]': product,
+    success_url: `https://useskill.it/grazie?prodotto=${product}&session_id={CHECKOUT_SESSION_ID}`,
+    cancel_url: 'https://useskill.it/#catalog',
+  })
 
   try {
-    const session = await stripe.checkout.sessions.create({
-      mode: 'payment',
-      line_items: [{
-        price_data: {
-          currency: 'eur',
-          unit_amount: price.amount,
-          product_data: {
-            name: price.name,
-            description: 'Skill AI per UseSkill.it — file .md pronto per Claude, Antigravity, Manus',
-          },
-        },
-        quantity: 1,
-      }],
-      metadata: { product },
-      success_url: `https://useskill.it/grazie?prodotto=${product}&session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `https://useskill.it/#catalog`,
-      locale: 'it',
-      allow_promotion_codes: true,
-      automatic_tax: { enabled: false },
+    const r = await fetch('https://api.stripe.com/v1/checkout/sessions', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${key}`,
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      body: params.toString(),
     })
-
-    return res.status(200).json({ url: session.url })
+    const data = await r.json()
+    if (!r.ok) {
+      console.error('Stripe error:', data.error?.message)
+      return res.status(502).json({ error: data.error?.message || 'Stripe error' })
+    }
+    return res.status(200).json({ url: data.url })
   } catch (err) {
-    console.error('Stripe checkout error:', err.message)
+    console.error('Fetch Stripe error:', err.message)
     return res.status(500).json({ error: err.message })
   }
 }
