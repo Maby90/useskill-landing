@@ -1,11 +1,42 @@
 import { useState, useEffect, useRef } from 'react'
-import { BrowserRouter, Routes, Route, useNavigate, useSearchParams } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, useSearchParams } from 'react-router-dom'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { Download, Zap, ChevronRight, ArrowDown, Check, Package, Sparkles, Menu, X } from 'lucide-react'
 import './index.css'
 
 gsap.registerPlugin(ScrollTrigger)
+
+/* Bottone checkout Stripe riutilizzabile */
+function CheckoutButton({ product, value, label, icon, className = '' }) {
+  const [loading, setLoading] = useState(false)
+  const handleClick = async () => {
+    if (loading) return
+    setLoading(true)
+    if (typeof fbq !== 'undefined') fbq('track', 'InitiateCheckout', { content_name: product, value, currency: 'EUR' })
+    try {
+      const r = await fetch('/api/checkout', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ product }),
+      })
+      const data = await r.json()
+      if (data.url) window.location.href = data.url
+      else setLoading(false)
+    } catch { setLoading(false) }
+  }
+  return (
+    <button
+      data-product={product}
+      onClick={handleClick}
+      disabled={loading}
+      className={`btn-magnetic bg-plasma text-void font-bold px-8 py-4 rounded-full inline-flex items-center gap-3 shadow-lg shadow-plasma/25 disabled:opacity-60 transition-opacity ${className}`}>
+      <span className="btn-bg bg-plasma-glow rounded-full" />
+      {!loading && icon}
+      <span className="relative z-10">{loading ? 'Carico...' : label}</span>
+    </button>
+  )
+}
 
 /* ═══════════════════════════════════════════
    NAVBAR
@@ -862,10 +893,10 @@ function Freebie() {
               È il punto di partenza perfetto. Una volta che la tua AI ha la tua voce, ogni altra Skill di UseSkill.it produce risultati ancora più precisi. Per questo la regaliamo: chi la prova capisce subito la differenza.
             </p>
 
-            <a href="https://useskill.lemonsqueezy.com/checkout/buy/ae99b008-7732-473f-84e6-22abffa6e332?embed=1"
+            <a href="/grazie?prodotto=brand-voice-extractor"
               data-product="brand-voice-extractor"
               onClick={() => { if (typeof fbq !== 'undefined') fbq('track', 'Lead', { content_name: 'Brand Voice Extractor', currency: 'EUR', value: 0 }) }}
-              className="lemonsqueezy-button btn-magnetic bg-plasma text-void font-bold text-base px-8 py-4 rounded-full inline-flex items-center gap-3 shadow-lg shadow-plasma/20">
+              className="btn-magnetic bg-plasma text-void font-bold text-base px-8 py-4 rounded-full inline-flex items-center gap-3 shadow-lg shadow-plasma/20">
               <span className="btn-bg bg-plasma-glow rounded-full"></span>
               <Download size={18} className="relative z-10" />
               <span className="relative z-10">Scarica gratis il Brand Voice Extractor</span>
@@ -885,6 +916,34 @@ function Freebie() {
    CATALOG CARD (shared)
    ═══════════════════════════════════════════ */
 function CatalogCard({ s }) {
+  const [loading, setLoading] = useState(false)
+
+  const handleBuy = async () => {
+    if (loading) return
+    setLoading(true)
+    if (typeof fbq !== 'undefined') {
+      fbq('track', 'InitiateCheckout', {
+        content_name: s.name,
+        content_ids: [s.product],
+        content_type: 'product',
+        value: parseFloat(s.price),
+        currency: 'EUR',
+      })
+    }
+    try {
+      const r = await fetch('/api/checkout', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ product: s.product }),
+      })
+      const data = await r.json()
+      if (data.url) window.location.href = data.url
+      else setLoading(false)
+    } catch {
+      setLoading(false)
+    }
+  }
+
   return (
     <div className="catalog-card group bg-void-light border border-ghost/8 rounded-[2rem] p-7 flex flex-col hover:border-plasma/20 transition-all duration-500">
       <div className="h-6 mb-4">
@@ -898,25 +957,15 @@ function CatalogCard({ s }) {
       <p className="text-ghost/45 text-sm leading-relaxed flex-1 mb-6">{s.desc}</p>
       <div className="flex items-center justify-between">
         <span className="font-heading font-700 text-xl text-ghost">{s.price}</span>
-        <a href={s.url}
+        <button
           data-product={s.product}
-          onClick={() => {
-            localStorage.setItem('ls_last_product', s.product)
-            if (typeof fbq !== 'undefined') {
-              fbq('track', 'InitiateCheckout', {
-                content_name: s.name,
-                content_ids: [s.product],
-                content_type: 'product',
-                value: parseFloat(s.price),
-                currency: 'EUR',
-              })
-            }
-          }}
-          className="lemonsqueezy-button btn-magnetic bg-ghost/5 hover:bg-plasma/15 text-ghost text-sm font-medium px-5 py-2.5 rounded-full inline-flex items-center gap-2 border border-ghost/10 hover:border-plasma/20 transition-colors">
+          onClick={handleBuy}
+          disabled={loading}
+          className="btn-magnetic bg-ghost/5 hover:bg-plasma/15 text-ghost text-sm font-medium px-5 py-2.5 rounded-full inline-flex items-center gap-2 border border-ghost/10 hover:border-plasma/20 transition-colors disabled:opacity-50">
           <span className="relative z-10 flex items-center gap-2">
-            Acquista <ChevronRight size={14} />
+            {loading ? 'Carico...' : <><span>Acquista</span><ChevronRight size={14} /></>}
           </span>
-        </a>
+        </button>
       </div>
     </div>
   )
@@ -1070,14 +1119,7 @@ function Bundle() {
                 <span className="font-heading font-800 text-4xl text-ghost">47€</span>
                 <span className="text-ghost/30 text-sm ml-2">una tantum</span>
               </div>
-              <a href="https://useskill.lemonsqueezy.com/checkout/buy/1c7f4347-0a49-4539-8bec-3f105a627799?embed=1"
-                data-product="bundle-metodo"
-                onClick={() => { localStorage.setItem('ls_last_product', 'bundle-metodo'); if (typeof fbq !== 'undefined') fbq('track', 'InitiateCheckout', { content_name: 'Bundle Il Metodo UseSkill.it', content_ids: ['bundle-metodo'], content_type: 'product', value: 47, currency: 'EUR' }) }}
-                className="lemonsqueezy-button btn-magnetic bg-plasma text-void font-bold text-base px-8 py-4 rounded-full inline-flex items-center gap-3 shadow-lg shadow-plasma/25">
-                <span className="btn-bg bg-plasma-glow rounded-full"></span>
-                <Package size={18} className="relative z-10" />
-                <span className="relative z-10">Prendi il bundle completo</span>
-              </a>
+              <CheckoutButton product="bundle-metodo" value={47} label="Prendi il bundle completo" icon={<Package size={18} className="relative z-10" />} />
             </div>
           </div>
         </div>
@@ -1752,15 +1794,7 @@ function Plugins() {
                     <span className="font-heading font-800 text-3xl text-ghost">67€</span>
                     <span className="text-ghost/25 text-sm ml-2">una tantum</span>
                   </div>
-                  <a
-                    href="#"
-                    data-product="plugin-content-creator-pro"
-                    onClick={() => { localStorage.setItem('ls_last_product', 'plugin-content-creator'); if (typeof fbq !== 'undefined') fbq('track', 'InitiateCheckout', { content_name: 'Content Creator Pro Plugin', value: 67, currency: 'EUR' }) }}
-                    className="relative overflow-hidden bg-plasma text-void font-bold text-sm px-7 py-3.5 rounded-full inline-flex items-center gap-2.5 shadow-lg shadow-plasma/30 hover:shadow-plasma/50 transition-shadow duration-300 group/btn">
-                    <div className="absolute inset-0 bg-plasma-glow opacity-0 group-hover/btn:opacity-100 transition-opacity duration-300 rounded-full" />
-                    <Zap size={15} className="relative z-10" />
-                    <span className="relative z-10">Ottieni il Plugin</span>
-                  </a>
+                  <CheckoutButton product="plugin-content-creator" value={67} label="Ottieni il Plugin" icon={<Zap size={15} className="relative z-10" />} />
                 </div>
               </div>
 
@@ -1824,12 +1858,23 @@ const PRODUCT_MAP = {
 
 function ThankYou() {
   const [params] = useSearchParams()
-  const prodotto = params.get('prodotto') || ''
-  const product  = PRODUCT_MAP[prodotto]
+  const prodotto   = params.get('prodotto') || ''
+  const sessionId  = params.get('session_id') || ''
+  const product    = PRODUCT_MAP[prodotto]
+  const [verified, setVerified] = useState(product?.value === 0 ? true : null) // freebie skip verifica
 
-  // Pixel tracking
+  // Verifica sessione Stripe per prodotti a pagamento
   useEffect(() => {
-    if (!product) return
+    if (!sessionId || !product || product.value === 0) return
+    fetch(`/api/verify-purchase?session_id=${sessionId}`)
+      .then(r => r.json())
+      .then(data => setVerified(!!data.ok))
+      .catch(() => setVerified(false))
+  }, [sessionId])
+
+  // Pixel tracking solo dopo verifica
+  useEffect(() => {
+    if (!verified || !product) return
     if (typeof window.fbq === 'undefined') return
     if (product.value === 0) {
       window.fbq('track', 'Lead', { content_name: prodotto })
@@ -1841,7 +1886,7 @@ function ThankYou() {
         content_type: 'product',
       })
     }
-  }, [prodotto])
+  }, [verified])
 
   const steps = [
     { n: '01', title: 'Claude', body: 'Apri Claude → vai nella sezione Skill → carica il file SKILL.md' },
@@ -1862,7 +1907,24 @@ function ThankYou() {
           <span className="text-ghost">.it</span>
         </a>
 
-        {product ? (
+        {/* Stato loading verifica */}
+        {product && product.value > 0 && verified === null && (
+          <div className="flex flex-col items-center gap-4 text-ghost/40">
+            <div className="w-8 h-8 border-2 border-plasma/30 border-t-plasma rounded-full animate-spin" />
+            <span className="text-sm font-mono">Verifico il pagamento...</span>
+          </div>
+        )}
+
+        {/* Pagamento non verificato */}
+        {product && product.value > 0 && verified === false && (
+          <>
+            <h1 className="font-heading font-700 text-2xl tracking-tight mb-3 text-ghost/60">Pagamento non confermato.</h1>
+            <p className="text-ghost/40 text-sm mb-6">Se hai completato il pagamento, aspetta qualche secondo e ricarica la pagina.</p>
+            <button onClick={() => window.location.reload()} className="text-plasma text-sm underline underline-offset-4">Ricarica</button>
+          </>
+        )}
+
+        {product && (verified === true) && (
           <>
             {/* Check animato */}
             <div className="w-16 h-16 rounded-full bg-plasma/15 border border-plasma/30 flex items-center justify-center mx-auto mb-8 shadow-[0_0_40px_rgba(123,97,255,0.3)]">
@@ -1925,7 +1987,9 @@ function ThankYou() {
               Torna al catalogo
             </a>
           </>
-        ) : (
+        )}
+
+        {!product && (
           <>
             <h1 className="font-heading font-700 text-3xl tracking-tight mb-3">Pagina non trovata.</h1>
             <p className="text-ghost/40 text-sm mb-8">Nessun prodotto associato a questa URL.</p>
@@ -1941,28 +2005,6 @@ function ThankYou() {
    LANDING (tutto il sito)
    ═══════════════════════════════════════════ */
 function Landing() {
-  const navigate = useNavigate()
-
-  // Ascolta evento acquisto completato da LemonSqueezy overlay
-  useEffect(() => {
-    function initLS() {
-      if (typeof window.createLemonSqueezy === 'function') {
-        window.createLemonSqueezy()
-        window.LemonSqueezy.Setup({
-          eventHandler: (data) => {
-            if (data.event === 'Checkout.Success') {
-              const prodotto = localStorage.getItem('ls_last_product') || ''
-              navigate(`/grazie?prodotto=${prodotto}`)
-            }
-          },
-        })
-      } else {
-        setTimeout(initLS, 600)
-      }
-    }
-    initLS()
-  }, [navigate])
-
   return (
     <>
       <Navbar />
