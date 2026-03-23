@@ -2180,11 +2180,6 @@ function ThankYou() {
                     </a>
                   ))}
                 </div>
-                <a
-                  href={`/downloads/${product.folder}/`}
-                  className="w-full block bg-plasma text-void font-bold text-center py-3.5 rounded-xl text-sm hover:shadow-lg hover:shadow-plasma/25 transition-shadow">
-                  Scarica tutto
-                </a>
               </div>
             )}
 
