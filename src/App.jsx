@@ -2075,7 +2075,7 @@ const PRODUCT_MAP = {
   'instagram-carousel':      { folder: 'd8e3a1b5-ics',       label: 'Instagram Carousel Script',      value: 9,  files: ['SKILL.md', 'profile.md', 'README.md'] },
   'content-calendar':        { folder: 'e2f4b6c7-ccb',       label: 'Content Calendar Builder',       value: 15, files: ['SKILL.md', 'profile.md', 'README.md'] },
   'client-onboarding':       { folder: 'f1a3d5e8-coi',       label: 'Client Onboarding Interview',    value: 7,  files: ['SKILL.md', 'profile.md', 'README.md'] },
-  'bundle-metodo':           { folder: 'g9b2c4d6-bundle',    label: 'Il Metodo UseSkill.it (Bundle)', value: 47, files: ['SKILL.md', 'il-metodo-useskill.md', 'README.md'] },
+  'bundle-metodo':           { folder: 'g9b2c4d6-bundle',    label: 'Il Metodo UseSkill.it (Bundle)', value: 47, files: ['linkedin-post-writer.md', 'newsletter-generator-it.md', 'instagram-carousel-script.md', 'content-calendar-builder.md', 'client-onboarding-interview.md', 'brand-voice-extractor.md', 'PROFILE.md', 'README.md', 'Metodo Content System.pdf'] },
   'plugin-content-creator':  { folder: 'h3e5f7a9-plugin',   label: 'Content Creator Pro Plugin',     value: 67, files: ['content-creator-pro-plugin.zip'] },
 }
 
