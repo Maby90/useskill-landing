@@ -1125,8 +1125,8 @@ function ProductModal({ s, onClose }) {
 /* ═══════════════════════════════════════════
    CATALOG CARD (shared)
    ═══════════════════════════════════════════ */
-function CatalogCard({ s }) {
-  const [modalOpen, setModalOpen] = useState(false)
+function CatalogCard({ s, autoOpen = false }) {
+  const [modalOpen, setModalOpen] = useState(autoOpen)
 
   return (
     <>
@@ -1157,7 +1157,7 @@ function CatalogCard({ s }) {
 /* ═══════════════════════════════════════════
    CATALOG
    ═══════════════════════════════════════════ */
-function Catalog() {
+function Catalog({ autoModal }) {
   const sectionRef = useRef(null)
   const skills = [
     {
@@ -1264,13 +1264,13 @@ function Catalog() {
         {/* Riga 1: 3 card */}
         <div className="catalog-grid grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
           {skills.slice(0, 3).map((s, i) => (
-            <CatalogCard key={i} s={s} />
+            <CatalogCard key={i} s={s} autoOpen={autoModal === s.product} />
           ))}
         </div>
         {/* Riga 2: 2 card centrate */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:max-w-[calc(66.666%-8px)] mx-auto">
           {skills.slice(3).map((s, i) => (
-            <CatalogCard key={i+3} s={s} />
+            <CatalogCard key={i+3} s={s} autoOpen={autoModal === s.product} />
           ))}
         </div>
       </div>
@@ -2223,6 +2223,23 @@ function ThankYou() {
    LANDING (tutto il sito)
    ═══════════════════════════════════════════ */
 function Landing() {
+  const [params] = useSearchParams()
+  const autoModal = params.get('modal')
+
+  useEffect(() => {
+    if (!autoModal) return
+    const scrollTargets = {
+      'bundle-metodo': 'bundle',
+      'plugin-content-creator': 'plugin',
+    }
+    const anchor = scrollTargets[autoModal]
+    if (anchor) {
+      setTimeout(() => {
+        document.getElementById(anchor)?.scrollIntoView({ behavior: 'smooth', block: 'center' })
+      }, 400)
+    }
+  }, [autoModal])
+
   return (
     <>
       <Navbar />
@@ -2235,7 +2252,7 @@ function Landing() {
       <Features />
       <Philosophy />
       <Freebie />
-      <Catalog />
+      <Catalog autoModal={autoModal} />
       <Bundle />
       <Plugins />
       <ComingSoon />
