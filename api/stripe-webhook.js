@@ -10,7 +10,8 @@ const PRODUCT_GROUPS = {
   'newsletter-generator': '182762133059012306',
   'content-calendar':     '182762270881744685',
   'client-onboarding':   '182762342088443773',
-  'bundle-metodo':       '182762501078779437',
+  'bundle-metodo':           '182762501078779437',
+  'plugin-content-creator': '182762582217590517',
 }
 
 async function addToMailerLite(email, groupId) {
