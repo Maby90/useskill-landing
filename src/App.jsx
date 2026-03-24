@@ -83,7 +83,7 @@ function Navbar() {
         <div className="hidden md:flex items-center gap-5 flex-1 justify-center">
           {links.map(l => (
             <a key={l.href} href={l.href}
-              className={`link-lift text-sm font-medium transition-colors flex items-center gap-1.5 ${scrolled ? 'text-ghost/70 hover:text-ghost' : 'text-ghost/60 hover:text-ghost'}`}>
+              className={`link-lift text-sm font-medium transition-colors flex items-center gap-1.5 whitespace-nowrap ${scrolled ? 'text-ghost/70 hover:text-ghost' : 'text-ghost/60 hover:text-ghost'}`}>
               {l.label}
               {l.badge && (
                 <span className="bg-plasma/20 text-plasma text-[9px] font-mono uppercase tracking-widest px-1.5 py-0.5 rounded-full leading-none">
