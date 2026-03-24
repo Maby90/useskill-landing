@@ -19,10 +19,10 @@ export default async function handler(req, res) {
   const groupId = GROUPS[source] || GROUPS.newsletter
 
   try {
-    const r = await fetch(`https://connect.mailerlite.com/api/groups/${groupId}/subscribers`, {
+    const r = await fetch(`https://connect.mailerlite.com/api/subscribers`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
-      body: JSON.stringify({ email }),
+      body: JSON.stringify({ email, groups: [groupId] }),
     })
     const json = await r.json()
     if (r.status === 200 || r.status === 201) return res.status(200).json({ ok: true })

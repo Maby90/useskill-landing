@@ -34,6 +34,8 @@ Tutte le Skill che hai caricato funzionano insieme nello stesso progetto. Nessun
 
 ### Su Manus o altri agenti AI
 
+> **Nota:** Manus accetta solo file con estensione `.skill`. Prima di caricare, rinomina il file `SKILL.md` in `SKILL.skill` (su Mac: tasto destro → Rinomina; su Windows: F2). Il contenuto non cambia, solo l'estensione.
+
 1. Aggiungi il contenuto dei file `.skill` come istruzioni di sistema o contesto
 2. Aggiungi il `PROFILE.md` per la personalizzazione
 3. Lavora normalmente — l'agente applica le Skill

@@ -28,9 +28,12 @@ L'installazione richiede 30 secondi. Ecco come fare in base alla piattaforma che
 
 ### Su Manus o altri agenti AI
 
-1. Nella configurazione del tuo agente, aggiungi il contenuto del file `.skill` come istruzioni di sistema o contesto
-2. Aggiungi anche il `PROFILE.md` per la personalizzazione
-3. L'agente seguirà le istruzioni della Skill
+> **Nota:** Manus accetta solo file con estensione `.skill`. Prima di caricare, rinomina il file `SKILL.md` in `SKILL.skill` (su Mac: tasto destro → Rinomina; su Windows: F2). Il contenuto non cambia, solo l'estensione.
+
+1. Rinomina il file `SKILL.md` → `SKILL.skill`
+2. Carica `SKILL.skill` nel workspace del tuo agente Manus come contesto o istruzioni di sistema
+3. Carica anche il `PROFILE.md` per l'output personalizzato
+4. L'agente seguirà le istruzioni della Skill
 
 ---
 
