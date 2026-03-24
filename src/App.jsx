@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react'
 import { BrowserRouter, Routes, Route, useSearchParams } from 'react-router-dom'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import { Download, Zap, ChevronRight, ArrowDown, Check, Package, Sparkles, Menu, X } from 'lucide-react'
+import { Download, Zap, ChevronRight, ArrowDown, Check, Package, Sparkles, Menu, X, AlertCircle } from 'lucide-react'
 import './index.css'
 
 gsap.registerPlugin(ScrollTrigger)
@@ -59,6 +59,7 @@ function Navbar() {
 
   const links = [
     { label: "Cos'è una Skill", href: '#what' },
+    { label: 'Installazione',   href: '#install' },
     { label: 'Catalogo',        href: '#catalog' },
     { label: 'Plugin',          href: '#plugin', badge: 'Nuovo' },
     { label: 'Bundle',          href: '#bundle' },
@@ -340,6 +341,116 @@ function WhatIsASkill() {
 /* ═══════════════════════════════════════════
    WHY SKILLS vs PROMPT vs PROJECT INSTRUCTIONS
    ═══════════════════════════════════════════ */
+function Installazione() {
+  const [active, setActive] = useState('claude')
+
+  const platforms = [
+    { id: 'claude',      label: 'Claude' },
+    { id: 'antigravity', label: 'Antigravity' },
+    { id: 'manus',       label: 'Manus' },
+  ]
+
+  const content = {
+    claude: {
+      steps: [
+        { n: '01', title: 'Apri Personalizza', desc: 'Su claude.ai clicca sull\'icona della valigetta nella barra laterale sinistra. Si chiama Personalizza.' },
+        { n: '02', title: 'Vai su Competenze', desc: 'Nel pannello che si apre, seleziona Competenze. Vedrai l\'elenco delle Skill già caricate (se ce ne sono).' },
+        { n: '03', title: 'Aggiungi la Skill', desc: 'Clicca su + in alto a destra, assegna un nome e carica il file SKILL.md. Conferma.' },
+        { n: '04', title: 'Pronto', desc: 'La Skill è attiva in tutte le conversazioni. Non serve attivarla ogni volta — Claude la legge in automatico.' },
+      ],
+      note: null,
+    },
+    antigravity: {
+      steps: [
+        { n: '01', title: 'Apri il tuo agente', desc: 'Entra in Antigravity e apri o crea l\'agente che vuoi usare con la Skill.' },
+        { n: '02', title: 'Aggiungi il contesto', desc: 'Nelle impostazioni dell\'agente, cerca la sezione Contesto o Istruzioni. Carica il file SKILL.md.' },
+        { n: '03', title: 'Aggiungi il profilo', desc: 'Carica anche PROFILE.md nello stesso spazio. L\'agente lo usa per calibrare tono e stile sul tuo brand.' },
+        { n: '04', title: 'Pronto', desc: 'L\'agente segue le istruzioni della Skill da questo momento. Scrivi il tuo prompt e ottieni l\'output.' },
+      ],
+      note: null,
+    },
+    manus: {
+      steps: [
+        { n: '01', title: 'Rinomina il file', desc: 'Prima di caricare, rinomina SKILL.md in SKILL.skill. Manus accetta solo l\'estensione .skill. Il contenuto non cambia.' },
+        { n: '02', title: 'Apri il workspace', desc: 'Entra su Manus e apri il workspace del tuo agente.' },
+        { n: '03', title: 'Carica la Skill', desc: 'Nel pannello laterale, carica SKILL.skill come istruzione o contesto dell\'agente.' },
+        { n: '04', title: 'Aggiungi il profilo', desc: 'Carica anche PROFILE.md. Poi scrivi il tuo prompt — l\'agente lavora seguendo la Skill.' },
+      ],
+      note: 'Su Mac: tasto destro sul file → Rinomina → cambia .md in .skill. Su Windows: seleziona il file → F2 → cambia l\'estensione.',
+    },
+  }
+
+  const { steps, note } = content[active]
+
+  return (
+    <section id="install" className="py-24 md:py-36">
+      <div className="max-w-6xl mx-auto px-6">
+
+        <div className="max-w-2xl mb-14">
+          <span className="font-mono text-xs text-plasma/70 uppercase tracking-widest mb-4 block">Guida rapida</span>
+          <h2 className="font-heading font-700 text-3xl md:text-4xl text-ghost mb-4">Come si installa</h2>
+          <p className="text-ghost/45 text-lg leading-relaxed">
+            Quattro passi, meno di due minuti. Scegli la piattaforma che usi.
+          </p>
+        </div>
+
+        {/* Tab piattaforme */}
+        <div className="flex items-center gap-2 mb-10 bg-void-light border border-ghost/8 rounded-full p-1 w-fit">
+          {platforms.map(p => (
+            <button
+              key={p.id}
+              onClick={() => setActive(p.id)}
+              className={`px-5 py-2 rounded-full text-sm font-medium transition-all duration-200 ${
+                active === p.id
+                  ? 'bg-plasma text-void shadow-lg shadow-plasma/20'
+                  : 'text-ghost/40 hover:text-ghost/70'
+              }`}>
+              {p.label}
+            </button>
+          ))}
+        </div>
+
+        {/* Disclaimer Manus */}
+        {note && (
+          <div className="mb-8 bg-plasma/8 border border-plasma/20 rounded-2xl px-5 py-4 flex items-start gap-3 max-w-2xl">
+            <span className="text-plasma mt-0.5 shrink-0"><AlertCircle size={16} /></span>
+            <p className="text-ghost/60 text-sm leading-relaxed">
+              <span className="text-plasma font-medium">Rinomina prima di caricare. </span>
+              {note}
+            </p>
+          </div>
+        )}
+
+        {/* Steps */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+          {steps.map((s, i) => (
+            <div key={i} className="bg-void-light border border-ghost/8 rounded-[1.5rem] p-6 flex flex-col gap-4">
+              <div className="flex items-center justify-between">
+                <span className="font-mono text-xs text-plasma/50 tracking-widest">{s.n}</span>
+                <div className="w-6 h-6 rounded-full bg-plasma/10 border border-plasma/20 flex items-center justify-center">
+                  <div className="w-1.5 h-1.5 rounded-full bg-plasma" />
+                </div>
+              </div>
+              <div>
+                <h3 className="font-heading font-600 text-base text-ghost mb-2">{s.title}</h3>
+                <p className="text-ghost/40 text-sm leading-relaxed">{s.desc}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <p className="mt-8 text-ghost/30 text-sm">
+          Serve aiuto? Scrivi a{' '}
+          <a href="mailto:info@useskill.it" className="text-ghost/50 hover:text-ghost underline underline-offset-2 transition-colors">
+            info@useskill.it
+          </a>
+        </p>
+
+      </div>
+    </section>
+  )
+}
+
 function WhySkills() {
   const sectionRef = useRef(null)
 
@@ -936,7 +1047,6 @@ function FreebieModal({ onClose }) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, source: 'freebie' }),
       })
-      if (typeof fbq !== 'undefined') fbq('track', 'Lead', { content_name: 'Brand Voice Extractor', value: 0, currency: 'EUR' })
       window.location.href = '/grazie?prodotto=brand-voice-extractor'
     } catch {
       setStatus('error')
@@ -2241,6 +2351,7 @@ function Landing() {
       <Navbar />
       <Hero />
       <WhatIsASkill />
+      <Installazione />
       <WhySkills />
       <BeforeAfter />
       <Metriche />
