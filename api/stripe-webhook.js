@@ -55,7 +55,7 @@ export default async function handler(req, res) {
 
   const rawBody = await getRawBody(req)
   const sig     = req.headers['stripe-signature']
-  const secret  = process.env.STRIPE_WEBHOOK_SECRET
+  const secret  = (process.env.STRIPE_WEBHOOK_SECRET || '').trim()
 
   if (!secret || !sig) return res.status(400).json({ error: 'Missing signature or secret' })
 
