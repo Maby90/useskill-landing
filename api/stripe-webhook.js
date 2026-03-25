@@ -1,16 +1,14 @@
-import Stripe from 'stripe'
 import crypto from 'crypto'
 
 const PIXEL_ID = '34173091455668145'
 
-// Gruppo MailerLite per ogni prodotto (aggiungi altri quando li crei)
 const PRODUCT_GROUPS = {
   'linkedin-post-writer': '182758422813344940',
   'instagram-carousel':   '182759842155333516',
   'newsletter-generator': '182762133059012306',
   'content-calendar':     '182762270881744685',
-  'client-onboarding':   '182762342088443773',
-  'bundle-metodo':           '182762501078779437',
+  'client-onboarding':    '182762342088443773',
+  'bundle-metodo':        '182762501078779437',
   'plugin-content-creator': '182762582217590517',
 }
 
@@ -18,16 +16,14 @@ async function addToMailerLite(email, groupId) {
   const token = process.env.MAILERLITE_API_TOKEN
   if (!token || !email || !groupId) return
   try {
-    await fetch(`https://connect.mailerlite.com/api/subscribers`, {
+    const r = await fetch('https://connect.mailerlite.com/api/subscribers', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`,
-      },
+      headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
       body: JSON.stringify({ email, groups: [groupId] }),
     })
+    console.log('[MailerLite] status:', r.status, 'email:', email, 'group:', groupId)
   } catch (e) {
-    console.error('MailerLite error:', e)
+    console.error('[MailerLite] error:', e.message)
   }
 }
 
@@ -40,18 +36,36 @@ async function getRawBody(req) {
   })
 }
 
+function verifyStripeSignature(rawBody, sig, secret) {
+  const parts = sig.split(',').reduce((acc, p) => {
+    const [k, v] = p.split('=')
+    acc[k] = v
+    return acc
+  }, {})
+  const ts = parts.t
+  const v1 = parts.v1
+  if (!ts || !v1) return false
+  const signed = `${ts}.${rawBody}`
+  const expected = crypto.createHmac('sha256', secret).update(signed).digest('hex')
+  return crypto.timingSafeEqual(Buffer.from(expected), Buffer.from(v1))
+}
+
 export default async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).end()
 
   const rawBody = await getRawBody(req)
   const sig     = req.headers['stripe-signature']
-  const stripe  = new Stripe(process.env.STRIPE_SECRET_KEY)
+  const secret  = process.env.STRIPE_WEBHOOK_SECRET
+
+  if (!secret || !sig) return res.status(400).json({ error: 'Missing signature or secret' })
+
+  let valid = false
+  try { valid = verifyStripeSignature(rawBody, sig, secret) } catch {}
+  if (!valid) return res.status(400).json({ error: 'Invalid signature' })
 
   let event
-  try {
-    event = stripe.webhooks.constructEvent(rawBody, sig, process.env.STRIPE_WEBHOOK_SECRET)
-  } catch (err) {
-    return res.status(400).json({ error: 'Invalid signature' })
+  try { event = JSON.parse(rawBody) } catch {
+    return res.status(400).json({ error: 'Invalid JSON' })
   }
 
   if (event.type !== 'checkout.session.completed') return res.status(200).json({ skipped: true })
