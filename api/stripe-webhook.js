@@ -10,6 +10,7 @@ const PRODUCT_GROUPS = {
   'client-onboarding':    '182762342088443773',
   'bundle-metodo':        '182762501078779437',
   'plugin-content-creator': '182762582217590517',
+  'personal-brand-system':  '', // da aggiungere dopo creazione gruppo MailerLite
 }
 
 async function addToMailerLite(email, groupId) {

@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react'
 import { BrowserRouter, Routes, Route, useSearchParams } from 'react-router-dom'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import { Download, Zap, ChevronRight, ArrowDown, Check, Package, Sparkles, Menu, X, AlertCircle } from 'lucide-react'
+import { Download, Zap, ChevronRight, ArrowDown, Check, Package, Sparkles, Menu, X, AlertCircle, Crown } from 'lucide-react'
 import './index.css'
 
 gsap.registerPlugin(ScrollTrigger)
@@ -61,7 +61,8 @@ function Navbar() {
     { label: "Cos'è una Skill", href: '#what' },
     { label: 'Installazione',   href: '#install' },
     { label: 'Catalogo',        href: '#catalog' },
-    { label: 'Plugin',          href: '#plugin', badge: 'Nuovo' },
+    { label: 'Plugin',          href: '#plugin',         badge: 'Nuovo'    },
+    { label: 'Personal Brand',  href: '#personal-brand', badge: 'Premium'  },
     { label: 'Bundle',          href: '#bundle' },
   ]
 
@@ -86,7 +87,11 @@ function Navbar() {
               className={`link-lift text-sm font-medium transition-colors flex items-center gap-1.5 whitespace-nowrap ${scrolled ? 'text-ghost/70 hover:text-ghost' : 'text-ghost/60 hover:text-ghost'}`}>
               {l.label}
               {l.badge && (
-                <span className="bg-plasma/20 text-plasma text-[9px] font-mono uppercase tracking-widest px-1.5 py-0.5 rounded-full leading-none">
+                <span className={`text-[9px] font-mono uppercase tracking-widest px-1.5 py-0.5 rounded-full leading-none ${
+                  l.badge === 'Premium'
+                    ? 'bg-amber-400/20 text-amber-400'
+                    : 'bg-plasma/20 text-plasma'
+                }`}>
                   {l.badge}
                 </span>
               )}
@@ -2172,6 +2177,189 @@ function Plugins() {
 }
 
 /* ═══════════════════════════════════════════
+   PERSONAL BRAND SYSTEM
+   ═══════════════════════════════════════════ */
+function PersonalBrandSystem() {
+  const sectionRef = useRef(null)
+  const cardRef    = useRef(null)
+  const glowRef    = useRef(null)
+
+  const commands = [
+    { cmd: '/identità',      desc: 'Mappa identità professionale in 18 domande'  },
+    { cmd: '/posizionamento',desc: 'Analisi competitiva e gap di percezione'      },
+    { cmd: '/offerta',       desc: 'Scala di valore, pricing e percorso cliente'  },
+    { cmd: '/verbale',       desc: 'Vocabolario proprietario e regole di stile'   },
+    { cmd: '/bio',           desc: '8 versioni bio ottimizzate per canale'        },
+    { cmd: '/palette',       desc: 'Tono su 4 assi, adattato per 7 canali'       },
+    { cmd: '/audit',         desc: 'Analisi coerenza e 5 quick wins immediati'    },
+    { cmd: '/strategia',     desc: '90 giorni di contenuti con brief completo'    },
+    { cmd: '/funnel',        desc: '7 fasi dalla scoperta al referral'            },
+    { cmd: '/vendita',       desc: 'Script call, preventivo, follow-up email'    },
+    { cmd: '/contenuti',     desc: 'Post, caroselli, newsletter pronti'           },
+    { cmd: '/landing',       desc: "Testi pagine di vendita dall'hero al footer"  },
+    { cmd: '/riproponi',     desc: 'Un contenuto diventa 5 formati per canale'   },
+    { cmd: '/playbook',      desc: 'Il tuo brand in un documento consultabile'   },
+  ]
+
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      gsap.to(glowRef.current, {
+        scale: 1.2, opacity: 0.5, duration: 3.2,
+        ease: 'sine.inOut', yoyo: true, repeat: -1,
+      })
+      gsap.from(cardRef.current, {
+        y: 60, opacity: 0, duration: 1, ease: 'power3.out',
+        scrollTrigger: { trigger: cardRef.current, start: 'top 80%' },
+      })
+      gsap.from('.pbs-cmd', {
+        x: -20, opacity: 0, duration: 0.45, stagger: 0.05, ease: 'power2.out',
+        scrollTrigger: { trigger: '.pbs-cmd-list', start: 'top 82%' },
+      })
+    }, sectionRef)
+    return () => ctx.revert()
+  }, [])
+
+  return (
+    <section id="personal-brand" ref={sectionRef} className="py-24 md:py-40 overflow-hidden relative">
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[500px] bg-amber-500/4 rounded-full blur-[140px]" />
+      </div>
+
+      <div className="max-w-6xl mx-auto px-6 relative z-10">
+
+        <div className="max-w-2xl mb-16">
+          <div className="flex items-center gap-3 mb-6">
+            <span className="font-mono text-sm text-amber-400 tracking-wider uppercase">Plugin Premium</span>
+            <span className="bg-amber-400/12 text-amber-400 font-mono text-[10px] uppercase tracking-widest px-3 py-1 rounded-full border border-amber-400/20">
+              149€ · Una tantum
+            </span>
+          </div>
+          <h2 className="font-heading font-700 text-3xl sm:text-4xl md:text-5xl tracking-tight mb-5 leading-tight">
+            Personal Brand<br />System.
+          </h2>
+          <p className="text-ghost/50 text-base leading-relaxed">
+            Le Skill coprono la produzione. Questo copre il business. Identità, posizionamento, offerta, vendita, contenuti: ogni modulo produce un output concreto. Non un documento da compilare. Un sistema che ragiona sul tuo brand e restituisce materiale pronto.
+            <span className="flex items-center gap-2 mt-4 text-ghost/35 text-sm">
+              <span className="w-1.5 h-1.5 rounded-full bg-amber-400/60 inline-block shrink-0" />
+              Richiede Claude Pro o Max con Cowork attivo.
+            </span>
+          </p>
+        </div>
+
+        <div ref={cardRef} className="relative group">
+          <div ref={glowRef} className="absolute inset-0 -m-8 bg-amber-500/8 rounded-[3rem] blur-[60px] pointer-events-none" />
+
+          <div className="relative bg-void-light border border-amber-500/20 rounded-[2.5rem] overflow-hidden">
+            <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-amber-400/50 to-transparent" />
+
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-0">
+
+              {/* Colonna sinistra */}
+              <div className="p-8 sm:p-12 border-b lg:border-b-0 lg:border-r border-ghost/8">
+                <div className="flex items-center gap-3 mb-8">
+                  <div className="relative">
+                    <div className="w-12 h-12 rounded-2xl bg-amber-400/12 border border-amber-400/25 flex items-center justify-center">
+                      <Crown size={20} className="text-amber-400" />
+                    </div>
+                    <div className="absolute -top-1 -right-1 w-3 h-3 bg-amber-400 rounded-full shadow-[0_0_8px_rgba(251,191,36,0.8)]" />
+                  </div>
+                  <div>
+                    <div className="font-heading font-700 text-base text-ghost">Personal Brand System</div>
+                    <div className="font-mono text-xs text-ghost/30">personal-brand-system</div>
+                  </div>
+                </div>
+
+                {/* Stats */}
+                <div className="grid grid-cols-3 gap-4 mb-8 p-4 bg-amber-400/4 border border-amber-400/10 rounded-2xl">
+                  {[
+                    { val: '14',   label: 'comandi' },
+                    { val: '1.159',label: 'righe'   },
+                    { val: '149€', label: 'una tantum' },
+                  ].map((s, i) => (
+                    <div key={i} className={`text-center ${i === 1 ? 'border-x border-amber-400/10' : ''}`}>
+                      <div className="font-heading font-700 text-xl sm:text-2xl text-amber-400">{s.val}</div>
+                      <div className="font-mono text-[10px] text-ghost/30 uppercase tracking-wider mt-0.5">{s.label}</div>
+                    </div>
+                  ))}
+                </div>
+
+                <p className="text-ghost/60 text-sm leading-relaxed mb-8">
+                  Quattro aree, quattordici moduli. Fondazione (identità, posizionamento, offerta), identità verbale (vocabolario, bio, tono), strategia (audit, piano, funnel, vendita) e produzione (contenuti, landing, repurposing). Il comando <span className="font-mono text-amber-400/80 text-xs bg-amber-400/8 px-2 py-0.5 rounded">/playbook</span> assembla tutto in un documento unico che consulti ad ogni decisione.
+                </p>
+
+                <div className="space-y-2 mb-10">
+                  {[
+                    '14 skill specializzate con 1.159 righe di istruzioni',
+                    '14 comandi slash attivi dall\'installazione',
+                    'Playbook finale: il tuo brand in un documento',
+                    'Aggiornamenti automatici alle nuove versioni',
+                  ].map((item, i) => (
+                    <div key={i} className="flex items-center gap-3">
+                      <div className="w-1.5 h-1.5 rounded-full bg-amber-400 shrink-0 shadow-[0_0_4px_rgba(251,191,36,0.5)]" />
+                      <span className="text-ghost/50 text-sm">{item}</span>
+                    </div>
+                  ))}
+                </div>
+
+                <div className="flex flex-col sm:flex-row items-start sm:items-center gap-5">
+                  <div>
+                    <span className="font-heading font-800 text-3xl text-ghost">149€</span>
+                    <span className="text-ghost/25 text-sm ml-2">una tantum</span>
+                  </div>
+                  <CheckoutButton
+                    product="personal-brand-system"
+                    value={149}
+                    label="Ottieni il Sistema"
+                    icon={<Crown size={15} className="relative z-10" />}
+                    className="!bg-amber-400 !text-void hover:!bg-amber-300 !shadow-amber-400/25"
+                  />
+                </div>
+              </div>
+
+              {/* Colonna destra — comandi */}
+              <div className="p-8 sm:p-12">
+                <div className="flex items-center justify-between mb-6">
+                  <span className="font-mono text-xs text-ghost/30 uppercase tracking-widest">Comandi slash</span>
+                  <span className="font-mono text-xs text-amber-400/50 bg-amber-400/8 px-3 py-1 rounded-full">14 comandi</span>
+                </div>
+
+                <div className="bg-void rounded-2xl border border-ghost/8 overflow-hidden mb-6">
+                  <div className="flex items-center gap-2 px-4 py-3 border-b border-ghost/5">
+                    <div className="w-2.5 h-2.5 rounded-full bg-red-500/40" />
+                    <div className="w-2.5 h-2.5 rounded-full bg-yellow-500/40" />
+                    <div className="w-2.5 h-2.5 rounded-full bg-green-500/40" />
+                    <span className="font-mono text-xs text-ghost/20 ml-2">claude.ai — Cowork</span>
+                  </div>
+                  <div className="pbs-cmd-list p-5 space-y-2.5">
+                    {commands.map(({ cmd, desc }, i) => (
+                      <div key={i} className="pbs-cmd flex items-center gap-4 group/cmd">
+                        <span className="font-mono text-sm text-amber-400 font-bold w-36 shrink-0 group-hover/cmd:text-amber-300 transition-colors duration-200">
+                          {cmd}
+                        </span>
+                        <span className="text-ghost/30 text-xs leading-relaxed">{desc}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                <p className="font-mono text-xs text-ghost/20 leading-relaxed">
+                  Compatibile con Claude Pro e Max. Richiede Cowork attivo su Claude Desktop.
+                </p>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+        <p className="text-center text-ghost/25 text-xs font-mono mt-8 leading-relaxed">
+          Il prodotto più completo del catalogo UseSkill.it. Testato su centinaia di sessioni reali prima del rilascio.
+        </p>
+      </div>
+    </section>
+  )
+}
+
+/* ═══════════════════════════════════════════
    THANK YOU PAGE
    ═══════════════════════════════════════════ */
 const PRODUCT_MAP = {
@@ -2182,7 +2370,8 @@ const PRODUCT_MAP = {
   'content-calendar':        { folder: 'e2f4b6c7-ccb',       label: 'Content Calendar Builder',       value: 15, files: ['SKILL.md', 'profile.md', 'README.md'] },
   'client-onboarding':       { folder: 'f1a3d5e8-coi',       label: 'Client Onboarding Interview',    value: 7,  files: ['SKILL.md', 'profile.md', 'README.md'] },
   'bundle-metodo':           { folder: 'g9b2c4d6-bundle',    label: 'Il Metodo UseSkill.it (Bundle)', value: 47, files: ['linkedin-post-writer.md', 'newsletter-generator-it.md', 'instagram-carousel-script.md', 'content-calendar-builder.md', 'client-onboarding-interview.md', 'brand-voice-extractor.md', 'PROFILE.md', 'README.md', 'Metodo Content System.pdf'] },
-  'plugin-content-creator':  { folder: 'h3e5f7a9-plugin',   label: 'Content Creator Pro Plugin',     value: 67, files: ['content-creator-pro-plugin.zip'] },
+  'plugin-content-creator':  { folder: 'h3e5f7a9-plugin',   label: 'Content Creator Pro Plugin',     value: 67,  files: ['content-creator-pro-plugin.zip']       },
+  'personal-brand-system':   { folder: 'j7c9e1a3-pbs',      label: 'Personal Brand System',          value: 149, files: ['personal-brand-system-plugin.zip']    },
 }
 
 function ThankYou() {
@@ -2337,6 +2526,7 @@ function Landing() {
     const scrollTargets = {
       'bundle-metodo': 'bundle',
       'plugin-content-creator': 'plugin',
+      'personal-brand-system':  'personal-brand',
     }
     const anchor = scrollTargets[autoModal]
     if (anchor) {
@@ -2362,6 +2552,7 @@ function Landing() {
       <Catalog autoModal={autoModal} />
       <Bundle />
       <Plugins />
+      <PersonalBrandSystem />
       <ComingSoon />
       <FAQ />
       <Footer />

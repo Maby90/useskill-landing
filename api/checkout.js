@@ -5,7 +5,8 @@ const PRICES = {
   'content-calendar':       { name: 'Content Calendar Builder',       amount: 1500 },
   'client-onboarding':      { name: 'Client Onboarding Interview',    amount: 700  },
   'bundle-metodo':          { name: 'Il Metodo UseSkill.it (Bundle)', amount: 4700 },
-  'plugin-content-creator': { name: 'Content Creator Pro Plugin',     amount: 6700 },
+  'plugin-content-creator':  { name: 'Content Creator Pro Plugin',     amount: 6700  },
+  'personal-brand-system':   { name: 'Personal Brand System Plugin',   amount: 14900 },
 }
 
 export default async function handler(req, res) {
